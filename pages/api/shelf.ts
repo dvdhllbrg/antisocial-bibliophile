@@ -1,10 +1,10 @@
-import { withIronSession } from 'next-iron-session';
+import withSession from '../../lib/withSession';
 import { getAuthed } from '../../lib/goodreads';
 import { bookReducer, reviewReducer } from '../../reducers';
 import { ReviewPropType } from '../../reducers/reviewReducer';
 import { Book } from '../../types/book';
 
-async function handler(req, res) {
+export default withSession(async (req, res) => {
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
   const params = new URLSearchParams(req.query);
 
@@ -30,14 +30,6 @@ async function handler(req, res) {
     hasMore,
     books,
   });
-}
-
-export default withIronSession(handler, {
-  cookieName: 'session',
-  password: process.env.SESSION_PASSWORD,
-  cookieOptions: {
-    secure: process.env.NODE_ENV === 'production',
-  },
 });
 
 export const config = {

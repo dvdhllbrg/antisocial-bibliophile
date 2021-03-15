@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import isAuthed from '../lib/isAuthed';
 
 export default function Home() {
   const { data: me, error } = useSWR('/api/me');
@@ -54,3 +55,5 @@ export default function Home() {
     </section>
   );
 }
+
+export const getServerSideProps = isAuthed();
