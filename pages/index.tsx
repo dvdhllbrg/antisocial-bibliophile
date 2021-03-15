@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import isAuthed from '../lib/isAuthed';
+import Chip from '../components/elements/Chip';
 
 export default function Home() {
   const { data: me, error } = useSWR('/api/me');
@@ -39,17 +40,11 @@ export default function Home() {
         <h2>Tags</h2>
         { tags.length
             && tags.map((tag) => (
-              <a
+              <Chip
                 key={tag.id}
                 href={`/shelf/${tag.name}`}
-                className="bg-gray-200 hover:bg-gray-300 border-3 border-red-600 inline-block rounded-full m-1 p-2 text-sm no-underline font-normal whitespace-nowrap"
-              >
-                { tag.name }
-                &nbsp;
-                (
-                { tag.count }
-                )
-              </a>
+                label={`${tag.name}&nbsp;(${tag.count})`}
+              />
             ))}
       </article>
     </section>

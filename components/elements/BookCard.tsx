@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Book } from '../types/book';
+import { Book } from '../../types/book';
 
 type BookCardProps = {
     book?: Book;
