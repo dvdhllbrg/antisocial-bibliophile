@@ -27,7 +27,7 @@ export default function Home() {
               <a
                 href={`/shelf/${shelf.name}`}
                 key={shelf.id}
-                className="flex bg-white hover:bg-gray-100 no-underline font-normal justify-between p-4"
+                className="flex border-b hover:bg-gray-300 no-underline font-normal justify-between p-4"
               >
                 <span>{ shelf.name }</span>
                 <span>{ shelf.count }</span>
@@ -41,7 +41,7 @@ export default function Home() {
               <a
                 key={tag.id}
                 href={`/shelf/${tag.name}`}
-                className="bg-gray-200 border-3 border-red-600 inline-block rounded-full m-1 p-2 text-sm no-underline font-normal whitespace-nowrap"
+                className="bg-gray-200 hover:bg-gray-300 border-3 border-red-600 inline-block rounded-full m-1 p-2 text-sm no-underline font-normal whitespace-nowrap"
               >
                 { tag.name }
                 &nbsp;

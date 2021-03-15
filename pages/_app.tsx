@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="apple-touch-icon" href="/icons/logo192.png" />
         <meta name="theme-color" content="#4db6ac" />
       </Head>
-      <main className="container mx-auto p-4 bg-gray-50">
+      <main className="container mx-auto p-4 bg-gray-50 min-h-screen">
         <Component {...pageProps} />
       </main>
     </>
