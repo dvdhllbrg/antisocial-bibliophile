@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Book } from '../../types/book';
 
 type BookCardProps = {
@@ -23,30 +24,31 @@ export default function BookCard({ book, extra = '', skeleton = false }: BookCar
     );
   }
   return (
-    <a
+    <Link
       href={`/book/${book.id}`}
       key={book.id}
-      className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100 no-underline font-normal"
     >
-      <div className="-mb-2">
-        <Image
-          src={book.image}
-          width={98}
-          height={147}
-          layout="fixed"
-          className="rounded-l"
-        />
-      </div>
-      <div className="pl-4">
-        <h2 className="mb-1 mt-2 text-lg font-semibold">{ book.title }</h2>
-        <span>
-          by
-          {' '}
-          { book.authors.map((a) => a.name).join(', ') }
-        </span>
-        <br />
-        <span>{ extra }</span>
-      </div>
-    </a>
+      <a className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100 no-underline font-normal">
+        <div className="-mb-2">
+          <Image
+            src={book.image}
+            width={98}
+            height={147}
+            layout="fixed"
+            className="rounded-l"
+          />
+        </div>
+        <div className="pl-4">
+          <h2 className="mb-1 mt-2 text-lg font-semibold">{ book.title }</h2>
+          <span>
+            by
+            {' '}
+            { book.authors.map((a) => a.name).join(', ') }
+          </span>
+          <br />
+          <span>{ extra }</span>
+        </div>
+      </a>
+    </Link>
   );
 }

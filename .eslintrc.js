@@ -26,6 +26,7 @@ module.exports = {
     'react/require-default-props': [1, { ignoreFunctionalComponents: true }],
     'no-unused-vars': 'warn',
     'max-len': 'warn',
+    'jsx-a11y/anchor-is-valid': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

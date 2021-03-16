@@ -1,14 +1,16 @@
+import Link from 'next/link';
+
 type ChipProps = {
     label?: string;
     href?: string;
+    className?: string;
     skeleton?: boolean;
-    key?: string;
 };
 
-export default function BookCard({
-  label, href, key, skeleton = false,
+export default function Chip({
+  label, href, className = '', skeleton = false,
 }: ChipProps) {
-  const classes = 'bg-gray-200 hover:bg-gray-300 border-3 border-red-600 inline-block rounded-full m-1 p-2 text-sm no-underline font-normal whitespace-nowrap';
+  const classes = `bg-gray-200 hover:bg-gray-300 border-3 border-red-600 inline-block rounded-full m-1 first:ml-0 py-0.5 px-2 text-sm no-underline font-normal whitespace-nowrap ${className}`;
 
   if (skeleton) {
     return (
@@ -17,22 +19,13 @@ export default function BookCard({
   }
   if (href) {
     return (
-      <a
-        key={key}
-        href={href}
-        className={classes}
-      >
-        {label}
-      </a>
+      <Link href={href}>
+        <a className={classes}>{label}</a>
+      </Link>
     );
   }
 
   return (
-    <span
-      key={key}
-      className={classes}
-    >
-      {label}
-    </span>
+    <span className={classes}>{label}</span>
   );
 }

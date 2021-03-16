@@ -14,9 +14,23 @@ export default function Shelf() {
   if (error) {
     content = <div>failed to load</div>;
   } else if (!shelf) {
-    content = [...Array(5)].map(() => <BookCard skeleton />);
+    content = (
+      <>
+        <BookCard skeleton />
+        <BookCard skeleton />
+        <BookCard skeleton />
+        <BookCard skeleton />
+        <BookCard skeleton />
+      </>
+    );
   } else {
-    content = shelf.books && shelf.books.length && shelf.books.map((book: Book) => <BookCard book={book} extra={`Read at ${formatDate(book.dateRead)}`} />);
+    content = shelf.books && shelf.books.length && shelf.books.map((book: Book) => (
+      <BookCard
+        key={book.id}
+        book={book}
+        extra={`Read at ${formatDate(book.dateRead)}`}
+      />
+    ));
   }
   return (
     <section>

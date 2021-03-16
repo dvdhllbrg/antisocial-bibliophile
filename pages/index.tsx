@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import Link from 'next/link';
 import isAuthed from '../lib/isAuthed';
 import Chip from '../components/elements/Chip';
 
@@ -26,14 +27,15 @@ export default function Home() {
         <h2 className="">Main</h2>
         { shelves.length
             && shelves.map((shelf) => (
-              <a
+              <Link
                 href={`/shelf/${shelf.name}`}
                 key={shelf.id}
-                className="flex border-b hover:bg-gray-300 no-underline font-normal justify-between p-4"
               >
-                <span>{ shelf.name }</span>
-                <span>{ shelf.count }</span>
-              </a>
+                <a className="flex border-b hover:bg-gray-300 no-underline font-normal justify-between p-4">
+                  <span>{ shelf.name }</span>
+                  <span>{ shelf.count }</span>
+                </a>
+              </Link>
             ))}
       </article>
       <article>

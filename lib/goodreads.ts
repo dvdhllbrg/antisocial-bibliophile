@@ -60,8 +60,8 @@ const getAuthed = async (path: string, accessToken: string, accessTokenSecret: s
   return parser.parseStringPromise(xmlResponse);
 };
 
-const get = async (path: string, options: Record<string, string>): Promise<any> => {
-  const params = new URLSearchParams(options);
+const get = async (path: string, options?: Record<string, string>): Promise<any> => {
+  const params = options ? new URLSearchParams(options) : '';
   const xmlResponse = await axios.get(`${process.env.GOODREADS_URL}${path}?key=${process.env.GOODREADS_KEY}&${params.toString()}`);
   return parser.parseStringPromise(xmlResponse.data);
 };
