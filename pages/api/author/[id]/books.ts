@@ -6,8 +6,8 @@ import bookReducer from '@reducers/bookReducer';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, page } = req.query;
   const { author } = await get(`/author/list`, {
-    id,
-    page: page || '1',
+    id: `${id}`,
+    page: page ? `${page}` : '1',
   });
   let books: Book[];
   if (author.books.start === '0') {

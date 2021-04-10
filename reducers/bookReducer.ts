@@ -16,7 +16,7 @@ export type BookPropType = {
   isbn13?: string;
   isbn?: string;
   url?: string;
-  work?: { original_publication_year?: string; }
+  work?: { original_publication_year?: {_: string}; }
   publication_year?: string;
 };
 

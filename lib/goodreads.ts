@@ -12,6 +12,9 @@ const oauth = new OAuth(
   'HMAC-SHA1',
 );
 
+// @ts-ignore
+const callbackUrl = oauth._authorize_callback;
+
 const getRequestToken = (): Promise<any> => new Promise((resolve, reject) => {
   oauth.getOAuthRequestToken((error, oAuthToken, oAuthTokenSecret) => {
     if (error) {
@@ -21,7 +24,7 @@ const getRequestToken = (): Promise<any> => new Promise((resolve, reject) => {
     resolve({
       oAuthToken,
       oAuthTokenSecret,
-      oAuthUrl: `${process.env.GOODREADS_URL}/oauth/authorize?oauth_token=${oAuthToken}&oauth_callback=${oauth._authorize_callback}`,
+      oAuthUrl: `${process.env.GOODREADS_URL}/oauth/authorize?oauth_token=${oAuthToken}&oauth_callback=${callbackUrl}`,
     });
   });
 });
@@ -30,8 +33,8 @@ const getAccessToken = (oAuthToken: string, oAuthTokenSecret: string): Promise<a
   if (!oAuthToken || !oAuthTokenSecret) {
     reject(new Error('No request token!'));
   }
-  oauth.getOAuthAccessToken(oAuthToken, oAuthTokenSecret, 1,
-    (error: { data: any; }, accessToken: any, accessTokenSecret: any) => {
+  oauth.getOAuthAccessToken(oAuthToken, oAuthTokenSecret, '1',
+    (error: { data?: any; }, accessToken: any, accessTokenSecret: any) => {
       if (error) {
         reject(error.data);
       }
@@ -41,9 +44,6 @@ const getAccessToken = (oAuthToken: string, oAuthTokenSecret: string): Promise<a
       });
     });
 });
-
-// eslint-disable-next-line no-underscore-dangle
-const callbackUrl = oauth._authorize_callback;
 
 const getAuthed = async (path: string, accessToken: string, accessTokenSecret: string): Promise<any> => { 
   const xmlResponse = await new Promise((resolve, reject) => {
