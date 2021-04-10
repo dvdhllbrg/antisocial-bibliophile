@@ -24,9 +24,9 @@ export default function Home() {
   return (
     <>
       <TopNavBar title="My shelves" />
-      <main className="prose container mx-auto p-4">
+      <main className="container mx-auto p-4">
         <article>
-          <h2 className="mt-0">Main</h2>
+          <h2 className="mt-0 mb-2 text-2xl font-bold">Main</h2>
           { shelves.length
               && shelves.map((shelf) => (
                 <Link
@@ -41,7 +41,7 @@ export default function Home() {
               ))}
         </article>
         <article>
-          <h2>Tags</h2>
+          <h2 className="mt-6 mb-4 text-2xl font-bold">Tags</h2>
           { tags.length
               && tags.map((tag) => (
                 <Chip
