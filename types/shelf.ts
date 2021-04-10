@@ -1,4 +1,4 @@
-import type { Book } from './book';
+import type { Book } from '@custom-types/book';
 
 export type Shelf = {
     id: string;

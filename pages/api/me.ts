@@ -1,6 +1,6 @@
-import withSession from '../../lib/withSession';
-import { get, getAuthed } from '../../lib/goodreads';
-import { userReducer } from '../../reducers';
+import withSession from '@lib/withSession';
+import { get, getAuthed } from '@lib/goodreads';
+import userReducer from '@reducers/userReducer';
 
 export default withSession(async (req, res) => {
   const gr = req.session.get('goodreads');

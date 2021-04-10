@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Book } from '../../types/book';
+import type { Book } from '@custom-types/'; 
 
 type BookCardProps = {
     book?: Book;
@@ -17,8 +17,7 @@ export default function BookCard({ book, extra = '', skeleton = false }: BookCar
           <div className="h-7 w-full mb-3 mt-2 bg-gray-200 animate-pulse" />
           by
           <span className="inline-block ml-2 h-4 w-5/6 bg-gray-200 animate-pulse" />
-          Read at
-          <span className="inline-block ml-2 h-4 w-1/2 bg-gray-200 animate-pulse mt-2" />
+          { extra && <span className="inline-block ml-2 h-4 w-1/2 bg-gray-200 animate-pulse mt-2" /> }
         </div>
       </div>
     );
@@ -35,7 +34,7 @@ export default function BookCard({ book, extra = '', skeleton = false }: BookCar
             width={98}
             height={147}
             layout="fixed"
-            className="rounded-l"
+            className="rounded-l object-cover"
           />
         </div>
         <div className="pl-4">

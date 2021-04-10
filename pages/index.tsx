@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import Link from 'next/link';
-import isAuthed from '../lib/isAuthed';
-import Chip from '../components/elements/Chip';
+import isAuthed from '@lib/isAuthed';
+import Chip from '@components/elements/Chip';
 
 export default function Home() {
   const { data: me, error } = useSWR('/api/me');
@@ -45,7 +45,7 @@ export default function Home() {
               <Chip
                 key={tag.id}
                 href={`/shelf/${tag.name}`}
-                label={`${tag.name}&nbsp;(${tag.count})`}
+                label={`${tag.name} (${tag.count})`}
               />
             ))}
       </article>

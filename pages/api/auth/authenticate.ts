@@ -1,5 +1,5 @@
-import withSession from '../../../lib/withSession';
-import { getRequestToken, callbackUrl } from '../../../lib/goodreads';
+import withSession from '@lib/withSession';
+import { getRequestToken, callbackUrl } from '@lib/goodreads';
 
 export default withSession(async (req, res) => {
   try {

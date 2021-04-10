@@ -1,8 +1,8 @@
-import withSession from '../../lib/withSession';
-import { getAuthed } from '../../lib/goodreads';
-import { bookReducer, reviewReducer } from '../../reducers';
-import { ReviewPropType } from '../../reducers/reviewReducer';
-import { Book } from '../../types/book';
+import withSession from '@lib/withSession';
+import { getAuthed } from '@lib/goodreads';
+import bookReducer from '@reducers/bookReducer';
+import reviewReducer, { ReviewPropType } from '@reducers/reviewReducer';
+import { Book } from '@custom-types/book';
 
 export default withSession(async (req, res) => {
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');

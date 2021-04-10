@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import useSWR, { SWRResponse } from 'swr';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Book as BookType } from '../../types/book';
-import formatDate from '../../lib/formatDate';
-import isAuthed from '../../lib/isAuthed';
-import Chip from '../../components/elements/Chip';
+import { Book as BookType } from '@custom-types/book';
+import formatDate from '@lib/formatDate';
+import isAuthed from '@lib/isAuthed';
+import Chip from '@components/elements/Chip';
 
 export default function Book() {
   const { query } = useRouter();
@@ -14,9 +14,9 @@ export default function Book() {
   const { data: book, error }: SWRResponse<BookType, Error> = useSWR(`/api/book/${id}`);
   const [shelf, setShelf] = useState('');
   const [tags, setTags] = useState([]);
-
+  const [shelfText, setShelfText] = useState('');
   useEffect(() => {
-    if (!book) {
+    if (!book || !book.shelves) {
       return;
     }
     const mainShelf = book.shelves.find((s) => s.main);
@@ -24,18 +24,20 @@ export default function Book() {
     const newTags = book.shelves.filter((s) => !s.main).map((t) => t.name);
     setShelf(newShelf);
     setTags(newTags);
-  }, [book]);
 
-  let shelfText = '';
-  if (book.dateAdded) {
-    shelfText = `${shelfText}added ${formatDate(book.dateAdded)}`;
-  }
-  if (book.dateUpdated) {
-    shelfText = `${shelfText} ⋅ updated ${formatDate(book.dateUpdated)}`;
-  }
-  if (book.dateRead) {
-    shelfText = `${shelfText} ⋅ read ${formatDate(book.dateRead)}`;
-  }
+    let text = '';
+    if (book.dateAdded) {
+      text = `${text}added ${formatDate(book.dateAdded)}`;
+    }
+    if (book.dateUpdated) {
+      text = `${text} ⋅ updated ${formatDate(book.dateUpdated)}`;
+    }
+    if (book.dateRead) {
+      text = `${text} ⋅ read ${formatDate(book.dateRead)}`;
+    }
+
+    setShelfText(text);
+  }, [book]);
 
   if (error) {
     return <div>failed to load</div>;
@@ -66,12 +68,12 @@ export default function Book() {
             by
             {' '}
             { book.authors.map((a, i) => (
-              <>
+              <span key={a.id}>
                 <Link href={`/author/${a.id}`}>
                   <a>{`${a.name}${a.role ? ` (${a.role.toLowerCase()})` : ''}`}</a>
                 </Link>
                 { i < book.authors.length - 1 ? ', ' : '' }
-              </>
+              </span>
             )) }
           </span>
           <br />
@@ -92,7 +94,7 @@ export default function Book() {
         </div>
       </section>
       <section
-        className="mt-4"
+        className="mt-4 prose"
         dangerouslySetInnerHTML={{ __html: book.description }}
       />
       <small>

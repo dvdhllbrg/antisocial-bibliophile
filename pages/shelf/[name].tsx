@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
-import { Book } from '../../types/book';
-import formatDate from '../../lib/formatDate';
-import isAuthed from '../../lib/isAuthed';
-import BookCard from '../../components/elements/BookCard';
+import { Book } from '@custom-types/book';
+import formatDate from '@lib/formatDate';
+import isAuthed from '@lib/isAuthed';
+import BookCard from '@components/elements/BookCard';
 
 export default function Shelf() {
   const { query } = useRouter();

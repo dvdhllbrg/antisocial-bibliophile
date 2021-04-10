@@ -1,4 +1,4 @@
-import type { Shelf } from './shelf';
+import type { Shelf } from '@custom-types/shelf';
 
 export type User = {
   id: string;

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import { Author } from '../types/author';
-import { Book } from '../types/book';
-import authorReducer, { AuthorPropType } from './authorReducer';
+import type { Author } from '@custom-types/author';
+import type { Book } from '@custom-types/book';
+import authorReducer, { AuthorPropType } from '@reducers/authorReducer';
 
 export type BookPropType = {
   id?: string | {_: string};

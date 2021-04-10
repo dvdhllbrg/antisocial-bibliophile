@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Shelf } from '../types/shelf';
+import { Shelf } from '@custom-types/shelf';
 
 type exclusive = 'true' | 'false';
 

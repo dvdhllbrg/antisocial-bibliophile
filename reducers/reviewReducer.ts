@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import { Review } from '../types/review';
-import { Shelf } from '../types/shelf';
-import { BookPropType } from './bookReducer';
-import shelfReducer, { ShelfPropType } from './shelfReducer';
+import { Review } from '@custom-types/review';
+import { Shelf } from '@custom-types/shelf';
+import { BookPropType } from '@reducers/bookReducer';
+import shelfReducer, { ShelfPropType } from '@reducers/shelfReducer';
 
 export type ReviewPropType = {
   shelves?: { shelf: ShelfPropType | ShelfPropType[]; };

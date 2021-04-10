@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { User } from '../types/user';
-import shelfReducer, { ShelfPropType } from './shelfReducer';
+import { User } from '@custom-types/user';
+import shelfReducer, { ShelfPropType } from '@reducers/shelfReducer';
 
 type UserPropType = {
   id: string;

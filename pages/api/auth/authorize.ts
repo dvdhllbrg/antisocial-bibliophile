@@ -1,5 +1,5 @@
-import withSession from '../../../lib/withSession';
-import { getAccessToken } from '../../../lib/goodreads';
+import withSession from '@lib/withSession';
+import { getAccessToken } from '@lib/goodreads';
 
 export default withSession(async (req, res) => {
   const { oAuthToken, oAuthTokenSecret } = req.session.get('goodreads');

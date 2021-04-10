@@ -24,7 +24,8 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
     'react/require-default-props': [1, { ignoreFunctionalComponents: true }],
-    'no-unused-vars': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'warning',
     'max-len': 'warn',
     'jsx-a11y/anchor-is-valid': 'off',
     'import/extensions': [
@@ -40,9 +41,7 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      },
-    },
+      typescript: {},
+    }
   },
 };

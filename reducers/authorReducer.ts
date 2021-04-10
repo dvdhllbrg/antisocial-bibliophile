@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Author } from '../types/author';
+import type { Author } from '@custom-types/author';
 
 export type AuthorPropType = {
   id?: string | {_: string};
