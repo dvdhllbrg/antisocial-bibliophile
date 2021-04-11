@@ -63,7 +63,7 @@ export default function Book() {
         />
       </Head>
       <TopAppBar title={book.title} />
-      <main className="container mx-auto p-4">
+      <main className="container mx-auto p-4 pb-24">
         <section className="grid grid-cols-3">
           <div>
             <Image

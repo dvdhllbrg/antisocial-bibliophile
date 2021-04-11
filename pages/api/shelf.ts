@@ -8,8 +8,6 @@ export default withSession(async (req, res) => {
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
   const params = new URLSearchParams(req.query);
 
-  console.log(params);
-
   const response = await getAuthed(`/review/list/${userId}.xml?v=2&${params.toString()}`, accessToken, accessTokenSecret);
   let books: Book[];
   if (response.reviews.start === '0') {
