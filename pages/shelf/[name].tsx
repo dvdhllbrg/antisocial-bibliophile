@@ -36,11 +36,11 @@ export default function Shelf() {
   const loader = useRef(null);
   const loaderIsVisible = useOnScreen(loader);
 
-  const [sort, setSort] = useState('date_added');
+  const [sort, setSort] = useState('');
   const [sortOrder, setSortOrder] = useState('d');
-  const [showSortMenu, setShowSortMenu] = useState(true);
+  const [showSortMenu, setShowSortMenu] = useState(false);
 
-  useEffect(() => {
+  if (!sort) {
     let initialSort = 'date_added';
     if (name === 'read') {
       initialSort = 'date_read';
@@ -49,7 +49,7 @@ export default function Shelf() {
     }
 
     setSort(initialSort);
-  }, [])
+  }
   
   const { data: shelf, error, size, setSize, isValidating } = useSWRInfinite<Book[]>(
     (...args) => getKey(...args, {
@@ -72,6 +72,25 @@ export default function Shelf() {
     }
   }, [loaderIsVisible, isRefreshing])
 
+  const bookExtra = (book: Book) => {
+    switch (sort) {
+      case 'date_read':
+        return book.dateRead ? `Read ${formatDate(book.dateRead)}` : 'No read date.';
+      case 'date_updated':
+        return book.dateUpdated ? `Updated ${formatDate(book.dateUpdated)}` : 'No updated date.';
+      case 'date_added':
+        return book.dateAdded ? `added ${formatDate(book.dateAdded)}` : 'No added date.';
+      case 'year_pub':
+        return `First published in ${book.year || 'an unknown year'}`;
+      case 'avg_rating':
+        return `Goodreads rating: ${book.rating}`;
+      case 'rating':
+        return `My rating: ${book.myRating}`;
+      default:
+        return '';
+    }
+  }
+
   let content: {};
   if (error) {
     content = <div>failed to load</div>;
@@ -92,7 +111,7 @@ export default function Shelf() {
       <BookCard
         key={book.id}
         book={book}
-        extra={`Read at ${formatDate(book.dateRead)}`}
+        extra={bookExtra(book)}
       />
     ));
   }
@@ -117,35 +136,59 @@ export default function Shelf() {
           </svg>
         </button>
       </TopAppBar>
-      {showSortMenu && (
-        <div className="w-full bg-white p-4">
-          <label>
-            Sort by
-            <select
-              className="w-full bg-white border-b border-gray-500 text-gray-800 p-2 pl-0 outline-none"
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-            >
-              {SORT_OPTIONS.map(
-                (so) => (
-                  <option
-                    key={so.value}
-                    value={so.value}>
-                      {so.label}
-                    </option>
-                ),
-              )}
-            </select>
-          </label>
+      <div className={`w-full bg-white p-4 transform-gpu transition-transform duration-200 ease-out ${showSortMenu ? '' : '-translate-y-full'}`}>
+        <label
+          htmlFor="sort_by"
+          className="text-xs text-gray-600"
+        >
+          Sort by
+        </label>
+        <div className="flex items-center">
+          <select
+            id="sort_by"
+            className="bg-white flex-grow border-b border-gray-500 text-gray-800 p-2 pl-0 outline-none"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            {SORT_OPTIONS.map(
+              (so) => (
+                <option
+                  key={so.value}
+                  value={so.value}>
+                    {so.label}
+                  </option>
+              ),
+            )}
+          </select>
+          <div className="flex flex-col ml-4">
+            <label>
+              <input
+                type="radio"
+                name="sort_direction"
+                value="d"
+                checked={sortOrder === 'd'}
+                onChange={() => setSortOrder('d')}
+              /> Descending
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="sort_direction"
+                value="a"
+                checked={sortOrder === 'a'}
+                onChange={() => setSortOrder('a')}
+              /> Ascending
+            </label>
+          </div>
         </div>
-      )}
-      <main className="container mx-auto p-4">
+      </div>
+      <main className={`container mx-auto p-4 transform-gpu transition-all duration-200 ease-out ${showSortMenu ? 'mt-0' : '-mt-24'}`}>
         <section className="max-w-screen-lg">
           { content }
           <div ref={loader}>
             {isLoadingMore && (
               <div className="flex flex-col justify-center items-center">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
                 Loading more
             </div>
             )}
