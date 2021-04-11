@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import useSWR, { SWRResponse } from 'swr';
 import Image from 'next/image';
 import { Author as AuthorType } from '@custom-types/author';
 import { Book } from '@custom-types/book';
-import TopNavBar from '@components/TopNavBar';
+import TopAppBar from '@components/TopAppBar';
 import BookCard from '@components/elements/BookCard';
 
 export default function Author() {
@@ -64,7 +65,15 @@ export default function Author() {
 
   return (
     <>
-      <TopNavBar title={author?.name ||'Loading ...'} />
+      <Head>
+        <link
+          rel="preload"
+          href={`/api/author/${id}`}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </Head>
+      <TopAppBar title={author?.name ||'Loading ...'} />
       <main className="container mx-auto p-4">
         { authorContent }
         <section className="mt-4 clear-both">

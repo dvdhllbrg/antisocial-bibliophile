@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import useSWR, { SWRResponse } from 'swr';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Book as BookType } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import isAuthed from '@lib/isAuthed';
-import TopNavBar from '@components/TopNavBar'
+import TopAppBar from '@components/TopAppBar'
 import Chip from '@components/elements/Chip';
 
 export default function Book() {
@@ -53,7 +54,15 @@ export default function Book() {
 
   return (
     <>
-      <TopNavBar title={book.title} />
+      <Head>
+        <link
+          rel="preload"
+          href={`/api/book/${id}`}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </Head>
+      <TopAppBar title={book.title} />
       <main className="container mx-auto p-4">
         <section className="grid grid-cols-3">
           <div>

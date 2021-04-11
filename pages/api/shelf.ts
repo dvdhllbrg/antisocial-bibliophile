@@ -8,6 +8,8 @@ export default withSession(async (req, res) => {
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
   const params = new URLSearchParams(req.query);
 
+  console.log(params);
+
   const response = await getAuthed(`/review/list/${userId}.xml?v=2&${params.toString()}`, accessToken, accessTokenSecret);
   let books: Book[];
   if (response.reviews.start === '0') {
@@ -23,13 +25,8 @@ export default withSession(async (req, res) => {
       ...reviewReducer(response.reviews.review),
     }];
   }
-  const hasMore = response.reviews.end !== response.reviews.total && response.reviews.start !== '0';
 
-  res.status(200).json({
-    page: req.query.page || 1,
-    hasMore,
-    books,
-  });
+  res.status(200).json(books);
 });
 
 export const config = {

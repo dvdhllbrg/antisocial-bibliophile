@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import Head from 'next/head';
 import Link from 'next/link';
 import isAuthed from '@lib/isAuthed';
 import Chip from '@components/elements/Chip';
-import TopNavBar from '@components/TopNavBar';
+import TopAppBar from '@components/TopAppBar';
 
 export default function Home() {
   const { data: me, error } = useSWR('/api/me');
@@ -23,7 +24,15 @@ export default function Home() {
   }
   return (
     <>
-      <TopNavBar title="My shelves" />
+      <Head>
+        <link
+          rel="preload"
+          href="/api/me"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </Head>
+      <TopAppBar title="My shelves" />
       <main className="container mx-auto p-4">
         <article>
           <h2 className="mt-0 mb-2 text-2xl font-bold">Main</h2>
@@ -48,6 +57,7 @@ export default function Home() {
                   key={tag.id}
                   href={`/shelf/${tag.name}`}
                   label={`${tag.name} (${tag.count})`}
+                  size="large"
                 />
               ))}
         </article>

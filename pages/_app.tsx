@@ -2,6 +2,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import '../styles/globals.css';
+import BottomAppBar from '@components/BottomAppBar';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -31,6 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <div className="bg-gray-50 min-h-screen">
         <Component {...pageProps} />
+        <BottomAppBar />
       </div>
     </>
   );

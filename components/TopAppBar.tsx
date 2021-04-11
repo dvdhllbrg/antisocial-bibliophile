@@ -1,25 +1,26 @@
 import { FunctionComponent } from 'react';
 import { useRouter } from 'next/router';
+import AppBar from '@components/AppBar';
 
-type TopNavBarProps = {
+type TopAppBarProps = {
   title?: string;
 }
 
-const TopNavBar: FunctionComponent<TopNavBarProps> = ({ title, children }) => {
+const TopAppBar: FunctionComponent<TopAppBarProps> = ({ title, children }) => {
   const { pathname, back } = useRouter();
 
   const showBackButton = !['/', '/auth/login'].includes(pathname);
 
   return (
-    <div className="bg-white shadow flex items-center">
+    <AppBar position="top">
       {showBackButton && (
         <button
           type="button"
           className="p-4"
           onClick={() => back()}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
           </svg>
         </button>
       )}
@@ -27,8 +28,8 @@ const TopNavBar: FunctionComponent<TopNavBarProps> = ({ title, children }) => {
       <div className="ml-auto">
         { children }
       </div>
-    </div>
+    </AppBar>
   );
 }
 
-export default TopNavBar;
+export default TopAppBar;
