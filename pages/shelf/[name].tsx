@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import isAuthed from '@lib/isAuthed';
-import TopNavBar from '@components/TopNavBar'
+import TopAppBar from '@components/TopAppBar'
 import BookCard from '@components/elements/BookCard';
 
 export default function Shelf() {
@@ -35,16 +35,16 @@ export default function Shelf() {
   }
   return (
     <>
-      <TopNavBar title={name as string}>
+      <TopAppBar title={name as string}>
         <button
           type="button"
           className="p-4"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
           </svg>
         </button>
-      </TopNavBar>
+      </TopAppBar>
       <main className="container mx-auto p-4">
         <article className="max-w-screen-lg">
           { content }

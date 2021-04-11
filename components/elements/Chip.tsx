@@ -5,12 +5,14 @@ type ChipProps = {
     href?: string;
     className?: string;
     skeleton?: boolean;
+    size?: 'large' | 'small';
 };
 
 export default function Chip({
-  label, href, className = '', skeleton = false,
+  label, href, size = 'small', className = '', skeleton = false,
 }: ChipProps) {
-  const classes = `bg-gray-200 hover:bg-gray-300 border-3 border-red-600 inline-block rounded-full m-1 first:ml-0 py-0.5 px-2 text-sm no-underline font-normal whitespace-nowrap ${className}`;
+  const sizeClasses = size === 'large' ? 'py-2 px-3' : 'py-0.5 px-2';
+  const classes = `bg-gray-200 hover:bg-gray-300 border-3 border-red-600 inline-block rounded-full m-1 first:ml-0 text-sm no-underline font-normal whitespace-nowrap ${sizeClasses} ${className}`;
 
   if (skeleton) {
     return (

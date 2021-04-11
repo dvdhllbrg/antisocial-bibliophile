@@ -1,5 +1,5 @@
 import axios from 'axios';
-import TopNavBar from '@components/TopNavBar';
+import TopAppBar from '@components/TopAppBar';
 
 export default function Login() {
   const authenticateGoodreads = async () => {
@@ -13,7 +13,7 @@ export default function Login() {
 
     return (
     <>
-      <TopNavBar title="Antisocial Bibliophile" />
+      <TopAppBar title="Antisocial Bibliophile" />
       <main className="prose container mx-auto p-4">
         <p>
           To use this app, you need to login with a Goodreads account. When you click the button

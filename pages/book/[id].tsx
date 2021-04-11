@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Book as BookType } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import isAuthed from '@lib/isAuthed';
-import TopNavBar from '@components/TopNavBar'
+import TopAppBar from '@components/TopAppBar'
 import Chip from '@components/elements/Chip';
 
 export default function Book() {
@@ -53,7 +53,7 @@ export default function Book() {
 
   return (
     <>
-      <TopNavBar title={book.title} />
+      <TopAppBar title={book.title} />
       <main className="container mx-auto p-4">
         <section className="grid grid-cols-3">
           <div>
