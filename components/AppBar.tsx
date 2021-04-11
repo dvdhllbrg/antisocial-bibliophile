@@ -25,9 +25,9 @@ const AppBar: FunctionComponent<AppBarProps> = ({ position = 'bottom', children 
   const positionClass = position === 'top' ? 'sticky top-0' : 'fixed bottom-0';
 
   return (
-    <div className={`bg-white shadow flex items-center w-full ${positionClass} z-10 transition-transform duration-200 ease-out transform-gpu ${visible ? '' : transformedClass}`}>
+    <nav className={`bg-white shadow flex items-center w-full ${positionClass} z-10 transition-transform duration-200 ease-out transform-gpu ${visible ? '' : transformedClass}`}>
       { children }
-    </div>
+    </nav>
   );
 }
 
