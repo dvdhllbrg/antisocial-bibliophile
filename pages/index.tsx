@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import Head from 'next/head';
 import Link from 'next/link';
 import isAuthed from '@lib/isAuthed';
 import Chip from '@components/elements/Chip';
@@ -23,6 +24,14 @@ export default function Home() {
   }
   return (
     <>
+      <Head>
+        <link
+          rel="preload"
+          href="/api/me"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <TopAppBar title="My shelves" />
       <main className="container mx-auto p-4">
         <article>

@@ -1,22 +1,53 @@
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import { useSWRInfinite } from 'swr';
+import Head from 'next/head';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import isAuthed from '@lib/isAuthed';
+import useOnScreen from '@hooks/useOnScreen';
 import TopAppBar from '@components/TopAppBar'
 import BookCard from '@components/elements/BookCard';
+
+const PAGE_SIZE = 20;
+
+const getKey = (pageIndex: number, previousPageData: Book[], shelf: string, pageSize: number) => {
+  if (previousPageData && !previousPageData.length) {
+    return null;
+  }
+  return `/api/shelf?shelf=${shelf}&page=${pageIndex + 1}&per_page=${pageSize}`;
+};
 
 export default function Shelf() {
   const { query } = useRouter();
   const { name } = query;
-  const { data: shelf, error } = useSWR(`/api/shelf?shelf=${name}`);
+  const loader = useRef(null);
+  const isVisible = useOnScreen(loader);
+  
+  const { data: shelf, error, size, setSize, isValidating } = useSWRInfinite<Book[]>(
+    (...args) => getKey(...args, name as string, PAGE_SIZE)
+  );
+  const books = shelf ? [].concat(...shelf) : []
+  const isLoadingInitialData = !shelf && !error
+  const isLoadingMore = (size > 0 && shelf && typeof shelf[size - 1] === 'undefined')
+  const isEmpty = shelf?.[0]?.length === 0;
+  const isReachingEnd = isEmpty || (shelf && shelf[shelf.length - 1]?.length < PAGE_SIZE);
+  const isRefreshing = isValidating && shelf && shelf.length === size;
+
+  useEffect(() => {
+    if (isVisible && !isReachingEnd && !isRefreshing) {
+      setSize(size + 1)
+    }
+  }, [isVisible, isRefreshing])
 
   let content: {};
   if (error) {
     content = <div>failed to load</div>;
-  } else if (!shelf) {
+  } else if (isLoadingInitialData) {
     content = (
       <>
+        <BookCard skeleton />
+        <BookCard skeleton />
         <BookCard skeleton />
         <BookCard skeleton />
         <BookCard skeleton />
@@ -25,7 +56,7 @@ export default function Shelf() {
       </>
     );
   } else {
-    content = shelf.books && shelf.books.length && shelf.books.map((book: Book) => (
+    content = books.map((book) => (
       <BookCard
         key={book.id}
         book={book}
@@ -35,6 +66,14 @@ export default function Shelf() {
   }
   return (
     <>
+      <Head>
+        <link
+          rel="preload"
+          href={`/api/shelf?shelf=${name}&page=1&per_page=${PAGE_SIZE}`}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <TopAppBar title={name as string}>
         <button
           type="button"
@@ -46,9 +85,17 @@ export default function Shelf() {
         </button>
       </TopAppBar>
       <main className="container mx-auto p-4">
-        <article className="max-w-screen-lg">
+        <section className="max-w-screen-lg">
           { content }
-        </article>
+          <div ref={loader}>
+            {isLoadingMore && (
+              <div className="flex flex-col justify-center items-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
+                Loading more
+            </div>
+            )}
+          </div>
+        </section>
       </main>
     </>
   );

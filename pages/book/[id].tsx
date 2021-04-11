@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import useSWR, { SWRResponse } from 'swr';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -53,6 +54,14 @@ export default function Book() {
 
   return (
     <>
+      <Head>
+        <link
+          rel="preload"
+          href={`/api/book/${id}`}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <TopAppBar title={book.title} />
       <main className="container mx-auto p-4">
         <section className="grid grid-cols-3">

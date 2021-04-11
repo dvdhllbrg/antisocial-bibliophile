@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import useSWR, { SWRResponse } from 'swr';
 import Image from 'next/image';
 import { Author as AuthorType } from '@custom-types/author';
@@ -64,6 +65,14 @@ export default function Author() {
 
   return (
     <>
+      <Head>
+        <link
+          rel="preload"
+          href={`/api/author/${id}`}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <TopAppBar title={author?.name ||'Loading ...'} />
       <main className="container mx-auto p-4">
         { authorContent }
