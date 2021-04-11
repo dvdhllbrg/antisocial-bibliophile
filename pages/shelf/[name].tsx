@@ -119,10 +119,16 @@ export default function Shelf() {
       </TopAppBar>
       {showSortMenu && (
         <div className="w-full bg-white p-4">
-          <label>
+          <label
+            htmlFor="sort_by"
+            className="text-xs text-gray-500"
+          >
             Sort by
+          </label>
+          <div className="flex items-center">
             <select
-              className="w-full bg-white border-b border-gray-500 text-gray-800 p-2 pl-0 outline-none"
+              id="sort_by"
+              className="bg-white flex-grow border-b border-gray-500 text-gray-800 p-2 pl-0 outline-none"
               value={sort}
               onChange={(e) => setSort(e.target.value)}
             >
@@ -136,7 +142,25 @@ export default function Shelf() {
                 ),
               )}
             </select>
-          </label>
+            <div className="flex flex-col ml-4">
+              <label>
+                <input
+                  type="radio"
+                  name="sort_direction"
+                  value="d"
+                  checked={sortOrder === 'd'}
+                /> Descending
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="sort_direction"
+                  value="a"
+                  checked={sortOrder === 'a'}
+                /> Ascending
+              </label>
+            </div>
+          </div>
         </div>
       )}
       <main className="container mx-auto p-4">
