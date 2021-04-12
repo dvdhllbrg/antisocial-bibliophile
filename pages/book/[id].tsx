@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Book as BookType } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
+import formatNumber from '@lib/formatNumber';
 import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
 import Chip from '@components/elements/Chip';
@@ -109,7 +110,7 @@ export default function Book() {
           <Rating
             textOver="Goodreads rating"
             rating={book.rating || 0}
-            textUnder={`${book.rating} from ${book.numberOfRatings} ratings.`}
+            textUnder={`${formatNumber(book.rating || 0)} from ${formatNumber(book.numberOfRatings || 0)} ratings.`}
           />
           <Rating
             textOver="Your rating"

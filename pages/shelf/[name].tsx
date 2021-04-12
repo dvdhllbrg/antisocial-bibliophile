@@ -5,6 +5,7 @@ import { useSWRInfinite } from 'swr';
 import { SortDescendingIcon } from '@heroicons/react/outline';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
+import formatNumber from '@lib/formatNumber';
 import isAuthed from '@lib/isAuthed';
 import useOnScreen from '@hooks/useOnScreen';
 import TopAppBar from '@components/TopAppBar';
@@ -88,9 +89,9 @@ export default function Shelf() {
       case 'year_pub':
         return `First published in ${book.year || 'an unknown year'}`;
       case 'avg_rating':
-        return `Goodreads rating: ${book.rating}`;
+        return `Goodreads rating: ${formatNumber(book.rating || 0)}`;
       case 'rating':
-        return `My rating: ${book.myRating}`;
+        return `My rating: ${formatNumber(book.myRating || 0)}`;
       default:
         return '';
     }
