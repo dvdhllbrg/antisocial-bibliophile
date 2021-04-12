@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { useSWRInfinite } from 'swr';
 import Head from 'next/head';
+import { useSWRInfinite } from 'swr';
+import { SortDescendingIcon } from '@heroicons/react/outline';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import isAuthed from '@lib/isAuthed';
@@ -135,9 +136,7 @@ export default function Shelf() {
           className="p-4"
           onClick={() => setShowSortMenu(!showSortMenu)}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
-          </svg>
+          <SortDescendingIcon className="h-6 w-6" />
         </button>
       </TopAppBar>
       <div className={`w-full bg-white p-4 transform-gpu transition-transform duration-200 ease-out ${showSortMenu ? '' : '-translate-y-full'}`}>

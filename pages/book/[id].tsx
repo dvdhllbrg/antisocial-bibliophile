@@ -9,6 +9,7 @@ import formatDate from '@lib/formatDate';
 import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
 import Chip from '@components/elements/Chip';
+import Rating from '@components/Rating';
 
 export default function Book() {
   const { query } = useRouter();
@@ -103,6 +104,18 @@ export default function Book() {
             </div>
             <small>{ shelfText }</small>
           </div>
+        </section>
+        <section className="flex items-center">
+          <Rating
+            textOver="Goodreads rating"
+            rating={book.rating || 0}
+            textUnder={`${book.rating} from ${book.numberOfRatings} ratings.`}
+          />
+          <Rating
+            textOver="Your rating"
+            rating={book.myRating || 0}
+            textUnder="Tap a star to give a rating."
+          />
         </section>
         <section
           className="mt-4 prose"

@@ -64,6 +64,14 @@ export default function Home() {
               ))}
         </article>
       </main>
+      <section>
+        <button
+          type="button"
+          className="w-full border-gray-800 uppercase"
+        >
+          Create a new tag or shelf
+        </button>
+      </section>
     </>
   );
 }
