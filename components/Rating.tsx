@@ -19,7 +19,7 @@ const Rating = ({
         className="mr-2"
         onClick={onRate ? () => onRate(i) : () => {}}
       >
-        <StarIcon className={`h-5 w-5 ${i <= rating ? 'text-yellow-500' : ''}`} />
+        <StarIcon className={`h-5 w-5 ${i <= Math.round(rating) ? 'text-yellow-500' : ''}`} />
       </button>,
     );
   }
