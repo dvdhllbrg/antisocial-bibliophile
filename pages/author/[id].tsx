@@ -106,12 +106,18 @@ export default function Author() {
       <Head>
         <link
           rel="preload"
+          href={`/api/author/${id}`}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
           href={`/api/author/${id}/books?page=1&per_page=${PAGE_SIZE}`}
           as="fetch"
           crossOrigin="anonymous"
         />
       </Head>
-      <TopAppBar title={author?.name || 'Loading ...'} />
+      <TopAppBar title={author?.name || 'Loading...'} />
       <main className="container mx-auto p-4">
         { authorContent }
         <section className="mt-4 clear-both max-w-screen-lg">
@@ -121,7 +127,7 @@ export default function Author() {
             {isLoadingMoreBooks && (
               <div className="flex flex-col justify-center items-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
-                Loading more
+                Loading more...
               </div>
             )}
           </div>

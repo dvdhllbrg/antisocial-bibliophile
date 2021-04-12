@@ -1,11 +1,11 @@
-import axios from 'axios';
 import TopAppBar from '@components/TopAppBar';
 
 export default function Login() {
   const authenticateGoodreads = async () => {
     try {
-      const res: any = await axios.get('/api/auth/authenticate');
-      window.location.href = res.data.oAuthUrl;
+      const res = await fetch('/api/auth/authenticate');
+      const data = await res.json();
+      window.location.href = data.oAuthUrl;
     } catch (err) {
       console.error(err);
     }

@@ -4,6 +4,7 @@ import Head from 'next/head';
 import useSWR, { SWRResponse } from 'swr';
 import Image from 'next/image';
 import Link from 'next/link';
+import { PencilIcon } from '@heroicons/react/solid';
 import { Book as BookType } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
@@ -77,9 +78,7 @@ export default function Book() {
             />
           </div>
           <div className="col-span-2">
-            <span>
-              by
-              {' '}
+            <span className="text-xl">
               { book.authors?.map((a, i) => (
                 <span key={a.id}>
                   <Link href={`/author/${a.id}`}>
@@ -90,8 +89,15 @@ export default function Book() {
               )) || 'unknown'}
             </span>
             <br />
-            <b>Shelves</b>
-            <div>
+            <div className="flex mt-2 mb-1">
+              <b>Shelves</b>
+              <button
+                type="button"
+              >
+                <PencilIcon className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="mb-2">
               {shelf ? <Chip className="bg-gray-400" label={shelf} href={`/shelf/${shelf}`} /> : 'Not on your shelves.'}
               {tags && tags
                 .sort((a, b) => a.localeCompare(b))
@@ -106,7 +112,7 @@ export default function Book() {
             <small>{ shelfText }</small>
           </div>
         </section>
-        <section className="flex items-center justify-evenly w-full">
+        <section className="flex items-center justify-evenly w-full my-6">
           <Rating
             textOver="Goodreads rating"
             rating={book.rating || 0}

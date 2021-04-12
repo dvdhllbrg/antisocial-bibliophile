@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import { OAuth } from 'oauth';
-import axios from 'axios';
 import parser from './parser';
 
 const oauth = new OAuth(
@@ -63,8 +62,9 @@ const getAuthed = async (path: string, accessToken: string, accessTokenSecret: s
 
 const get = async (path: string, options?: Record<string, string>): Promise<any> => {
   const params = options ? new URLSearchParams(options) : '';
-  const xmlResponse = await axios.get(`${process.env.GOODREADS_URL}${path}?key=${process.env.GOODREADS_KEY}&${params.toString()}`);
-  return parser.parseStringPromise(xmlResponse.data);
+  const res = await fetch(`${process.env.GOODREADS_URL}${path}?key=${process.env.GOODREADS_KEY}&${params.toString()}`);
+  const xmlResponse = await res.text();
+  return parser.parseStringPromise(xmlResponse);
 };
 
 export {

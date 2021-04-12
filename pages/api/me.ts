@@ -4,13 +4,17 @@ import userReducer from '@reducers/userReducer';
 
 export default withSession(async (req, res) => {
   const gr = req.session.get('goodreads');
-  const me = await getAuthed('/api/auth_user', gr.accessToken, gr.accessTokenSecret);
-  const user = await get('/user/show.xml', { id: me.user.id });
-  req.session.set('goodreads', {
-    ...gr,
-    userId: me.user.id,
-  });
-  await req.session.save();
+  let { userId } = gr;
+  if (!gr.userId) {
+    const me = await getAuthed('/api/auth_user', gr.accessToken, gr.accessTokenSecret);
+    userId = me.user.id;
+    req.session.set('goodreads', {
+      ...gr,
+      userId,
+    });
+    await req.session.save();
+  }
+  const user = await get('/user/show.xml', { id: userId });
   res.status(200).json(userReducer(user.user));
 });
 
