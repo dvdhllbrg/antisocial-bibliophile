@@ -9,7 +9,7 @@ const oauth = new OAuth(
   process.env.GOODREADS_KEY || '',
   process.env.GOODREADS_SECRET || '',
   '1.0',
-  'http://localhost:3000/auth/callback',
+  `${process.env.APP_URL}/auth/callback`,
   'HMAC-SHA1',
 );
 
