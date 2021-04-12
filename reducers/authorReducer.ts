@@ -2,7 +2,7 @@
 import type { Author } from '@custom-types/author';
 
 export type AuthorPropType = {
-  id?: string | {_: string};
+  id?: string | { _: string };
   name?: string;
   role?: string;
   about?: string;

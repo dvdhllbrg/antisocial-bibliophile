@@ -1,4 +1,4 @@
-import withSession from './withSession';
+import withSession from '@lib/withSession';
 
 export default function isAuthed() {
   return withSession(async ({ req }) => {
@@ -13,7 +13,7 @@ export default function isAuthed() {
     }
 
     return {
-      props: {}
+      props: {},
     };
   });
 }

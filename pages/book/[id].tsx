@@ -4,18 +4,21 @@ import Head from 'next/head';
 import useSWR, { SWRResponse } from 'swr';
 import Image from 'next/image';
 import Link from 'next/link';
+import { PencilIcon } from '@heroicons/react/solid';
 import { Book as BookType } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
+import formatNumber from '@lib/formatNumber';
 import isAuthed from '@lib/isAuthed';
-import TopAppBar from '@components/TopAppBar'
+import TopAppBar from '@components/TopAppBar';
 import Chip from '@components/elements/Chip';
+import Rating from '@components/Rating';
 
 export default function Book() {
   const { query } = useRouter();
   const { id } = query;
   const { data: book, error }: SWRResponse<BookType, Error> = useSWR(`/api/book/${id}`);
   const [shelf, setShelf] = useState('');
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [shelfText, setShelfText] = useState('');
   useEffect(() => {
     if (!book || !book.shelves) {
@@ -67,7 +70,7 @@ export default function Book() {
         <section className="grid grid-cols-3">
           <div>
             <Image
-              src={book.image}
+              src={book.image || '/cover.png'}
               width={98}
               height={147}
               layout="fixed"
@@ -75,21 +78,26 @@ export default function Book() {
             />
           </div>
           <div className="col-span-2">
-            <span>
-              by
-              {' '}
-              { book.authors.map((a, i) => (
+            <span className="text-xl">
+              { book.authors?.map((a, i) => (
                 <span key={a.id}>
                   <Link href={`/author/${a.id}`}>
                     <a>{`${a.name}${a.role ? ` (${a.role.toLowerCase()})` : ''}`}</a>
                   </Link>
-                  { i < book.authors.length - 1 ? ', ' : '' }
+                  { i < (book.authors?.length || 0) - 1 ? ', ' : '' }
                 </span>
-              )) }
+              )) || 'unknown'}
             </span>
             <br />
-            <b>Shelves</b>
-            <div>
+            <div className="flex mt-2 mb-1">
+              <b>Shelves</b>
+              <button
+                type="button"
+              >
+                <PencilIcon className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="mb-2">
               {shelf ? <Chip className="bg-gray-400" label={shelf} href={`/shelf/${shelf}`} /> : 'Not on your shelves.'}
               {tags && tags
                 .sort((a, b) => a.localeCompare(b))
@@ -104,9 +112,22 @@ export default function Book() {
             <small>{ shelfText }</small>
           </div>
         </section>
+        <section className="flex items-center justify-evenly w-full my-6">
+          <Rating
+            textOver="Goodreads rating"
+            rating={book.rating || 0}
+            textUnder={`${formatNumber(book.rating || 0)} from ${formatNumber(book.numberOfRatings || 0)} ratings.`}
+          />
+          <Rating
+            textOver="Your rating"
+            rating={book.myRating || 0}
+            textUnder="Tap a star to give a rating."
+          />
+        </section>
         <section
           className="mt-4 prose"
-          dangerouslySetInnerHTML={{ __html: book.description }}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: book.description || '' }}
         />
         <section>
           <small>

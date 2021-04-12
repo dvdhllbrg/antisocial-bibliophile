@@ -1,21 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { useSWRInfinite, mutate } from 'swr';
 import Head from 'next/head';
+import { useSWRInfinite } from 'swr';
+import { SortDescendingIcon } from '@heroicons/react/outline';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
+import formatNumber from '@lib/formatNumber';
 import isAuthed from '@lib/isAuthed';
 import useOnScreen from '@hooks/useOnScreen';
-import TopAppBar from '@components/TopAppBar'
+import TopAppBar from '@components/TopAppBar';
 import BookCard from '@components/elements/BookCard';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 
-const getKey = (pageIndex: number, previousPageData: Book[], params: any) => {
+const getKey = (pageIndex: number, previousPageData: Book[] | null, params: any) => {
   if (previousPageData && !previousPageData.length) {
     return null;
   }
-  const { shelf, pageSize, sort, sortOrder, } = params;
+  const {
+    shelf, pageSize, sort, sortOrder,
+  } = params;
   return `/api/shelf?shelf=${shelf}&page=${pageIndex + 1}&per_page=${pageSize}&sort=${sort}&order=${sortOrder}`;
 };
 
@@ -50,27 +54,29 @@ export default function Shelf() {
 
     setSort(initialSort);
   }
-  
-  const { data: shelf, error, size, setSize, isValidating } = useSWRInfinite<Book[]>(
+
+  const {
+    data: shelf, error, size, setSize, isValidating,
+  } = useSWRInfinite<Book[]>(
     (...args) => getKey(...args, {
       shelf: name,
       pageSize: PAGE_SIZE,
       sort,
       sortOrder,
-    })
+    }),
   );
-  const books = shelf ? [].concat(...shelf) : []
-  const isLoadingInitialData = !shelf && !error
-  const isLoadingMore = (size > 0 && shelf && typeof shelf[size - 1] === 'undefined')
+  const books = shelf ? ([] as Book[]).concat(...shelf) : [];
+  const isLoadingInitialData = !shelf && !error;
+  const isLoadingMore = (size > 0 && shelf && typeof shelf[size - 1] === 'undefined');
   const isEmpty = shelf?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (shelf && shelf[shelf.length - 1]?.length < PAGE_SIZE);
   const isRefreshing = isValidating && shelf && shelf.length === size;
 
   useEffect(() => {
     if (loaderIsVisible && !isReachingEnd && !isRefreshing) {
-      setSize(size + 1)
+      setSize(size + 1);
     }
-  }, [loaderIsVisible, isRefreshing])
+  }, [loaderIsVisible, isRefreshing]);
 
   const bookExtra = (book: Book) => {
     switch (sort) {
@@ -83,13 +89,13 @@ export default function Shelf() {
       case 'year_pub':
         return `First published in ${book.year || 'an unknown year'}`;
       case 'avg_rating':
-        return `Goodreads rating: ${book.rating}`;
+        return `Goodreads rating: ${formatNumber(book.rating || 0)}`;
       case 'rating':
-        return `My rating: ${book.myRating}`;
+        return `My rating: ${formatNumber(book.myRating || 0)}`;
       default:
         return '';
     }
-  }
+  };
 
   let content: {};
   if (error) {
@@ -131,9 +137,7 @@ export default function Shelf() {
           className="p-4"
           onClick={() => setShowSortMenu(!showSortMenu)}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
-          </svg>
+          <SortDescendingIcon className="h-6 w-6" />
         </button>
       </TopAppBar>
       <div className={`w-full bg-white p-4 transform-gpu transition-transform duration-200 ease-out ${showSortMenu ? '' : '-translate-y-full'}`}>
@@ -154,9 +158,10 @@ export default function Shelf() {
               (so) => (
                 <option
                   key={so.value}
-                  value={so.value}>
-                    {so.label}
-                  </option>
+                  value={so.value}
+                >
+                  {so.label}
+                </option>
               ),
             )}
           </select>
@@ -168,7 +173,9 @@ export default function Shelf() {
                 value="d"
                 checked={sortOrder === 'd'}
                 onChange={() => setSortOrder('d')}
-              /> Descending
+              />
+              {' '}
+              Descending
             </label>
             <label>
               <input
@@ -177,7 +184,9 @@ export default function Shelf() {
                 value="a"
                 checked={sortOrder === 'a'}
                 onChange={() => setSortOrder('a')}
-              /> Ascending
+              />
+              {' '}
+              Ascending
             </label>
           </div>
         </div>
@@ -189,8 +198,8 @@ export default function Shelf() {
             {isLoadingMore && (
               <div className="flex flex-col justify-center items-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
-                Loading more
-            </div>
+                Loading more...
+              </div>
             )}
           </div>
         </section>

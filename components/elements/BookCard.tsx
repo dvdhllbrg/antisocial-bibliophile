@@ -1,12 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import type { Book } from '@custom-types/book'; 
+import type { Book } from '@custom-types/book';
 
-type BookCardProps = {
-    book?: Book;
-    skeleton?: boolean;
-    extra?: string;
+type BookCardProp = {
+  book: Book;
+  extra?: string;
+  skeleton?: never;
 };
+
+type SkeletonBookCardProp = {
+  skeleton: boolean;
+  book?: never;
+  extra?: never;
+};
+
+type BookCardProps = BookCardProp | SkeletonBookCardProp;
 
 export default function BookCard({ book, extra = '', skeleton = false }: BookCardProps) {
   if (skeleton) {
@@ -22,6 +30,9 @@ export default function BookCard({ book, extra = '', skeleton = false }: BookCar
       </div>
     );
   }
+  if (!book) {
+    return <></>;
+  }
   return (
     <Link
       href={`/book/${book.id}`}
@@ -30,7 +41,7 @@ export default function BookCard({ book, extra = '', skeleton = false }: BookCar
       <a className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100 no-underline font-normal">
         <div className="-mb-2">
           <Image
-            src={book.image}
+            src={book.image || '/cover.png'}
             width={98}
             height={147}
             layout="fixed"
@@ -42,7 +53,7 @@ export default function BookCard({ book, extra = '', skeleton = false }: BookCar
           <span>
             by
             {' '}
-            { book.authors.map((a) => a.name).join(', ') }
+            { book.authors?.map((a) => a.name).join(', ') || 'unknown' }
           </span>
           <br />
           <span>{ extra }</span>

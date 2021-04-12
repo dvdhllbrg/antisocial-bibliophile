@@ -1,12 +1,14 @@
-import { FunctionComponent } from 'react';
+import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import AppBar from '@components/AppBar';
+import { ArrowLeftIcon } from '@heroicons/react/outline';
 
 type TopAppBarProps = {
   title?: string;
-}
+  children?: ReactNode;
+};
 
-const TopAppBar: FunctionComponent<TopAppBarProps> = ({ title, children }) => {
+const TopAppBar = ({ title, children }: TopAppBarProps) => {
   const { pathname, back } = useRouter();
 
   const showBackButton = !['/', '/auth/login'].includes(pathname);
@@ -19,9 +21,7 @@ const TopAppBar: FunctionComponent<TopAppBarProps> = ({ title, children }) => {
           className="p-4"
           onClick={() => back()}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-          </svg>
+          <ArrowLeftIcon className="h-6 w-6" />
         </button>
       )}
       <h1 className="text-xl font-bold p-4">{ title }</h1>
@@ -30,6 +30,6 @@ const TopAppBar: FunctionComponent<TopAppBarProps> = ({ title, children }) => {
       </div>
     </AppBar>
   );
-}
+};
 
 export default TopAppBar;
