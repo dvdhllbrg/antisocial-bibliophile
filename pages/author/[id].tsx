@@ -53,11 +53,9 @@ export default function Author() {
   let authorBooksContent: {};
   let authorContent: {};
 
-  if (authorError || booksError) {
-    return <div>failed to load</div>;
-  }
-
-  if (!author) {
+  if (authorError) {
+    authorContent = <p>We could not get that author.</p>;
+  } else if (!author) {
     authorContent = (
       <div className="h-96 w-full mb-3 mt-2 bg-gray-200 animate-pulse" />
     );
@@ -82,7 +80,9 @@ export default function Author() {
     );
   }
 
-  if (!isLoadingInitialData) {
+  if (booksError) {
+    authorBooksContent = <p>We could not get those books.</p>;
+  } else if (isLoadingInitialData) {
     authorBooksContent = (
       <>
         <BookCard skeleton />
