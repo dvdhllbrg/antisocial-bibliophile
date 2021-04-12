@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { get } from '@lib/goodreads';
 import { Book } from '@custom-types/book';
 import bookReducer from '@reducers/bookReducer';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id, page } = req.query;
+  const { id, page, per_page } = req.query;
   const { author } = await get('/author/list', {
     id: `${id}`,
     page: page ? `${page}` : '1',
+    per_page: per_page ? `${per_page}` : '10',
   });
   let books: Book[];
   if (author.books.start === '0') {

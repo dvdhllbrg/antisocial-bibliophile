@@ -9,7 +9,7 @@ import TopAppBar from '@components/TopAppBar';
 import BookCard from '@components/elements/BookCard';
 import useOnScreen from '@hooks/useOnScreen';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 
 const getKey = (pageIndex: number, previousPageData: Book[] | null, params: any) => {
   if (previousPageData && !previousPageData.length) {
@@ -38,17 +38,17 @@ export default function Author() {
   );
 
   const books = authorBooks ? ([] as Book[]).concat(...authorBooks) : [];
-  const isLoadingInitialData = !authorBooks && !booksError;
-  const isLoadingMore = (size > 0 && authorBooks && typeof authorBooks[size - 1] === 'undefined');
-  const isEmpty = authorBooks?.[0]?.length === 0;
-  const isReachingEnd = isEmpty || (authorBooks && authorBooks[authorBooks.length - 1]?.length < PAGE_SIZE);
-  const isRefreshing = isValidating && authorBooks && authorBooks.length === size;
+  const isLoadingInitialBooks = !authorBooks && !booksError;
+  const isLoadingMoreBooks = (size > 0 && authorBooks && typeof authorBooks[size - 1] === 'undefined');
+  const booksAreEmpty = authorBooks?.[0]?.length === 0;
+  const isReachingEndOfBooks = booksAreEmpty || (authorBooks && authorBooks[authorBooks.length - 1]?.length < PAGE_SIZE);
+  const isRefreshingBooks = isValidating && authorBooks && authorBooks.length === size;
 
   useEffect(() => {
-    if (loaderIsVisible && !isReachingEnd && !isRefreshing) {
+    if (loaderIsVisible && !isReachingEndOfBooks && !isRefreshingBooks) {
       setSize(size + 1);
     }
-  }, [loaderIsVisible, isRefreshing]);
+  }, [loaderIsVisible, isRefreshingBooks]);
 
   let authorBooksContent: {};
   let authorContent: {};
@@ -82,7 +82,7 @@ export default function Author() {
 
   if (booksError) {
     authorBooksContent = <p>We could not get those books.</p>;
-  } else if (isLoadingInitialData) {
+  } else if (isLoadingInitialBooks) {
     authorBooksContent = (
       <>
         <BookCard skeleton />
@@ -114,18 +114,16 @@ export default function Author() {
       <TopAppBar title={author?.name || 'Loading ...'} />
       <main className="container mx-auto p-4">
         { authorContent }
-        <section className="mt-4 clear-both">
+        <section className="mt-4 clear-both max-w-screen-lg">
           <h2 className="mb-1 mt-2 text-xl">Books</h2>
-          <div className="max-w-screen-lg">
-            { authorBooksContent }
-            <div ref={loader}>
-              {isLoadingMore && (
-                <div className="flex flex-col justify-center items-center">
-                  <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
-                  Loading more
-                </div>
-              )}
-            </div>
+          { authorBooksContent }
+          <div ref={loader}>
+            {isLoadingMoreBooks && (
+              <div className="flex flex-col justify-center items-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
+                Loading more
+              </div>
+            )}
           </div>
         </section>
       </main>

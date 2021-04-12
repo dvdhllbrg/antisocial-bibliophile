@@ -9,7 +9,7 @@ import useOnScreen from '@hooks/useOnScreen';
 import TopAppBar from '@components/TopAppBar';
 import BookCard from '@components/elements/BookCard';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 
 const getKey = (pageIndex: number, previousPageData: Book[] | null, params: any) => {
   if (previousPageData && !previousPageData.length) {
