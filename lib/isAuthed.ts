@@ -13,7 +13,7 @@ export default function isAuthed() {
     }
 
     return {
-      props: {}
+      props: {},
     };
   });
 }

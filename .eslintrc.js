@@ -1,47 +1,21 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-  },
   extends: [
-    'plugin:import/typescript',
-    'plugin:react/recommended',
-    'airbnb',
+    'airbnb-typescript',
   ],
-  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
-    sourceType: 'module',
+    project: './tsconfig.eslint.json',
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-  ],
+  ignorePatterns: ['.eslintrc.js'],
   rules: {
-    'react/react-in-jsx-scope': 'off',
-    'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
-    'react/require-default-props': [1, { ignoreFunctionalComponents: true }],
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'warning',
-    'max-len': 'warn',
-    'jsx-a11y/anchor-is-valid': 'off',
-    'import/extensions': [
-      'error',
-      'ignorePackages',
-      {
-        js: 'never',
-        jsx: 'never',
-        ts: 'never',
-        tsx: 'never',
-      },
-    ],
-  },
-  settings: {
-    'import/resolver': {
-      typescript: {},
-    }
-  },
+    // suppress errors for missing 'import React' in files since next.js handles this for us.
+    "react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
+    "max-len": ["warn", {
+      "code": 200,
+    }],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["warn"],
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/label-has-associated-control": ["error", { assert: "either" } ]
+  }
 };

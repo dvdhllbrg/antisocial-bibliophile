@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Book as BookType } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import isAuthed from '@lib/isAuthed';
-import TopAppBar from '@components/TopAppBar'
+import TopAppBar from '@components/TopAppBar';
 import Chip from '@components/elements/Chip';
 
 export default function Book() {
@@ -15,7 +15,7 @@ export default function Book() {
   const { id } = query;
   const { data: book, error }: SWRResponse<BookType, Error> = useSWR(`/api/book/${id}`);
   const [shelf, setShelf] = useState('');
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [shelfText, setShelfText] = useState('');
   useEffect(() => {
     if (!book || !book.shelves) {
@@ -67,7 +67,7 @@ export default function Book() {
         <section className="grid grid-cols-3">
           <div>
             <Image
-              src={book.image}
+              src={book.image || '/cover.png'}
               width={98}
               height={147}
               layout="fixed"
@@ -78,14 +78,14 @@ export default function Book() {
             <span>
               by
               {' '}
-              { book.authors.map((a, i) => (
+              { book.authors?.map((a, i) => (
                 <span key={a.id}>
                   <Link href={`/author/${a.id}`}>
                     <a>{`${a.name}${a.role ? ` (${a.role.toLowerCase()})` : ''}`}</a>
                   </Link>
-                  { i < book.authors.length - 1 ? ', ' : '' }
+                  { i < (book.authors?.length || 0) - 1 ? ', ' : '' }
                 </span>
-              )) }
+              )) || 'unknown'}
             </span>
             <br />
             <b>Shelves</b>
@@ -106,7 +106,8 @@ export default function Book() {
         </section>
         <section
           className="mt-4 prose"
-          dangerouslySetInnerHTML={{ __html: book.description }}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: book.description || '' }}
         />
         <section>
           <small>

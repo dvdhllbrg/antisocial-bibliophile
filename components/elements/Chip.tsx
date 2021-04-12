@@ -1,11 +1,11 @@
 import Link from 'next/link';
 
 type ChipProps = {
-    label?: string;
-    href?: string;
-    className?: string;
-    skeleton?: boolean;
-    size?: 'large' | 'small';
+  label?: string;
+  href?: string;
+  className?: string;
+  skeleton?: boolean;
+  size?: 'large' | 'small';
 };
 
 export default function Chip({

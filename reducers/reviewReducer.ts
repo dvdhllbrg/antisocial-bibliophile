@@ -10,7 +10,7 @@ export type ReviewPropType = {
   read_at?: string;
   date_added?: string;
   date_updated?: string;
-  book?: BookPropType;
+  book: BookPropType;
 };
 
 export default function bookReviewReducer(review: ReviewPropType): Review {

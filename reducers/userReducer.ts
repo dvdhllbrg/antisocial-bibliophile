@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { Shelf } from '@custom-types/shelf';
 import { User } from '@custom-types/user';
 import shelfReducer, { ShelfPropType } from '@reducers/shelfReducer';
 
@@ -13,7 +14,7 @@ type UserPropType = {
 };
 
 export default function userReducer(user: UserPropType): User {
-  let shelves = [];
+  let shelves: Shelf[] = [];
   if (user.user_shelves && user.user_shelves.user_shelf) {
     shelves = Array.isArray(user.user_shelves.user_shelf)
       ? user.user_shelves.user_shelf.map(shelfReducer)

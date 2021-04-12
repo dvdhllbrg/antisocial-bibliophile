@@ -5,11 +5,13 @@ import Link from 'next/link';
 import isAuthed from '@lib/isAuthed';
 import Chip from '@components/elements/Chip';
 import TopAppBar from '@components/TopAppBar';
+import { Shelf } from '@custom-types/shelf';
+import { User } from '@custom-types/user';
 
 export default function Home() {
-  const { data: me, error } = useSWR('/api/me');
-  const [shelves, setShelves] = useState([]);
-  const [tags, setTags] = useState([]);
+  const { data: me, error } = useSWR<User>('/api/me');
+  const [shelves, setShelves] = useState<Shelf[]>([]);
+  const [tags, setTags] = useState<Shelf[]>([]);
 
   useEffect(() => {
     setShelves(me ? me?.shelves.filter((s) => s.main) : []);
@@ -61,7 +63,7 @@ export default function Home() {
                 />
               ))}
         </article>
-    </main>
+      </main>
     </>
   );
 }

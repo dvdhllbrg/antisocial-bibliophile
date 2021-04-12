@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { SearchResult } from '@custom-types/searchResult';
@@ -22,7 +21,7 @@ const SearchResults = ({ results }: SearchResultsProps) => {
         >
           <a className="flex items-center no-underline font-normal p-1">
             <Image
-              src={result.image}
+              src={result.image || '/cover.png'}
               width={33}
               height={49}
               layout="fixed"
@@ -30,13 +29,13 @@ const SearchResults = ({ results }: SearchResultsProps) => {
             />
             <div className="flex-grow ml-2">
               <p className="mb-0 mt-1">{ result.title }</p>
-              <span className="mt-0 text-sm">{ result.authors.map((a) => a.name).join(', ') }</span>
+              <span className="mt-0 text-sm">{ result.authors?.map((a) => a.name).join(', ') || 'unknown'}</span>
             </div>
           </a>
         </Link>
       ))}
     </div>
   );
-}
+};
 
 export default SearchResults;

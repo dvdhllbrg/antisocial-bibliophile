@@ -1,10 +1,11 @@
-import { useState, useEffect, FunctionComponent } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 
 type AppBarProps = {
-  position?: 'top' | 'bottom'
+  position?: 'top' | 'bottom';
+  children?: ReactNode;
 };
 
-const AppBar: FunctionComponent<AppBarProps> = ({ position = 'bottom', children }) => {
+const AppBar = ({ position = 'bottom', children }: AppBarProps) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -29,6 +30,6 @@ const AppBar: FunctionComponent<AppBarProps> = ({ position = 'bottom', children 
       { children }
     </nav>
   );
-}
+};
 
 export default AppBar;

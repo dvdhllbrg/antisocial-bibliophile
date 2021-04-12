@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
 import { Shelf } from '@custom-types/shelf';
 
-type exclusive = 'true' | 'false';
+type Exclusive = 'true' | 'false';
 
 export type ShelfPropType = {
-  id?: string | {_: string};
+  id?: string | { _: string };
   name?: string;
-  book_count?: number | {_: number};
-  exclusive?: exclusive;
-  exclusive_flag?: { _: exclusive };
+  book_count?: number | { _: number };
+  exclusive?: Exclusive;
+  exclusive_flag?: { _: Exclusive };
 };
 
 export default function shelfReducer(shelf: ShelfPropType): Shelf {
@@ -19,7 +19,7 @@ export default function shelfReducer(shelf: ShelfPropType): Shelf {
   return {
     id: typeof shelf.id === 'object' ? shelf.id._ : (shelf.id || '0'),
     name: shelf.name || '',
-    main: shelf.exclusive === 'true' || (Object.prototype.hasOwnProperty.call(shelf, 'exclusive_flag') && shelf.exclusive_flag._ === 'true'),
+    main: shelf.exclusive === 'true' || (Object.prototype.hasOwnProperty.call(shelf, 'exclusive_flag') && shelf.exclusive_flag?._ === 'true'),
     count,
   };
 }

@@ -4,7 +4,7 @@ import searchResultReducer from '@reducers/searchResultReducer';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, limit = '5' } = req.query;
-  const { search } = await get(`/search/index.xml`, {
+  const { search } = await get('/search/index.xml', {
     q: query as string,
     limit: limit as string,
   });
@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).json(
     Array.isArray(search.results.work)
       ? search.results.work.slice(0, limit).map(searchResultReducer, this)
-      : [searchResultReducer(search.results.work)]
+      : [searchResultReducer(search.results.work)],
   );
 };
 

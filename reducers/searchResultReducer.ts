@@ -4,7 +4,7 @@ import authorReducer, { AuthorPropType } from '@reducers/authorReducer';
 
 type SearchResultPropType = {
   best_book: {
-    id: string | {_: string};
+    id: string | { _: string };
     title: string;
     image_url: string;
     author: AuthorPropType;

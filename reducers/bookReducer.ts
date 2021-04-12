@@ -4,7 +4,7 @@ import type { Book } from '@custom-types/book';
 import authorReducer, { AuthorPropType } from '@reducers/authorReducer';
 
 export type BookPropType = {
-  id?: string | {_: string};
+  id?: string | { _: string };
   title?: string;
   description?: string;
   authors?: { author: AuthorPropType };
@@ -16,7 +16,7 @@ export type BookPropType = {
   isbn13?: string;
   isbn?: string;
   url?: string;
-  work?: { original_publication_year?: {_: string}; }
+  work?: { original_publication_year?: { _: string }; }
   publication_year?: string;
 };
 
@@ -32,9 +32,12 @@ export default function shelfReducer(book: BookPropType): Book {
     year = parseInt(book.work.original_publication_year._, 10);
   } else if (book.publication_year) {
     year = parseInt(book.publication_year, 10);
+  } else {
+    year = Number.MIN_SAFE_INTEGER;
   }
+
   return {
-    id: typeof book.id === 'object' ? book.id._ : book.id,
+    id: (typeof book.id === 'object' ? book.id._ : book.id) || '',
     title: book.title || '',
     description: book.description,
     authors,
