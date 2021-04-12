@@ -10,16 +10,17 @@ type RatingProps = {
 const Rating = ({
   rating, onRate, textOver, textUnder,
 }: RatingProps) => {
-  let stars = '';
+  const stars = [];
   for (let i = 1; i <= 5; i += 1) {
-    stars += (
+    stars.push(
       <button
+        key={i}
         type="button"
         className="mr-2"
         onClick={onRate ? () => onRate(i) : () => {}}
       >
         <StarIcon className={`h-5 w-5 ${i <= rating ? 'text-yellow-500' : ''}`} />
-      </button>
+      </button>,
     );
   }
   return (
