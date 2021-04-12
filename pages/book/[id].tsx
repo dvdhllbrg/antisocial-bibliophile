@@ -106,7 +106,7 @@ export default function Book() {
             <small>{ shelfText }</small>
           </div>
         </section>
-        <section className="flex items-center content-around w-full">
+        <section className="flex items-center justify-evenly w-full">
           <Rating
             textOver="Goodreads rating"
             rating={book.rating || 0}
