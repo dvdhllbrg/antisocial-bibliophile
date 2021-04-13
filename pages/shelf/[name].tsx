@@ -5,8 +5,10 @@ import { SortDescendingIcon } from '@heroicons/react/outline';
 import isAuthed from '@lib/isAuthed';
 import useOnScreen from '@hooks/useOnScreen';
 import TopAppBar from '@components/TopAppBar';
-import BookList, { PAGE_SIZE } from '@components/BookList';
+import BookList from '@components/BookList';
 import SortMenu from '@components/SortMenu';
+
+const PAGE_SIZE = 10;
 
 export default function Shelf() {
   const { query } = useRouter();
@@ -17,7 +19,7 @@ export default function Shelf() {
   const [sort, setSort] = useState('');
   const [sortOrder, setSortOrder] = useState('d');
   const [showSortMenu, setShowSortMenu] = useState(false);
-  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
 
   if (!sort) {
     let initialSort = 'date_added';
@@ -32,19 +34,17 @@ export default function Shelf() {
 
   useEffect(() => {
     if (loaderIsVisible) {
-      setPage(page + 1);
+      setPages(pages + 1);
     }
   }, [loaderIsVisible]);
 
   const books = [];
-  for (let i = 0; i < page; i += 1) {
+  for (let i = 0; i < pages; i += 1) {
     books.push(
       <BookList
         key={i}
-        shelf={name as string}
-        index={page}
-        sort={sort}
-        sortOrder={sortOrder}
+        route={`/api/shelf?shelf=${name}&page=${i}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
+        extra={sort}
       />,
     );
   }

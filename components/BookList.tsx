@@ -4,37 +4,16 @@ import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
 import BookCard from '@components/elements/BookCard';
 
-export const PAGE_SIZE = 10;
-
-type AuthorBookListProps = {
-  author: string;
-  index: number;
-  shelf?: never;
-  sort?: never;
-  sortOrder?: never;
+type BookListProps = {
+  route: string;
+  extra?: string;
 };
 
-type ShelfBookListProps = {
-  shelf: string;
-  index: number;
-  sort?: string;
-  sortOrder?: string;
-  author?: never;
-};
-
-type BookListProps = AuthorBookListProps | ShelfBookListProps;
-
-export default function BookList({
-  shelf, author, index, sort = 'date_added', sortOrder = 'd',
-}: BookListProps) {
-  const route = shelf
-    ? `/api/shelf?shelf=${shelf}&page=${index}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`
-    : `/api/author/${author}/books?page=${index + 1}&per_page=${PAGE_SIZE}`;
-
+export default function BookList({ route, extra = '' }: BookListProps) {
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
 
   const bookExtra = (book: Book) => {
-    switch (sort) {
+    switch (extra) {
       case 'date_read':
         return book.dateRead ? `Read ${formatDate(book.dateRead)}` : 'No read date.';
       case 'date_updated':
@@ -55,6 +34,7 @@ export default function BookList({
   if (error) {
     return <div>failed to load</div>;
   }
+
   if (isValidating) {
     return (
       <>
@@ -68,9 +48,9 @@ export default function BookList({
       </>
     );
   }
+
   return (
     <>
-      <p>{ index }</p>
       {books?.map((book) => (
         <BookCard
           key={book.id}
