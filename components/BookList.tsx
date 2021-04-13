@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import useSWR from 'swr';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
@@ -8,9 +9,12 @@ type BookListProps = {
   route: string;
   index: number;
   extra?: string;
+  onLoaded?: () => void;
 };
 
-export default function BookList({ route, index, extra = '' }: BookListProps) {
+export default function BookList({
+  route, index, extra = '', onLoaded,
+}: BookListProps) {
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
 
   const bookExtra = (book: Book) => {
@@ -32,6 +36,14 @@ export default function BookList({ route, index, extra = '' }: BookListProps) {
     }
   };
 
+  if (onLoaded) {
+    useEffect(() => {
+      if (!isValidating) {
+        onLoaded();
+      }
+    }, [isValidating]);
+  }
+
   if (error) {
     return <div>failed to load</div>;
   }
@@ -51,7 +63,7 @@ export default function BookList({ route, index, extra = '' }: BookListProps) {
       );
     }
     return (
-      <div className="flex flex-col justify-center items-center mb-32">
+      <div className="flex flex-col justify-center items-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
         Loading more...
       </div>

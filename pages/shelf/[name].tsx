@@ -15,6 +15,7 @@ export default function Shelf() {
   const { name } = query;
   const loader = useRef(null);
   const loaderIsVisible = useOnScreen(loader);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [sort, setSort] = useState('');
   const [sortOrder, setSortOrder] = useState('d');
@@ -33,10 +34,11 @@ export default function Shelf() {
   }
 
   useEffect(() => {
-    if (loaderIsVisible) {
+    if (loaderIsVisible && !isLoading) {
       setPages(pages + 1);
+      setIsLoading(true);
     }
-  }, [loaderIsVisible]);
+  }, [loaderIsVisible, isLoading]);
 
   const books = [];
   for (let i = 0; i < pages; i += 1) {
@@ -46,6 +48,7 @@ export default function Shelf() {
         index={i + 1}
         route={`/api/shelf?shelf=${name}&page=${i + 1}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
         extra={sort}
+        onLoaded={() => setIsLoading(false)}
       />,
     );
   }
@@ -81,7 +84,7 @@ export default function Shelf() {
           { books }
           <div
             ref={loader}
-            className="w-full h-24"
+            className="w-full h-12"
           />
         </section>
       </main>
