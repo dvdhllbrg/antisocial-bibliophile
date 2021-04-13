@@ -26,7 +26,7 @@ export default function Shelf() {
       <Head>
         <link
           rel="preload"
-          href={`/api/shelf?shelf=${name}&page=1&per_page=${PER_PAGE}&sort=${sort}&order=d`}
+          href={`/api/shelf?shelf=${name}&page=1&per_page=${PER_PAGE}&sort=${initialSort}&order=d`}
           as="fetch"
           crossOrigin="anonymous"
         />
