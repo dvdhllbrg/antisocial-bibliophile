@@ -43,8 +43,8 @@ export default function Shelf() {
     books.push(
       <BookList
         key={i}
-        index={i}
-        route={`/api/shelf?shelf=${name}&page=${i}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
+        index={i + 1}
+        route={`/api/shelf?shelf=${name}&page=${i + 1}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
         extra={sort}
       />,
     );
@@ -81,7 +81,7 @@ export default function Shelf() {
           { books }
           <div
             ref={loader}
-            className="w-full h-12"
+            className="w-full h-24"
           />
         </section>
       </main>
