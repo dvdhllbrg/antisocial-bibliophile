@@ -38,7 +38,7 @@ export default function Shelf() {
       setPages(pages + 1);
       setIsLoading(true);
     }
-  }, [loaderIsVisible, isLoading]);
+  }, [loaderIsVisible]);
 
   const books = [];
   for (let i = 0; i < pages; i += 1) {
