@@ -1,22 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { SortDescendingIcon } from '@heroicons/react/outline';
 import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
-import SortMenu from '@components/SortMenu';
 
-const PAGE_SIZE = 10;
+const PER_PAGE = 10;
 
 export default function Shelf() {
   const { query } = useRouter();
   const { name } = query;
-  const [pages, setPages] = useState(1);
 
-  const [sort, setSort] = useState('');
-  const [sortOrder, setSortOrder] = useState('d');
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [sort, setSort] = useState('');
 
   if (!sort) {
     let initialSort = 'date_added';
@@ -29,31 +26,12 @@ export default function Shelf() {
     setSort(initialSort);
   }
 
-  const isReachingEnd = (page: number) => {
-    if (page === pages) {
-      setPages(pages + 1);
-    }
-  };
-
-  const books = [];
-  for (let i = 0; i < pages; i += 1) {
-    books.push(
-      <BookList
-        key={i}
-        index={i + 1}
-        route={`/api/shelf/${name}?page=${i + 1}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
-        extra={sort}
-        isReachingEnd={isReachingEnd}
-      />,
-    );
-  }
-
   return (
     <>
       <Head>
         <link
           rel="preload"
-          href={`/api/shelf?shelf=${name}&page=1&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
+          href={`/api/shelf?shelf=${name}&page=1&per_page=${PER_PAGE}&sort=${sort}&order=d`}
           as="fetch"
           crossOrigin="anonymous"
         />
@@ -67,16 +45,14 @@ export default function Shelf() {
           <SortDescendingIcon className="h-6 w-6" />
         </button>
       </TopAppBar>
-      <SortMenu
-        show={showSortMenu}
-        sort={sort}
-        setSort={setSort}
-        sortOrder={sortOrder}
-        setSortOrder={setSortOrder}
-      />
       <main className={`container mx-auto p-4 transform-gpu transition-all duration-200 ease-out ${showSortMenu ? 'mt-0' : '-mt-24'}`}>
         <section className="max-w-screen-lg">
-          { books }
+          <BookList
+            baseRoute={`/api/shelf/${name}}`}
+            perPage={PER_PAGE}
+            initialSort={sort}
+            showSort={showSortMenu}
+          />
         </section>
       </main>
     </>
