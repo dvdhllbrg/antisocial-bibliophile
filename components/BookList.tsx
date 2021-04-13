@@ -1,21 +1,17 @@
 import { useState } from 'react';
 import BookListPage from '@components/BookListPage';
-import SortMenu from '@components/SortMenu';
 
 type BookListProps = {
   baseRoute: string;
+  sort?: string;
+  sortOrder?: string;
   perPage?: number;
-  initialSort?: string;
-  showSort?: boolean;
 };
 
 export default function BookList({
-  baseRoute, perPage = 10, initialSort = 'd', showSort = false,
+  baseRoute, sort, sortOrder, perPage = 10,
 }: BookListProps) {
   const [numberOfPages, setNumberOfPages] = useState(1);
-
-  const [sort, setSort] = useState(initialSort);
-  const [sortOrder, setSortOrder] = useState('d');
 
   const isReachingEnd = (page: number) => {
     if (page === numberOfPages) {
@@ -38,13 +34,6 @@ export default function BookList({
 
   return (
     <>
-      <SortMenu
-        show={showSort}
-        sort={sort}
-        setSort={setSort}
-        sortOrder={sortOrder}
-        setSortOrder={setSortOrder}
-      />
       { pages }
     </>
   );
