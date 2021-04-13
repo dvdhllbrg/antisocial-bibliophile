@@ -13,17 +13,12 @@ export default function Shelf() {
   const { name } = query;
 
   const [showSortMenu, setShowSortMenu] = useState(false);
-  const [sort, setSort] = useState('');
 
-  if (!sort) {
-    let initialSort = 'date_added';
-    if (name === 'read') {
-      initialSort = 'date_read';
-    } else if (name === 'reading') {
-      initialSort = 'date-updated';
-    }
-
-    setSort(initialSort);
+  let initialSort = 'date_added';
+  if (name === 'read') {
+    initialSort = 'date_read';
+  } else if (name === 'reading') {
+    initialSort = 'date-updated';
   }
 
   return (
@@ -50,7 +45,7 @@ export default function Shelf() {
           <BookList
             baseRoute={`/api/shelf/${name}`}
             perPage={PER_PAGE}
-            initialSort={sort}
+            initialSort={initialSort}
             showSort={showSortMenu}
           />
         </section>
