@@ -5,7 +5,7 @@ import { MutableRefObject } from 'react';
 
 type BookCardProp = {
   book: Book;
-  ref?: MutableRefObject<null>;
+  ref?: MutableRefObject<any>;
   extra?: string;
   skeleton?: never;
 };
