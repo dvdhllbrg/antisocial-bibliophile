@@ -82,7 +82,7 @@ export default function BookListPage({
           key={book.id}
           book={book}
           extra={bookExtra(book)}
-          ref={i === books.length - 3 ? loader : nullRef}
+          ref={loader}
         />
       ))}
     </>
