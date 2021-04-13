@@ -40,6 +40,7 @@ export default function Shelf() {
   for (let i = 0; i < page; i += 1) {
     books.push(
       <BookList
+        key={i}
         shelf={name as string}
         index={page}
         sort={sort}
@@ -77,7 +78,10 @@ export default function Shelf() {
       <main className={`container mx-auto p-4 transform-gpu transition-all duration-200 ease-out ${showSortMenu ? 'mt-0' : '-mt-24'}`}>
         <section className="max-w-screen-lg">
           { books }
-          <div ref={loader} />
+          <div
+            ref={loader}
+            className="w-full h-12"
+          />
         </section>
       </main>
     </>
