@@ -72,6 +72,7 @@ export default function BookList({
 
   return (
     <>
+      <p>{index}</p>
       {books?.map((book) => (
         <BookCard
           key={book.id}
