@@ -14,7 +14,10 @@ type BookListPageProps = {
 export default function BookListPage({
   route, index, extra = '', isReachingEnd,
 }: BookListPageProps) {
-  const { data: books, error, isValidating } = useSWR<Book[]>(route);
+  const { data: books, error, isValidating } = useSWR<Book[]>(route, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   const bookExtra = (book: Book) => {
     switch (extra) {
@@ -69,7 +72,6 @@ export default function BookListPage({
 
   return (
     <>
-      <p>{index}</p>
       {books?.map((book, i) => (
         <BookCard
           key={book.id}
