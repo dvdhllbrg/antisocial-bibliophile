@@ -16,11 +16,11 @@ export default function Shelf() {
   const loader = useRef(null);
   const loaderIsVisible = useOnScreen(loader);
   const [isLoading, setIsLoading] = useState(false);
+  const [pages, setPages] = useState(1);
 
   const [sort, setSort] = useState('');
   const [sortOrder, setSortOrder] = useState('d');
   const [showSortMenu, setShowSortMenu] = useState(false);
-  const [pages, setPages] = useState(1);
 
   if (!sort) {
     let initialSort = 'date_added';

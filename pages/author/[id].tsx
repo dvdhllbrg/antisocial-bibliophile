@@ -1,59 +1,35 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import useSWR, { useSWRInfinite } from 'swr';
+import useSWR from 'swr';
 import Image from 'next/image';
 import { Author as AuthorType } from '@custom-types/author';
-import { Book } from '@custom-types/book';
-import TopAppBar from '@components/TopAppBar';
-import BookCard from '@components/elements/BookCard';
 import useOnScreen from '@hooks/useOnScreen';
+import TopAppBar from '@components/TopAppBar';
+import BookList from '@components/BookList';
 
 const PAGE_SIZE = 10;
-
-const getKey = (pageIndex: number, previousPageData: Book[] | null, params: any) => {
-  if (previousPageData && !previousPageData.length) {
-    return null;
-  }
-  const {
-    id, pageSize,
-  } = params;
-  return `/api/author/${id}/books?page=${pageIndex + 1}&per_page=${pageSize}`;
-};
 
 export default function Author() {
   const { query } = useRouter();
   const { id } = query;
   const loader = useRef(null);
   const loaderIsVisible = useOnScreen(loader);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pages, setPages] = useState(1);
 
-  const { data: author, error: authorError } = useSWR<AuthorType>(`/api/author/${id}`);
-  const {
-    data: authorBooks, error: booksError, size, setSize, isValidating,
-  } = useSWRInfinite<Book[]>(
-    (...args) => getKey(...args, {
-      id,
-      pageSize: PAGE_SIZE,
-    }),
-  );
-
-  const books = authorBooks ? ([] as Book[]).concat(...authorBooks) : [];
-  const isLoadingInitialBooks = !authorBooks && !booksError;
-  const isLoadingMoreBooks = (size > 0 && authorBooks && typeof authorBooks[size - 1] === 'undefined');
-  const booksAreEmpty = authorBooks?.[0]?.length === 0;
-  const isReachingEndOfBooks = booksAreEmpty || (authorBooks && authorBooks[authorBooks.length - 1]?.length < PAGE_SIZE);
-  const isRefreshingBooks = isValidating && authorBooks && authorBooks.length === size;
+  const { data: author, error } = useSWR<AuthorType>(`/api/author/${id}`);
 
   useEffect(() => {
-    if (loaderIsVisible && !isReachingEndOfBooks && !isRefreshingBooks) {
-      setSize(size + 1);
+    if (loaderIsVisible && !isLoading) {
+      setPages(pages + 1);
+      setIsLoading(true);
     }
-  }, [loaderIsVisible, isRefreshingBooks]);
+  }, [loaderIsVisible]);
 
-  let authorBooksContent: {};
   let authorContent: {};
 
-  if (authorError) {
+  if (error) {
     authorContent = <p>We could not get that author.</p>;
   } else if (!author) {
     authorContent = (
@@ -80,25 +56,16 @@ export default function Author() {
     );
   }
 
-  if (booksError) {
-    authorBooksContent = <p>We could not get those books.</p>;
-  } else if (isLoadingInitialBooks) {
-    authorBooksContent = (
-      <>
-        <BookCard skeleton />
-        <BookCard skeleton />
-        <BookCard skeleton />
-        <BookCard skeleton />
-        <BookCard skeleton />
-      </>
+  const books = [];
+  for (let i = 0; i < pages; i += 1) {
+    books.push(
+      <BookList
+        key={i}
+        index={i + 1}
+        route={`/api/author/${id}/books?page=${i + 1}&per_page=${PAGE_SIZE}`}
+        onLoaded={() => setIsLoading(false)}
+      />,
     );
-  } else {
-    authorBooksContent = books.map((book) => (
-      <BookCard
-        key={book.id}
-        book={book}
-      />
-    ));
   }
 
   return (
@@ -122,15 +89,11 @@ export default function Author() {
         { authorContent }
         <section className="mt-4 clear-both max-w-screen-lg">
           <h2 className="mb-1 mt-2 text-xl">Books</h2>
-          { authorBooksContent }
-          <div ref={loader}>
-            {isLoadingMoreBooks && (
-              <div className="flex flex-col justify-center items-center">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
-                Loading more...
-              </div>
-            )}
-          </div>
+          { books }
+          <div
+            ref={loader}
+            className="w-full h-12"
+          />
         </section>
       </main>
     </>
