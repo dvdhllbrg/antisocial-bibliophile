@@ -45,7 +45,7 @@ export default function Shelf() {
       <BookList
         key={i}
         index={i + 1}
-        route={`/api/shelf?shelf=${name}&page=${i + 1}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
+        route={`/api/shelf/${name}?page=${i + 1}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
         extra={sort}
         setIsLoading={setIsLoading}
       />,
