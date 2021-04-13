@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { SortDescendingIcon } from '@heroicons/react/outline';
 import isAuthed from '@lib/isAuthed';
-import useOnScreen from '@hooks/useOnScreen';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
 import SortMenu from '@components/SortMenu';
@@ -13,9 +12,6 @@ const PAGE_SIZE = 10;
 export default function Shelf() {
   const { query } = useRouter();
   const { name } = query;
-  const loader = useRef(null);
-  const loaderIsVisible = useOnScreen(loader);
-  const [isLoading, setIsLoading] = useState(false);
   const [pages, setPages] = useState(1);
 
   const [sort, setSort] = useState('');
@@ -33,11 +29,11 @@ export default function Shelf() {
     setSort(initialSort);
   }
 
-  useEffect(() => {
-    if (loaderIsVisible && !isLoading) {
+  const isReachingEnd = (page: number) => {
+    if (page === pages) {
       setPages(pages + 1);
     }
-  }, [loaderIsVisible]);
+  };
 
   const books = [];
   for (let i = 0; i < pages; i += 1) {
@@ -47,8 +43,7 @@ export default function Shelf() {
         index={i + 1}
         route={`/api/shelf/${name}?page=${i + 1}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
         extra={sort}
-        loader={i === pages - 1 ? loader : undefined}
-        setIsLoading={setIsLoading}
+        isReachingEnd={isReachingEnd}
       />,
     );
   }

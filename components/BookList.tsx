@@ -1,22 +1,33 @@
-import { MutableRefObject, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import useSWR from 'swr';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
+import useOnScreen from '@hooks/useOnScreen';
 import BookCard from '@components/elements/BookCard';
 
 type BookListProps = {
   route: string;
   index: number;
   extra?: string;
-  setIsLoading?: (loading: boolean) => void;
-  loader?: MutableRefObject<null>;
+  isReachingEnd?: (index: number) => void;
 };
 
 export default function BookList({
-  route, index, extra = '', setIsLoading, loader,
+  route, index, extra = '', isReachingEnd,
 }: BookListProps) {
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
+  const loader = useRef(null);
+  const nullRef = useRef(null);
+  const loaderIsVisible = useOnScreen(loader);
+
+  if (isReachingEnd) {
+    useEffect(() => {
+      if (loaderIsVisible && !isValidating) {
+        isReachingEnd(index);
+      }
+    }, [loaderIsVisible]);
+  }
 
   const bookExtra = (book: Book) => {
     switch (extra) {
@@ -36,10 +47,6 @@ export default function BookList({
         return '';
     }
   };
-
-  if (setIsLoading) {
-    useEffect(() => setIsLoading(isValidating), [isValidating]);
-  }
 
   if (error) {
     return <div>failed to load</div>;
@@ -75,7 +82,7 @@ export default function BookList({
           key={book.id}
           book={book}
           extra={bookExtra(book)}
-          ref={i === books.length - 3 ? loader : undefined}
+          ref={i === books.length - 4 ? loader : nullRef}
         />
       ))}
     </>

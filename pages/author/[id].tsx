@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import useSWR from 'swr';
 import Image from 'next/image';
 import { Author as AuthorType } from '@custom-types/author';
-import useOnScreen from '@hooks/useOnScreen';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
 
@@ -13,18 +12,9 @@ const PAGE_SIZE = 10;
 export default function Author() {
   const { query } = useRouter();
   const { id } = query;
-  const loader = useRef(null);
-  const loaderIsVisible = useOnScreen(loader);
-  const [isLoading, setIsLoading] = useState(false);
   const [pages, setPages] = useState(1);
 
   const { data: author, error } = useSWR<AuthorType>(`/api/author/${id}`);
-
-  useEffect(() => {
-    if (loaderIsVisible && !isLoading) {
-      setPages(pages + 1);
-    }
-  }, [loaderIsVisible]);
 
   let authorContent: {};
 
@@ -55,6 +45,12 @@ export default function Author() {
     );
   }
 
+  const isReachingEnd = (page: number) => {
+    if (page === pages) {
+      setPages(pages + 1);
+    }
+  };
+
   const books = [];
   for (let i = 0; i < pages; i += 1) {
     books.push(
@@ -62,7 +58,7 @@ export default function Author() {
         key={i}
         index={i + 1}
         route={`/api/author/${id}/books?page=${i + 1}&per_page=${PAGE_SIZE}`}
-        setIsLoading={setIsLoading}
+        isReachingEnd={isReachingEnd}
       />,
     );
   }
@@ -89,10 +85,6 @@ export default function Author() {
         <section className="mt-4 clear-both max-w-screen-lg">
           <h2 className="mb-1 mt-2 text-xl">Books</h2>
           { books }
-          <div
-            ref={loader}
-            className="w-full h-12"
-          />
         </section>
       </main>
     </>
