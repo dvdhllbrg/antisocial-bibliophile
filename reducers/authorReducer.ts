@@ -13,12 +13,12 @@ export type AuthorPropType = {
 
 export default function shelfReducer(author: AuthorPropType): Author {
   return {
-    id: typeof author.id === 'object' ? author.id._ : (author.id || '0'),
-    name: author.name || '',
-    role: author.role || '',
-    description: author.about || '',
-    image: author.image_url || '',
-    thumbnail: author.small_image_url || '',
-    url: author.link || '',
+    id: typeof author.id === 'object' ? author.id._ : (author?.id || '0'),
+    name: author?.name || '',
+    role: author?.role || '',
+    description: author?.about || '',
+    image: author?.image_url || '',
+    thumbnail: author?.small_image_url || '',
+    url: author?.link || '',
   };
 }
