@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { MutableRefObject, useEffect } from 'react';
 import useSWR from 'swr';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
@@ -10,10 +10,11 @@ type BookListProps = {
   index: number;
   extra?: string;
   setIsLoading?: (loading: boolean) => void;
+  loader?: MutableRefObject<null>;
 };
 
 export default function BookList({
-  route, index, extra = '', setIsLoading,
+  route, index, extra = '', setIsLoading, loader,
 }: BookListProps) {
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
 
@@ -69,11 +70,12 @@ export default function BookList({
   return (
     <>
       <p>{index}</p>
-      {books?.map((book) => (
+      {books?.map((book, i) => (
         <BookCard
           key={book.id}
           book={book}
           extra={bookExtra(book)}
+          ref={i === books.length - 3 ? loader : undefined}
         />
       ))}
     </>

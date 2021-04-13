@@ -1,22 +1,27 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Book } from '@custom-types/book';
+import { MutableRefObject } from 'react';
 
 type BookCardProp = {
   book: Book;
+  ref?: MutableRefObject<null>;
   extra?: string;
   skeleton?: never;
 };
 
 type SkeletonBookCardProp = {
   skeleton: boolean;
+  ref?: never;
   book?: never;
   extra?: never;
 };
 
 type BookCardProps = BookCardProp | SkeletonBookCardProp;
 
-export default function BookCard({ book, extra = '', skeleton = false }: BookCardProps) {
+export default function BookCard({
+  book, ref, extra = '', skeleton = false,
+}: BookCardProps) {
   if (skeleton) {
     return (
       <div className="flex bg-white h-36 w-full rounded shadow mb-4">
@@ -38,7 +43,10 @@ export default function BookCard({ book, extra = '', skeleton = false }: BookCar
       href={`/book/${book.id}`}
       key={book.id}
     >
-      <a className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100 no-underline font-normal">
+      <a
+        className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100 no-underline font-normal"
+        ref={ref}
+      >
         <div className="-mb-2">
           <Image
             src={book.image || '/cover.png'}

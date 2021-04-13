@@ -47,6 +47,7 @@ export default function Shelf() {
         index={i + 1}
         route={`/api/shelf/${name}?page=${i + 1}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
         extra={sort}
+        loader={i === pages - 1 ? loader : undefined}
         setIsLoading={setIsLoading}
       />,
     );
@@ -81,10 +82,6 @@ export default function Shelf() {
       <main className={`container mx-auto p-4 transform-gpu transition-all duration-200 ease-out ${showSortMenu ? 'mt-0' : '-mt-24'}`}>
         <section className="max-w-screen-lg">
           { books }
-          <div
-            ref={loader}
-            className="w-full h-12"
-          />
         </section>
       </main>
     </>
