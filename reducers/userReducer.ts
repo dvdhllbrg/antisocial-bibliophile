@@ -15,16 +15,16 @@ type UserPropType = {
 
 export default function userReducer(user: UserPropType): User {
   let shelves: Shelf[] = [];
-  if (user.user_shelves && user.user_shelves.user_shelf) {
+  if (user?.user_shelves?.user_shelf) {
     shelves = Array.isArray(user.user_shelves.user_shelf)
       ? user.user_shelves.user_shelf.map(shelfReducer)
       : [shelfReducer(user.user_shelves.user_shelf)];
   }
   return {
-    id: user.id || '0',
-    name: user.name || '',
-    image: user.image_url || '',
-    thumbnail: user.small_image_url || '',
+    id: user?.id || '0',
+    name: user?.name || '',
+    image: user?.image_url || '',
+    thumbnail: user?.small_image_url || '',
     shelves,
   };
 }

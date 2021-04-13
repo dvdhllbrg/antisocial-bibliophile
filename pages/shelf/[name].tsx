@@ -21,8 +21,8 @@ export default function Shelf() {
     let initialSort = 'date_added';
     if (name === 'read') {
       initialSort = 'date_read';
-    } else if (name === 'reading') {
-      initialSort = 'date-updated';
+    } else if (name === 'currently-reading') {
+      initialSort = 'date_updated';
     }
 
     setSort(initialSort);
@@ -33,7 +33,7 @@ export default function Shelf() {
       <Head>
         <link
           rel="preload"
-          href={`/api/shelf?shelf=${name}&page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`}
+          href={`/api/shelf/${name}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`}
           as="fetch"
           crossOrigin="anonymous"
         />

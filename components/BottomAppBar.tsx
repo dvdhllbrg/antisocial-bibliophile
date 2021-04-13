@@ -16,9 +16,6 @@ const BottomAppBar = () => {
   }
 
   const [searchTerm, setSearchTerm] = useState('');
-  // const [results, setResults] = useState<SearchResult[]>([]);
-  // const [isSearching, setIsSearching] = useState(false);
-  const [searched, setSearched] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 250);
 
   const { data: results, error, isValidating } = useSWR<SearchResult[]>(
@@ -27,10 +24,7 @@ const BottomAppBar = () => {
       : null,
   );
   useEffect(() => {
-    const handleRouteChange = () => {
-      setSearched(false);
-      setSearchTerm('');
-    };
+    const handleRouteChange = () => setSearchTerm('');
 
     events.on('routeChangeStart', handleRouteChange);
     return () => {
@@ -38,21 +32,14 @@ const BottomAppBar = () => {
     };
   }, []);
 
-  useEffect(() => setSearched(!isValidating), [isValidating]);
-  useEffect(() => {
-    if (!searchTerm) {
-      setSearched(false);
-    }
-  }, [searchTerm]);
-
   return (
     <>
       <AppBar>
         <div className="flex flex-col w-full">
-          { searched && (
+          { results && (
             <div>
-              <SearchResults results={results || []} />
-              {results && results.length > 0 && (
+              <SearchResults results={results} />
+              { results.length > 0 && (
                 <Link href={`/search?query=${searchTerm}`}>
                   <a className="p-3 block font-normal">See all search results</a>
                 </Link>

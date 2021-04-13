@@ -15,16 +15,16 @@ export type ReviewPropType = {
 
 export default function bookReviewReducer(review: ReviewPropType): Review {
   let shelves: Shelf[] = [];
-  if (review.shelves && review.shelves.shelf) {
+  if (review?.shelves?.shelf) {
     shelves = Array.isArray(review.shelves.shelf)
       ? review.shelves.shelf.map(shelfReducer)
       : [shelfReducer(review.shelves.shelf)];
   }
   return {
-    myRating: review.rating || 0,
+    myRating: review?.rating || 0,
     shelves,
-    dateRead: review.read_at || '',
-    dateAdded: review.date_added || '',
-    dateUpdated: review.date_updated || '',
+    dateRead: review?.read_at || '',
+    dateAdded: review?.date_added || '',
+    dateUpdated: review?.date_updated || '',
   };
 }

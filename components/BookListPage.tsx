@@ -3,6 +3,7 @@ import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
 import BookCard from '@components/elements/BookCard';
+import Spinner from '@components/elements/Spinner';
 
 type BookListPageProps = {
   route: string;
@@ -14,10 +15,7 @@ type BookListPageProps = {
 export default function BookListPage({
   route, index, extra = '', isReachingEnd,
 }: BookListPageProps) {
-  const { data: books, error, isValidating } = useSWR<Book[]>(route, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  const { data: books, error } = useSWR<Book[]>(route);
 
   const bookExtra = (book: Book) => {
     switch (extra) {
@@ -39,7 +37,7 @@ export default function BookListPage({
   };
 
   const bookCardIsVisible = (i: number) => {
-    if (isReachingEnd && books && i === books.length - 3) {
+    if (isReachingEnd && books && i === 0) {
       isReachingEnd(index);
     }
   };
@@ -48,7 +46,7 @@ export default function BookListPage({
     return <div>failed to load</div>;
   }
 
-  if (isValidating) {
+  if (!books) {
     if (index === 1) {
       return (
         <>
@@ -59,15 +57,13 @@ export default function BookListPage({
           <BookCard skeleton />
           <BookCard skeleton />
           <BookCard skeleton />
+          <BookCard skeleton />
+          <BookCard skeleton />
+          <BookCard skeleton />
         </>
       );
     }
-    return (
-      <div className="flex flex-col justify-center items-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
-        Loading more...
-      </div>
-    );
+    return <Spinner text="Loading more ..." />
   }
 
   return (
