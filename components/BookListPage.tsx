@@ -1,9 +1,7 @@
-import { useRef, useEffect } from 'react';
 import useSWR from 'swr';
 import { Book } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
-import useOnScreen from '@hooks/useOnScreen';
 import BookCard from '@components/elements/BookCard';
 
 type BookListPageProps = {
@@ -17,17 +15,6 @@ export default function BookListPage({
   route, index, extra = '', isReachingEnd,
 }: BookListPageProps) {
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
-  const loader = useRef<HTMLAnchorElement>(null);
-  const nullRef = useRef(null);
-  const loaderIsVisible = useOnScreen(loader);
-
-  if (isReachingEnd) {
-    useEffect(() => {
-      if (loaderIsVisible && !isValidating) {
-        isReachingEnd(index);
-      }
-    }, [loaderIsVisible]);
-  }
 
   const bookExtra = (book: Book) => {
     switch (extra) {
@@ -45,6 +32,12 @@ export default function BookListPage({
         return `My rating: ${formatNumber(book.myRating || 0)}`;
       default:
         return '';
+    }
+  };
+
+  const bookCardIsVisible = (i: number) => {
+    if (isReachingEnd && books && i === books.length - 3) {
+      isReachingEnd(index);
     }
   };
 
@@ -82,7 +75,7 @@ export default function BookListPage({
           key={book.id}
           book={book}
           extra={bookExtra(book)}
-          ref={loader}
+          isVisible={() => bookCardIsVisible(i)}
         />
       ))}
     </>

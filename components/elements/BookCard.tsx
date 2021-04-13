@@ -1,25 +1,37 @@
-import { forwardRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Book } from '@custom-types/book';
+import useOnScreen from '@hooks/useOnScreen';
 
 type BookCardProp = {
   book: Book;
+  isVisible?: () => void;
   extra?: string;
   skeleton?: never;
 };
 
 type SkeletonBookCardProp = {
   skeleton: boolean;
+  isVisible?: never;
   book?: never;
   extra?: never;
 };
 
 type BookCardProps = BookCardProp | SkeletonBookCardProp;
 
-const BookCard = forwardRef<HTMLAnchorElement, BookCardProps>(({
-  book, extra = '', skeleton = false,
-}: BookCardProps, ref) => {
+export default function BookCard({
+  book, extra = '', skeleton = false, isVisible,
+}: BookCardProps) {
+  const loader = useRef<HTMLAnchorElement>(null);
+  const loaderIsVisible = useOnScreen(loader);
+
+  useEffect(() => {
+    if (loaderIsVisible && isVisible) {
+      isVisible();
+    }
+  }, [loaderIsVisible]);
+
   if (skeleton) {
     return (
       <div className="flex bg-white h-36 w-full rounded shadow mb-4">
@@ -43,7 +55,7 @@ const BookCard = forwardRef<HTMLAnchorElement, BookCardProps>(({
     >
       <a
         className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100 no-underline font-normal"
-        ref={ref}
+        ref={loader}
       >
         <div className="-mb-2">
           <Image
@@ -67,6 +79,4 @@ const BookCard = forwardRef<HTMLAnchorElement, BookCardProps>(({
       </a>
     </Link>
   );
-});
-
-export default BookCard;
+}
