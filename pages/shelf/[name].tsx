@@ -43,6 +43,7 @@ export default function Shelf() {
     books.push(
       <BookList
         key={i}
+        index={i}
         route={`/api/shelf?shelf=${name}&page=${i}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
         extra={sort}
       />,

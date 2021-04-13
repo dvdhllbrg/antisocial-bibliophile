@@ -6,10 +6,11 @@ import BookCard from '@components/elements/BookCard';
 
 type BookListProps = {
   route: string;
+  index: number;
   extra?: string;
 };
 
-export default function BookList({ route, extra = '' }: BookListProps) {
+export default function BookList({ route, index, extra = '' }: BookListProps) {
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
 
   const bookExtra = (book: Book) => {
@@ -36,16 +37,24 @@ export default function BookList({ route, extra = '' }: BookListProps) {
   }
 
   if (isValidating) {
+    if (index === 1) {
+      return (
+        <>
+          <BookCard skeleton />
+          <BookCard skeleton />
+          <BookCard skeleton />
+          <BookCard skeleton />
+          <BookCard skeleton />
+          <BookCard skeleton />
+          <BookCard skeleton />
+        </>
+      );
+    }
     return (
-      <>
-        <BookCard skeleton />
-        <BookCard skeleton />
-        <BookCard skeleton />
-        <BookCard skeleton />
-        <BookCard skeleton />
-        <BookCard skeleton />
-        <BookCard skeleton />
-      </>
+      <div className="flex flex-col justify-center items-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900" />
+        Loading more...
+      </div>
     );
   }
 
