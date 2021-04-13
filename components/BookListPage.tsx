@@ -17,7 +17,7 @@ export default function BookListPage({
   route, index, extra = '', isReachingEnd,
 }: BookListPageProps) {
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
-  const loader = useRef(null);
+  const loader = useRef<HTMLAnchorElement>(null);
   const nullRef = useRef(null);
   const loaderIsVisible = useOnScreen(loader);
 
