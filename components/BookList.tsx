@@ -9,11 +9,11 @@ type BookListProps = {
   route: string;
   index: number;
   extra?: string;
-  onLoaded?: () => void;
+  setIsLoading?: (loading: boolean) => void;
 };
 
 export default function BookList({
-  route, index, extra = '', onLoaded,
+  route, index, extra = '', setIsLoading,
 }: BookListProps) {
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
 
@@ -36,12 +36,8 @@ export default function BookList({
     }
   };
 
-  if (onLoaded) {
-    useEffect(() => {
-      if (!isValidating) {
-        onLoaded();
-      }
-    }, [isValidating]);
+  if (setIsLoading) {
+    useEffect(() => setIsLoading(isValidating), [isValidating]);
   }
 
   if (error) {

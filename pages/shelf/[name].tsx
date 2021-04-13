@@ -36,7 +36,6 @@ export default function Shelf() {
   useEffect(() => {
     if (loaderIsVisible && !isLoading) {
       setPages(pages + 1);
-      setIsLoading(true);
     }
   }, [loaderIsVisible]);
 
@@ -48,7 +47,7 @@ export default function Shelf() {
         index={i + 1}
         route={`/api/shelf?shelf=${name}&page=${i + 1}&per_page=${PAGE_SIZE}&sort=${sort}&order=${sortOrder}`}
         extra={sort}
-        onLoaded={() => setIsLoading(false)}
+        setIsLoading={setIsLoading}
       />,
     );
   }

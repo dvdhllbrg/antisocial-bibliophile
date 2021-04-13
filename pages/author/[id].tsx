@@ -23,7 +23,6 @@ export default function Author() {
   useEffect(() => {
     if (loaderIsVisible && !isLoading) {
       setPages(pages + 1);
-      setIsLoading(true);
     }
   }, [loaderIsVisible]);
 
@@ -63,7 +62,7 @@ export default function Author() {
         key={i}
         index={i + 1}
         route={`/api/author/${id}/books?page=${i + 1}&per_page=${PAGE_SIZE}`}
-        onLoaded={() => setIsLoading(false)}
+        setIsLoading={setIsLoading}
       />,
     );
   }
