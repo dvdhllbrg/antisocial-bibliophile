@@ -45,9 +45,10 @@ const getAccessToken = (oAuthToken: string, oAuthTokenSecret: string): Promise<a
     });
 });
 
-const getAuthed = async (path: string, accessToken: string, accessTokenSecret: string): Promise<any> => {
+const getAuthed = async (path: string, accessToken: string, accessTokenSecret: string, options?: Record<string, string>): Promise<any> => {
+  const params = options ? new URLSearchParams(options) : '';
   const xmlResponse: string | Buffer | undefined = await new Promise((resolve, reject) => {
-    oauth.get(`${process.env.GOODREADS_URL}${path}`,
+    oauth.get(`${process.env.GOODREADS_URL}${path}?${params.toString()}`,
       accessToken,
       accessTokenSecret,
       (error, response) => {

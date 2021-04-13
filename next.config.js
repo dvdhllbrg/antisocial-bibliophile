@@ -1,7 +1,8 @@
 const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
+const withPreact = require('next-plugin-preact');
 
-module.exports = withPWA({
+module.exports = withPWA(withPreact({
   pwa: {
     dest: 'public',
     runtimeCaching,
@@ -10,4 +11,4 @@ module.exports = withPWA({
   images: {
     domains: ['images.gr-assets.com', 'i.gr-assets.com', 's.gr-assets.com'],
   },
-});
+}));
