@@ -5,8 +5,9 @@ const useOnScreen = (ref: MutableRefObject<any>) => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting));
-
-    observer.observe(ref.current);
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
     // Remove the observer as soon as the component is unmounted
     return () => {
       observer.disconnect();

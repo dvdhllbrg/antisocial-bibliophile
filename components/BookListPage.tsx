@@ -19,7 +19,7 @@ export default function BookListPage({
   const { data: books, error, isValidating } = useSWR<Book[]>(route);
   const loader = useRef(null);
   const nullRef = useRef(null);
-  /* const loaderIsVisible = useOnScreen(loader);
+  const loaderIsVisible = useOnScreen(loader);
 
   if (isReachingEnd) {
     useEffect(() => {
@@ -27,7 +27,7 @@ export default function BookListPage({
         isReachingEnd(index);
       }
     }, [loaderIsVisible]);
-  } */
+  }
 
   const bookExtra = (book: Book) => {
     switch (extra) {
