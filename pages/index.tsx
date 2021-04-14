@@ -20,9 +20,9 @@ export default function Home() {
 
   let shelvesContent = (
     <>
-      <div className="animate-pulse bg-gray-200 h-9 w-full mb-4" />
-      <div className="animate-pulse bg-gray-200 h-9 w-full mb-4" />
-      <div className="animate-pulse bg-gray-200 h-9 w-full mb-4" />
+      <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
+      <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
+      <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
     </>
   );
   let tagsContent = (
