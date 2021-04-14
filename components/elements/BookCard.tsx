@@ -34,7 +34,7 @@ export default function BookCard({
 
   if (skeleton) {
     return (
-      <div className="flex bg-white h-36 w-full rounded shadow mb-4">
+      <article className="flex bg-white h-36 w-full rounded shadow mb-4">
         <div className="animate-pulse bg-gray-200 w-36" />
         <div className="w-full px-4">
           <div className="h-7 w-full mb-3 mt-2 bg-gray-200 animate-pulse" />
@@ -42,22 +42,22 @@ export default function BookCard({
           <span className="inline-block ml-2 h-4 w-5/6 bg-gray-200 animate-pulse" />
           { extra && <span className="inline-block ml-2 h-4 w-1/2 bg-gray-200 animate-pulse mt-2" /> }
         </div>
-      </div>
+      </article>
     );
   }
   if (!book) {
     return <></>;
   }
   return (
-    <article>
+    <article
+      ref={loader}
+      className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100"
+    >
       <Link
         href={`/book/${book.id}`}
         key={book.id}
       >
-        <a
-          className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100 no-underline font-normal"
-          ref={loader}
-        >
+        <a className="no-underline font-normal">
           <div className="-mb-2">
             <Image
               src={book.image || '/cover.png'}
