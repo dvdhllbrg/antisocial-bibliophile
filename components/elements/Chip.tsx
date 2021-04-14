@@ -1,12 +1,22 @@
 import Link from 'next/link';
 
-type ChipProps = {
+type SkeletonChipProp = {
+  skeleton?: boolean;
+  size?: 'large' | 'small';
+  label?: never;
+  href?: never;
+  className?: never;
+};
+
+type ChipProp = {
   label?: string;
   href?: string;
   className?: string;
-  skeleton?: boolean;
   size?: 'large' | 'small';
+  skeleton?: never;
 };
+
+type ChipProps = ChipProp | SkeletonChipProp;
 
 export default function Chip({
   label, href, size = 'small', className = '', skeleton = false,

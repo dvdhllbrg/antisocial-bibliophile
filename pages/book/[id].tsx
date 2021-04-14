@@ -6,8 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { PencilIcon } from '@heroicons/react/solid';
 import { Book as BookType } from '@custom-types/book';
-import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
+import { formatDate } from '@lib/';
 import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
 import Chip from '@components/elements/Chip';
@@ -44,28 +44,33 @@ export default function Book() {
     setShelfText(text);
   }, [book]);
 
-  if (error) {
-    return <div>failed to load</div>;
-  }
-  if (!book) {
-    return (
-      <>
-        loading
-      </>
-    );
-  }
+  let content = (
+    <main className="container mx-auto p-4 pb-24">
+      <section className="grid grid-cols-3">
+        <div className="h-24 w-36 mb-3 mt-2 bg-gray-200 animate-pulse" />
+        <div className="col-span-2">
+          <div className="animate-pulse bg-gray-200 w-36" />
+          <b>Shelves</b>
+          <div className="mb-2">
+            <Chip skeleton />
+            <Chip skeleton />
+          </div>
+          <span className="inline-block ml-2 h-4 w-1/2 bg-gray-200 animate-pulse mt-2" />
+        </div>
+      </section>
+      <section className="flex items-center justify-evenly w-full my-6">
+        <div className="h-56 w-1/3 mb-3 mt-2 bg-gray-200 animate-pulse" />
+        <div className="h-56 w-1/3 mb-3 mt-2 bg-gray-200 animate-pulse" />
+      </section>
+      <section className="h-96 w-full mb-3 mt-2 bg-gray-200 animate-pulse" />
+      <section className="ml-2 h-4 w-1/2 bg-gray-200 animate-pulse mt-2" />
+    </main>
+  );
 
-  return (
-    <>
-      <Head>
-        <link
-          rel="preload"
-          href={`/api/book/${id}`}
-          as="fetch"
-          crossOrigin="anonymous"
-        />
-      </Head>
-      <TopAppBar title={book.title} />
+  if (error) {
+    content = <div>failed to load</div>;
+  } else if (book) {
+    content = (
       <main className="container mx-auto p-4 pb-24">
         <section className="grid grid-cols-3">
           <div>
@@ -147,6 +152,21 @@ export default function Book() {
           </small>
         </section>
       </main>
+    );
+  }
+
+  return (
+    <>
+      <Head>
+        <link
+          rel="preload"
+          href={`/api/book/${id}`}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </Head>
+      <TopAppBar title={book?.title || 'Loading book...'} />
+      { content }
     </>
   );
 }

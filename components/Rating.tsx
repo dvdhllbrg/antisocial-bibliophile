@@ -24,13 +24,13 @@ const Rating = ({
     );
   }
   return (
-    <div className="flex flex-col items-center">
+    <article className="flex flex-col items-center">
       <span className="text-sm">{ textOver }</span>
       <div className="flex items-center">
         { stars }
       </div>
       <span className="text-xs">{ textUnder }</span>
-    </div>
+    </article>
   );
 };
 

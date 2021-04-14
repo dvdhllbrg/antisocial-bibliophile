@@ -63,7 +63,7 @@ export default function BookListPage({
         </>
       );
     }
-    return <Spinner text="Loading more ..." />
+    return <Spinner text="Loading more ..." />;
   }
 
   return (

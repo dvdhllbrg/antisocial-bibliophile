@@ -21,7 +21,7 @@ export default function SortMenu({
   show, sort, setSort, sortOrder, setSortOrder,
 }: SortMenuProps) {
   return (
-    <div className={`w-full bg-white p-4 transform-gpu transition-transform duration-200 ease-out ${show ? '' : '-translate-y-full'}`}>
+    <article className={`w-full bg-white p-4 transform-gpu transition-transform duration-200 ease-out ${show ? '' : '-translate-y-full'}`}>
       <label
         htmlFor="sort_by"
         className="text-xs text-gray-600"
@@ -71,6 +71,6 @@ export default function SortMenu({
           </label>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

@@ -13,5 +13,5 @@ export default function AuthCallback() {
     authorizeGoodreads();
   }, []);
 
-  return <p>Loading</p>;
+  return <p>Authorizing</p>;
 }
