@@ -49,13 +49,13 @@ export default function Book() {
       <section className="grid grid-cols-3">
         <div className="h-36 w-24 mb-3 mt-2 bg-gray-200 animate-pulse" />
         <div className="col-span-2">
-          <div className="animate-pulse bg-gray-200 w-36" />
+          <div className="animate-pulse bg-gray-200 h-7 w-48" />
           <b>Shelves</b>
           <div className="mb-2">
             <Chip skeleton />
             <Chip skeleton />
           </div>
-          <span className="inline-block ml-2 h-4 w-1/2 bg-gray-200 animate-pulse mt-2" />
+          <span className="inline-block ml-2 h-4 w-full bg-gray-200 animate-pulse mt-2" />
         </div>
       </section>
       <section className="flex items-center justify-evenly w-full my-6">
