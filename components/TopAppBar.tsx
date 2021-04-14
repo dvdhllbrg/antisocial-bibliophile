@@ -16,15 +16,15 @@ const TopAppBar = ({ title, children }: TopAppBarProps) => {
   return (
     <header className="sticky top-0 w-full">
       <HideOnScroll direction="up">
-        <nav className="bg-white shadow flex items-center z-10">
+        <nav className="bg-white shadow flex items-center z-50">
           {showBackButton && (
-          <button
-            type="button"
-            className="p-4"
-            onClick={() => back()}
-          >
-            <ArrowLeftIcon className="h-6 w-6" />
-          </button>
+            <button
+              type="button"
+              className="p-4"
+              onClick={() => back()}
+            >
+              <ArrowLeftIcon className="h-6 w-6" />
+            </button>
           )}
           <h1 className="text-xl font-bold p-4">{ title }</h1>
           <div className="ml-auto">

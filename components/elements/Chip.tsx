@@ -26,7 +26,7 @@ export default function Chip({
 
   if (skeleton) {
     return (
-      <span className={`${classes} animate-pulse h-3 w-24`} />
+      <span className={`${classes} animate-pulse w-24 ${size === 'small' ? 'h-3' : 'h-5'}`} />
     );
   }
   if (href) {

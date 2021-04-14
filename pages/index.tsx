@@ -20,9 +20,9 @@ export default function Home() {
 
   let shelvesContent = (
     <>
-      <div className="animate-pulse bg-gray-200 w-full mb-4" />
-      <div className="animate-pulse bg-gray-200 w-full mb-4" />
-      <div className="animate-pulse bg-gray-200 w-full mb-4" />
+      <div className="animate-pulse bg-gray-200 h-7 w-full mb-4" />
+      <div className="animate-pulse bg-gray-200 h-7 w-full mb-4" />
+      <div className="animate-pulse bg-gray-200 h-7 w-full mb-4" />
     </>
   );
   let tagsContent = (
@@ -90,22 +90,22 @@ export default function Home() {
       </Head>
       <TopAppBar title="My shelves" />
       <main className="container mx-auto p-4">
-        <article>
+        <section>
           <h2 className="mt-0 mb-2 text-2xl font-bold">Main</h2>
           { shelvesContent }
-        </article>
-        <article>
+        </section>
+        <section>
           <h2 className="mt-6 mb-4 text-2xl font-bold">Tags</h2>
           { tagsContent }
-        </article>
-        <article>
+        </section>
+        <section className="mt-6">
           <button
             type="button"
             className="w-full border-gray-800 uppercase"
           >
             Create a new tag or shelf
           </button>
-        </article>
+        </section>
       </main>
     </>
   );

@@ -35,7 +35,7 @@ const BottomAppBar = () => {
   return (
     <nav className="fixed bottom-0 w-full">
       <HideOnScroll direction="down">
-        <div className="bg-white shadow flex flex-col z-10">
+        <div className="bg-white shadow flex flex-col z-50">
           { results && (
           <div>
             <SearchResults results={results} />
