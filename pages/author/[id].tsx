@@ -24,7 +24,7 @@ export default function Author() {
     );
   } else {
     authorContent = (
-      <section>
+      <article>
         <div className="float-left mr-4">
           <Image
             src={author.image}
@@ -39,7 +39,7 @@ export default function Author() {
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: author.description }}
         />
-      </section>
+      </article>
     );
   }
   return (
@@ -52,7 +52,7 @@ export default function Author() {
           crossOrigin="anonymous"
         />
       </Head>
-      <TopAppBar title={author?.name || 'Loading...'} />
+      <TopAppBar title={author?.name || 'Loading author...'} />
       <main className="container mx-auto p-4">
         { authorContent }
         <section className="mt-4 clear-both max-w-screen-lg">

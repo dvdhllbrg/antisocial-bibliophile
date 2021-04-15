@@ -1,11 +1,11 @@
 import { useState, useEffect, ReactNode } from 'react';
 
-type AppBarProps = {
-  position?: 'top' | 'bottom';
+type HideOnScrollProps = {
+  direction: 'up' | 'down';
   children?: ReactNode;
 };
 
-const AppBar = ({ position = 'bottom', children }: AppBarProps) => {
+const HideOnScroll = ({ direction, children }: HideOnScrollProps) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -22,14 +22,13 @@ const AppBar = ({ position = 'bottom', children }: AppBarProps) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [prevScrollPos, visible, handleScroll]);
 
-  const transformedClass = position === 'top' ? '-translate-y-full' : 'translate-y-full';
-  const positionClass = position === 'top' ? 'sticky top-0' : 'fixed bottom-0';
+  const transformedClass = direction === 'up' ? '-translate-y-full' : 'translate-y-full';
 
   return (
-    <nav className={`bg-white shadow flex items-center w-full ${positionClass} z-10 transition-transform duration-200 ease-out transform-gpu ${visible ? '' : transformedClass}`}>
+    <div className={`transition-transform duration-200 ease-out transform-gpu ${visible ? '' : transformedClass}`}>
       { children }
-    </nav>
+    </div>
   );
 };
 
-export default AppBar;
+export default HideOnScroll;

@@ -33,8 +33,8 @@ export default function BookList({
   }
 
   return (
-    <>
+    <article>
       { pages }
-    </>
+    </article>
   );
 }

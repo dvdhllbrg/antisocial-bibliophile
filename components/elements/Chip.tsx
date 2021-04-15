@@ -1,12 +1,22 @@
 import Link from 'next/link';
 
-type ChipProps = {
+type SkeletonChipProp = {
+  skeleton?: boolean;
+  size?: 'large' | 'small';
+  label?: never;
+  href?: never;
+  className?: never;
+};
+
+type ChipProp = {
   label?: string;
   href?: string;
   className?: string;
-  skeleton?: boolean;
   size?: 'large' | 'small';
+  skeleton?: never;
 };
+
+type ChipProps = ChipProp | SkeletonChipProp;
 
 export default function Chip({
   label, href, size = 'small', className = '', skeleton = false,
@@ -16,7 +26,7 @@ export default function Chip({
 
   if (skeleton) {
     return (
-      <span className={`${classes} animate-pulse h-3 w-24`} />
+      <span className={`${classes} animate-pulse w-24 ${size === 'large' ? 'h-8' : 'h-5'}`} />
     );
   }
   if (href) {

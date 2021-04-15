@@ -18,12 +18,58 @@ export default function Home() {
     setTags(me ? me.shelves.filter((s) => !s.main) : []);
   }, [me]);
 
+  let shelvesContent = (
+    <>
+      <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
+      <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
+      <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
+    </>
+  );
+  let tagsContent = (
+    <>
+      <Chip
+        skeleton
+        size="large"
+      />
+      <Chip
+        skeleton
+        size="large"
+      />
+    </>
+  );
+
   if (error) {
-    return <div>failed to load</div>;
+    shelvesContent = <div>failed to load</div>;
+  } else if (me) {
+    shelvesContent = (
+      <>
+        { shelves.map((shelf) => (
+          <Link
+            href={`/shelf/${shelf.name}`}
+            key={shelf.id}
+          >
+            <a className="flex border-b hover:bg-gray-300 no-underline font-normal justify-between p-4">
+              <span>{ shelf.name }</span>
+              <span>{ shelf.count }</span>
+            </a>
+          </Link>
+        ))}
+      </>
+    );
+    tagsContent = (
+      <>
+        { tags.map((tag) => (
+          <Chip
+            key={tag.id}
+            href={`/shelf/${tag.name}`}
+            label={`${tag.name} (${tag.count})`}
+            size="large"
+          />
+        ))}
+      </>
+    );
   }
-  if (!me) {
-    return <div>loading...</div>;
-  }
+
   return (
     <>
       <Head>
@@ -36,42 +82,23 @@ export default function Home() {
       </Head>
       <TopAppBar title="My shelves" />
       <main className="container mx-auto p-4">
-        <article>
+        <section>
           <h2 className="mt-0 mb-2 text-2xl font-bold">Main</h2>
-          { shelves.length
-              && shelves.map((shelf) => (
-                <Link
-                  href={`/shelf/${shelf.name}`}
-                  key={shelf.id}
-                >
-                  <a className="flex border-b hover:bg-gray-300 no-underline font-normal justify-between p-4">
-                    <span>{ shelf.name }</span>
-                    <span>{ shelf.count }</span>
-                  </a>
-                </Link>
-              ))}
-        </article>
-        <article>
+          { shelvesContent }
+        </section>
+        <section>
           <h2 className="mt-6 mb-4 text-2xl font-bold">Tags</h2>
-          { tags.length
-              && tags.map((tag) => (
-                <Chip
-                  key={tag.id}
-                  href={`/shelf/${tag.name}`}
-                  label={`${tag.name} (${tag.count})`}
-                  size="large"
-                />
-              ))}
-        </article>
+          { tagsContent }
+        </section>
+        <section className="mt-6">
+          <button
+            type="button"
+            className="w-full border-gray-800 uppercase"
+          >
+            Create a new tag or shelf
+          </button>
+        </section>
       </main>
-      <section>
-        <button
-          type="button"
-          className="w-full border-gray-800 uppercase"
-        >
-          Create a new tag or shelf
-        </button>
-      </section>
     </>
   );
 }

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import { HomeIcon, SearchIcon } from '@heroicons/react/outline';
 import useDebounce from '@hooks/useDebounce';
-import AppBar from '@components/AppBar';
+import HideOnScroll from '@components/HideOnScroll';
 import SearchResults from '@components/SearchResults';
 import { SearchResult } from '@custom-types/searchResult';
 
@@ -33,18 +33,18 @@ const BottomAppBar = () => {
   }, []);
 
   return (
-    <>
-      <AppBar>
-        <div className="flex flex-col w-full">
+    <nav className="fixed bottom-0 w-full">
+      <HideOnScroll direction="down">
+        <div className="bg-white shadow flex flex-col z-50">
           { results && (
-            <div>
-              <SearchResults results={results} />
-              { results.length > 0 && (
-                <Link href={`/search?query=${searchTerm}`}>
-                  <a className="p-3 block font-normal">See all search results</a>
-                </Link>
-              )}
-            </div>
+          <div>
+            <SearchResults results={results} />
+            { results.length > 0 && (
+            <Link href={`/search?query=${searchTerm}`}>
+              <a className="p-3 block font-normal">See all search results</a>
+            </Link>
+            )}
+          </div>
           )}
           <div className="flex items-center">
             <Link href="/">
@@ -68,8 +68,8 @@ const BottomAppBar = () => {
             </div>
           </div>
         </div>
-      </AppBar>
-    </>
+      </HideOnScroll>
+    </nav>
   );
 };
 
