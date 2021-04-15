@@ -14,9 +14,9 @@ const TopAppBar = ({ title, children }: TopAppBarProps) => {
   const showBackButton = !['/', '/auth/login'].includes(pathname);
 
   return (
-    <header className="sticky top-0 w-full">
+    <header className="sticky top-0 w-full z-10">
       <HideOnScroll direction="up">
-        <nav className="bg-white shadow flex items-center z-50">
+        <nav className="bg-white shadow flex items-center">
           {showBackButton && (
             <button
               type="button"
