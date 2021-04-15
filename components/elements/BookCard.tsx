@@ -51,13 +51,13 @@ export default function BookCard({
   return (
     <article
       ref={loader}
-      className="flex rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100"
+      className="rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100"
     >
       <Link
         href={`/book/${book.id}`}
         key={book.id}
       >
-        <a className="no-underline font-normal">
+        <a className="flex no-underline font-normal">
           <div className="-mb-2">
             <Image
               src={book.image || '/cover.png'}

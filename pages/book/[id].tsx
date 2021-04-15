@@ -10,6 +10,7 @@ import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
 import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
+import BookShelfDrawer from '@components/BookShelfDrawer';
 import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
 
@@ -20,6 +21,8 @@ export default function Book() {
   const [shelf, setShelf] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [shelfText, setShelfText] = useState('');
+  const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
+
   useEffect(() => {
     if (!book || !book.shelves) {
       return;
@@ -98,6 +101,7 @@ export default function Book() {
               <b>Shelves</b>
               <button
                 type="button"
+                onClick={() => setShowBookshelfDrawer(true)}
               >
                 <PencilIcon className="h-6 w-6" />
               </button>
@@ -167,6 +171,14 @@ export default function Book() {
       </Head>
       <TopAppBar title={book?.title || 'Loading book...'} />
       { content }
+      <BookShelfDrawer
+        show={showBookshelfDrawer}
+        bookId={id as string}
+        shelf={shelf}
+        tags={tags}
+        updateShelves={() => console.log('update')}
+        onDrawerClose={() => setShowBookshelfDrawer(false)}
+      />
     </>
   );
 }
