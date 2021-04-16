@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
-import formatDate from '@lib/formatDate';
-import formatNumber from '@lib/formatNumber';
-import BookCard from '@components/elements/BookCard';
 import Spinner from '@components/elements/Spinner';
 import { Shelf } from '@custom-types/shelf';
 import { User } from '@custom-types/user';
@@ -23,7 +20,7 @@ export default function BookShelf({
   const [shelves, setShelves] = useState<Shelf[]>([]);
   const [allTags, setAllTags] = useState<Shelf[]>([]);
 
-  console.log(shelves, allTags)
+  console.log(shelves, allTags);
 
   useEffect(() => {
     setShelves(me ? me?.shelves.filter((s) => s.main) : []);
@@ -32,19 +29,19 @@ export default function BookShelf({
 
   const setShelf = (shelfName: string) => {
     console.log(shelfName);
-  }
+  };
 
   const addTag = (tag: string) => {
     console.log(tag);
-  }
+  };
 
   if (error) {
     return <div>failed to load</div>;
   }
 
-  let content =  <Spinner text="Loading shelves..." />;
+  let content = <Spinner text="Loading shelves..." />;
 
-  if(me) {
+  if (me) {
     content = (
       <div className="flex text-lg">
         <div className="w-1/2 flex flex-col pr-2">
@@ -60,7 +57,7 @@ export default function BookShelf({
               />
               {' '}
               { s.name }
-          </label>
+            </label>
           ))}
           <button
             type="button"
@@ -82,7 +79,7 @@ export default function BookShelf({
               />
               {' '}
               { t.name }
-          </label>
+            </label>
           ))}
         </div>
       </div>
