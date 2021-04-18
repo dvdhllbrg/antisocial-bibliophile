@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-import { SearchResult } from '@custom-types/searchResult';
+import { Book } from '@custom-types/book';
 import authorReducer, { AuthorPropType } from '@reducers/authorReducer';
 
 type SearchResultPropType = {
@@ -11,7 +10,7 @@ type SearchResultPropType = {
   };
 };
 
-export default function userReducer(searchResult: SearchResultPropType): SearchResult {
+export default function userReducer(searchResult: SearchResultPropType): Book {
   return {
     id: typeof searchResult.best_book.id === 'object' ? searchResult.best_book.id._ : (searchResult?.best_book.id || ''),
     title: searchResult?.best_book?.title || '',

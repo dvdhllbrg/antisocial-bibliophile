@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import useSWR from 'swr';
 import { HomeIcon, SearchIcon } from '@heroicons/react/outline';
-import useDebounce from '@hooks/useDebounce';
 import HideOnScroll from '@components/HideOnScroll';
 import SearchResults from '@components/SearchResults';
-import { SearchResult } from '@custom-types/searchResult';
+import useSearch from '@hooks/swr/useSearch';
 
 const BottomAppBar = () => {
   const { pathname, events } = useRouter();
@@ -16,13 +14,8 @@ const BottomAppBar = () => {
   }
 
   const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 250);
+  const { results, isError, isValidating } = useSearch(searchTerm);
 
-  const { data: results, error, isValidating } = useSWR<SearchResult[]>(
-    debouncedSearchTerm
-      ? `/api/search?query=${debouncedSearchTerm}`
-      : null,
-  );
   useEffect(() => {
     const handleRouteChange = () => setSearchTerm('');
 
@@ -32,20 +25,27 @@ const BottomAppBar = () => {
     };
   }, []);
 
+  let resultsContent = <></>;
+  if (isError) {
+    resultsContent = <p>Error!</p>;
+  } else if (results) {
+    resultsContent = (
+      <div>
+        <SearchResults results={results} />
+        { results.length > 0 && (
+        <Link href={`/search?query=${searchTerm}`}>
+          <a className="p-3 block font-normal">See all search results</a>
+        </Link>
+        )}
+      </div>
+    );
+  }
+
   return (
     <nav className="fixed bottom-0 w-full">
       <HideOnScroll direction="down">
         <div className="bg-white shadow flex flex-col z-10">
-          { results && (
-          <div>
-            <SearchResults results={results} />
-            { results.length > 0 && (
-            <Link href={`/search?query=${searchTerm}`}>
-              <a className="p-3 block font-normal">See all search results</a>
-            </Link>
-            )}
-          </div>
-          )}
+          { resultsContent }
           <div className="flex items-center">
             <Link href="/">
               <a

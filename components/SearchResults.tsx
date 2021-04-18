@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { SearchResult } from '@custom-types/searchResult';
+import { Book } from '@custom-types/book';
 
 type SearchResultsProps = {
-  results: SearchResult[]
+  results: Book[]
 };
 
 const SearchResults = ({ results }: SearchResultsProps) => {
@@ -20,13 +20,15 @@ const SearchResults = ({ results }: SearchResultsProps) => {
           key={result.id}
         >
           <a className="flex items-center no-underline font-normal p-1">
-            <Image
-              src={result.image || '/cover.png'}
-              width={33}
-              height={49}
-              layout="fixed"
-              className="rounded-l object-cover"
-            />
+            <div className="flex-shrink-0">
+              <Image
+                src={result.image || '/cover.png'}
+                width={33}
+                height={49}
+                layout="fixed"
+                className="rounded-l object-cover"
+              />
+            </div>
             <div className="flex-grow ml-2">
               <p className="mb-0 mt-1">{ result.title }</p>
               <span className="mt-0 text-sm">{ result.authors?.map((a) => a.name).join(', ') || 'unknown'}</span>
