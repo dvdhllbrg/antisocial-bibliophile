@@ -59,7 +59,9 @@ export default function Author() {
           <h2 className="mb-1 mt-2 text-xl">Books</h2>
           <BookList
             baseRoute={`/api/author/${id}/books`}
-            perPage={PER_PAGE}
+            params={{
+              per_page: PER_PAGE,
+            }}
           />
         </section>
       </main>

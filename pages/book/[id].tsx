@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import useSWR, { SWRResponse } from 'swr';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PencilIcon } from '@heroicons/react/solid';
-import { Book as BookType } from '@custom-types/book';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
 import isAuthed from '@lib/isAuthed';
@@ -13,13 +11,15 @@ import TopAppBar from '@components/TopAppBar';
 import BookShelfDrawer from '@components/BookShelfDrawer';
 import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
+import { Shelf } from '@custom-types/shelf';
+import useBook from '@hooks/swr/useBook';
 
 export default function Book() {
   const { query } = useRouter();
   const { id } = query;
-  const { data: book, error }: SWRResponse<BookType, Error> = useSWR(`/api/book/${id}`);
-  const [shelf, setShelf] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
+  const { book, isError } = useBook(id as string);
+  const [shelf, setShelf] = useState<Shelf | undefined>(undefined);
+  const [tags, setTags] = useState<Shelf[]>([]);
   const [shelfText, setShelfText] = useState('');
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
 
@@ -28,9 +28,8 @@ export default function Book() {
       return;
     }
     const mainShelf = book.shelves.find((s) => s.main);
-    const newShelf = mainShelf && mainShelf.name ? mainShelf.name : '';
-    const newTags = book.shelves.filter((s) => !s.main).map((t) => t.name);
-    setShelf(newShelf);
+    const newTags = book.shelves.filter((s) => !s.main);
+    setShelf(mainShelf);
     setTags(newTags);
 
     let text = '';
@@ -70,7 +69,7 @@ export default function Book() {
     </main>
   );
 
-  if (error) {
+  if (isError) {
     content = <div>failed to load</div>;
   } else if (book) {
     content = (
@@ -107,14 +106,14 @@ export default function Book() {
               </button>
             </div>
             <div className="mb-2">
-              {shelf ? <Chip className="bg-gray-400" label={shelf} href={`/shelf/${shelf}`} /> : 'Not on your shelves.'}
+              {shelf ? <Chip className="bg-gray-400" label={shelf.name} href={`/shelf/${shelf.name}`} /> : 'Not on your shelves.'}
               {tags && tags
-                .sort((a, b) => a.localeCompare(b))
+                .sort((a, b) => a.name.localeCompare(b.name))
                 .map((tag) => (
                   <Chip
-                    key={tag}
-                    label={tag}
-                    href={`/shelf/${tag}`}
+                    key={tag.id}
+                    label={tag.name}
+                    href={`/shelf/${tag.name}`}
                   />
                 ))}
             </div>
@@ -174,9 +173,6 @@ export default function Book() {
       <BookShelfDrawer
         show={showBookshelfDrawer}
         bookId={id as string}
-        shelf={shelf}
-        tags={tags}
-        updateShelves={() => console.log('update')}
         onDrawerClose={() => setShowBookshelfDrawer(false)}
       />
     </>

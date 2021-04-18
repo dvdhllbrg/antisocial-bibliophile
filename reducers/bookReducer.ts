@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { Author } from '@custom-types/author';
 import type { Book } from '@custom-types/book';
 import authorReducer, { AuthorPropType } from '@reducers/authorReducer';

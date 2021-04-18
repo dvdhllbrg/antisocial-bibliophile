@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react';
-import useSWR from 'swr';
 import Head from 'next/head';
 import Link from 'next/link';
 import isAuthed from '@lib/isAuthed';
 import Chip from '@components/elements/Chip';
 import TopAppBar from '@components/TopAppBar';
+import NewShelfDrawer from '@components/NewShelfDrawer';
 import { Shelf } from '@custom-types/shelf';
-import { User } from '@custom-types/user';
+import useUser from '@hooks/swr/useUser';
 
 export default function Home() {
-  const { data: me, error } = useSWR<User>('/api/me');
+  const { user, isError } = useUser();
   const [shelves, setShelves] = useState<Shelf[]>([]);
   const [tags, setTags] = useState<Shelf[]>([]);
+  const [showNewShelfDrawer, setShowNewShelfDrawer] = useState(false);
 
   useEffect(() => {
-    setShelves(me ? me?.shelves.filter((s) => s.main) : []);
-    setTags(me ? me.shelves.filter((s) => !s.main) : []);
-  }, [me]);
+    setShelves(user ? user?.shelves.filter((s) => s.main) : []);
+    setTags(user ? user.shelves.filter((s) => !s.main) : []);
+  }, [user]);
 
   let shelvesContent = (
     <>
@@ -38,9 +39,9 @@ export default function Home() {
     </>
   );
 
-  if (error) {
+  if (isError) {
     shelvesContent = <div>failed to load</div>;
-  } else if (me) {
+  } else if (user) {
     shelvesContent = (
       <>
         { shelves.map((shelf) => (
@@ -93,12 +94,17 @@ export default function Home() {
         <section className="mt-6">
           <button
             type="button"
-            className="w-full border-gray-800 uppercase"
+            className="w-full border py-2 text-sm border-gray-800 uppercase"
+            onClick={() => setShowNewShelfDrawer(true)}
           >
             Create a new tag or shelf
           </button>
         </section>
       </main>
+      <NewShelfDrawer
+        show={showNewShelfDrawer}
+        onDrawerClose={() => setShowNewShelfDrawer(false)}
+      />
     </>
   );
 }

@@ -3,15 +3,13 @@ import BookListPage from '@components/BookListPage';
 
 type BookListProps = {
   baseRoute: string;
-  sort?: string;
-  sortOrder?: string;
-  perPage?: number;
+  extra?: string;
+  params?: Record<string, any>
 };
 
-export default function BookList({
-  baseRoute, sort, sortOrder, perPage = 10,
-}: BookListProps) {
+export default function BookList({ baseRoute, extra, params }: BookListProps) {
   const [numberOfPages, setNumberOfPages] = useState(1);
+  const urlParams = new URLSearchParams(params);
 
   const isReachingEnd = (page: number) => {
     if (page === numberOfPages) {
@@ -25,8 +23,8 @@ export default function BookList({
       <BookListPage
         key={i}
         index={i + 1}
-        route={`${baseRoute}?page=${i + 1}&per_page=${perPage}&sort=${sort}&order=${sortOrder}`}
-        extra={sort}
+        route={`${baseRoute}?page=${i + 1}&${urlParams.toString()}`}
+        extra={extra}
         isReachingEnd={isReachingEnd}
       />,
     );
