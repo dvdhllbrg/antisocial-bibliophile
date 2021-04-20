@@ -44,7 +44,7 @@ export default function NewShelfDrawer({ show, onDrawerClose }: NewShelfDrawerPr
       ...user,
       shelves,
       tags,
-    });
+    }, false);
     fetch(`/api/shelf/${shelfName}?main=${shelfType === 'shelf' ? 'true' : 'false'}`, {
       method: 'POST',
       body: '',
