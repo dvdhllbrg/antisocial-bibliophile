@@ -17,20 +17,34 @@ export default function NewShelfDrawer({ show, onDrawerClose }: NewShelfDrawerPr
   const [shelfName, setShelfName] = useState('');
 
   const createShelf = async () => {
-    if (!user?.shelves) {
+    if (!user?.shelves || !user?.tags) {
       return;
     }
-    const shelves = [...user.shelves, {
+    const shelves = [...user.shelves];
+    const tags = [...user.tags];
+    const newShelf = {
       id: '-1',
       name: shelfName,
-      main: shelfType === 'shelf',
       count: 0,
-    }];
+    };
+
+    if (shelfType === 'shelf') {
+      shelves.push({
+        ...newShelf,
+        main: shelfType === 'shelf',
+      });
+    } else {
+      tags.push({
+        ...newShelf,
+        main: shelfType === 'shelf',
+      });
+    }
 
     mutate({
       ...user,
       shelves,
-    });
+      tags,
+    }, false);
     fetch(`/api/shelf/${shelfName}?main=${shelfType === 'shelf' ? 'true' : 'false'}`, {
       method: 'POST',
       body: '',

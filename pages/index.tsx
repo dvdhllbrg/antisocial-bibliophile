@@ -1,23 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import isAuthed from '@lib/isAuthed';
 import Chip from '@components/elements/Chip';
 import TopAppBar from '@components/TopAppBar';
 import NewShelfDrawer from '@components/NewShelfDrawer';
-import { Shelf } from '@custom-types/shelf';
 import useUser from '@hooks/swr/useUser';
 
 export default function Home() {
   const { user, isError } = useUser();
-  const [shelves, setShelves] = useState<Shelf[]>([]);
-  const [tags, setTags] = useState<Shelf[]>([]);
   const [showNewShelfDrawer, setShowNewShelfDrawer] = useState(false);
-
-  useEffect(() => {
-    setShelves(user ? user?.shelves.filter((s) => s.main) : []);
-    setTags(user ? user.shelves.filter((s) => !s.main) : []);
-  }, [user]);
 
   let shelvesContent = (
     <>
@@ -44,7 +36,7 @@ export default function Home() {
   } else if (user) {
     shelvesContent = (
       <>
-        { shelves.map((shelf) => (
+        { user.shelves.map((shelf) => (
           <Link
             href={`/shelf/${shelf.name}`}
             key={shelf.id}
@@ -59,7 +51,7 @@ export default function Home() {
     );
     tagsContent = (
       <>
-        { tags.map((tag) => (
+        { user.tags?.map((tag) => (
           <Chip
             key={tag.id}
             href={`/shelf/${tag.name}`}

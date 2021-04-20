@@ -11,26 +11,19 @@ import TopAppBar from '@components/TopAppBar';
 import BookShelfDrawer from '@components/BookShelfDrawer';
 import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
-import { Shelf } from '@custom-types/shelf';
 import useBook from '@hooks/swr/useBook';
 
 export default function Book() {
   const { query } = useRouter();
   const { id } = query;
   const { book, isError } = useBook(id as string);
-  const [shelf, setShelf] = useState<Shelf | undefined>(undefined);
-  const [tags, setTags] = useState<Shelf[]>([]);
   const [shelfText, setShelfText] = useState('');
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
 
   useEffect(() => {
-    if (!book || !book.shelves) {
+    if (!book) {
       return;
     }
-    const mainShelf = book.shelves.find((s) => s.main);
-    const newTags = book.shelves.filter((s) => !s.main);
-    setShelf(mainShelf);
-    setTags(newTags);
 
     let text = '';
     if (book.dateAdded) {
@@ -106,8 +99,8 @@ export default function Book() {
               </button>
             </div>
             <div className="mb-2">
-              {shelf ? <Chip className="bg-gray-400" label={shelf.name} href={`/shelf/${shelf.name}`} /> : 'Not on your shelves.'}
-              {tags && tags
+              {book.shelf ? <Chip className="bg-gray-400" label={book.shelf.name} href={`/shelf/${book.shelf.name}`} /> : 'Not on your shelves.'}
+              {book.tags && book.tags
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((tag) => (
                   <Chip
