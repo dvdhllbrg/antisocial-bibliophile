@@ -15,10 +15,13 @@ type UserPropType = {
 
 export default function userReducer(user: UserPropType): User {
   let shelves: Shelf[] = [];
+  let tags: Shelf[] = [];
   if (user?.user_shelves?.user_shelf) {
-    shelves = Array.isArray(user.user_shelves.user_shelf)
+    const shelvesAndTags = Array.isArray(user.user_shelves.user_shelf)
       ? user.user_shelves.user_shelf.map(shelfReducer)
       : [shelfReducer(user.user_shelves.user_shelf)];
+    shelves = shelvesAndTags.filter((s) => s.main);
+    tags = shelvesAndTags.filter((s) => !s.main);
   }
   return {
     id: user?.id || '0',
@@ -26,5 +29,6 @@ export default function userReducer(user: UserPropType): User {
     image: user?.image_url || '',
     thumbnail: user?.small_image_url || '',
     shelves,
+    tags,
   };
 }

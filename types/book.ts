@@ -11,7 +11,8 @@ export type Book = {
   rating?: number;
   numberOfRatings?: number;
   myRating?: number;
-  shelves?: Shelf[];
+  shelf?: Shelf;
+  tags?: Shelf[];
   dateRead?: string;
   dateAdded?: string;
   dateUpdated?: string;

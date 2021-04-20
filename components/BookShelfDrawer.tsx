@@ -1,9 +1,6 @@
-import {
-  useEffect, useState, useRef, ChangeEvent,
-} from 'react';
+import { useRef, ChangeEvent } from 'react';
 import { mutate } from 'swr';
 import Spinner from '@components/elements/Spinner';
-import { Shelf } from '@custom-types/shelf';
 import useOnClickOutside from '@hooks/useOnClickOutside';
 import useUser from '@hooks/swr/useUser';
 import useBook from '@hooks/swr/useBook';
@@ -25,52 +22,45 @@ export default function BookShelfDrawer({
 
   const { user, isError, mutate: mutateUser } = useUser();
   const { book, mutate: mutateBook } = useBook(bookId);
-  const [shelf, setShelf] = useState<Shelf | undefined>(undefined);
-  const [tags, setTags] = useState<Shelf[]>([]);
-
-  useEffect(() => {
-    if (!book || !book.shelves) {
-      return;
-    }
-    const mainShelf = book.shelves.find((s) => s.main);
-    const newTags = book.shelves.filter((s) => !s.main);
-    setShelf(mainShelf);
-    setTags(newTags);
-  }, [book]);
 
   const handleShelfChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (!book || !user?.shelves || !user?.tags) {
+      return;
+    }
     const shelfName = e.target.value;
-    const newShelf = user?.shelves.find((s) => s.name === shelfName);
+    const newShelf = [...user.shelves, ...user.tags].find((s) => s.name === shelfName);
     const toReadShelf = user?.shelves.find((s) => s.name === 'to-read');
 
-    if (!book?.shelves || !newShelf) {
+    if (!newShelf) {
       return;
     }
 
-    let localShelves = [...book.shelves];
+    let localShelf = book.shelf;
+    let localTags = [...(book.tags || [])];
 
     if (e.target.checked) {
       if (newShelf.main) {
-        const mainShelfIndex = localShelves.findIndex((s) => s.main);
-        localShelves.splice(mainShelfIndex, 1, newShelf);
+        localShelf = newShelf;
       } else {
-        localShelves.push(newShelf);
+        localTags.push(newShelf);
       }
-      if (toReadShelf && (!shelf || !newShelf.main)) {
-        localShelves.push(toReadShelf);
+      if (toReadShelf && (!book.shelf || !newShelf.main)) {
+        localShelf = toReadShelf;
       }
     } else {
-      const shelfIndex = localShelves.findIndex((s) => s.name === newShelf.name);
+      const tagIndex = localTags.findIndex((t) => t.name === newShelf.name);
       if (newShelf.main) {
-        localShelves = [];
-      } else if (shelfIndex > -1) {
-        localShelves.splice(shelfIndex, 1);
+        localShelf = undefined;
+        localTags = [];
+      } else if (tagIndex > -1) {
+        localTags.splice(tagIndex, 1);
       }
     }
 
     mutateBook({
       ...book,
-      shelves: localShelves,
+      shelf: localShelf,
+      tags: localTags,
     }, false);
 
     let sort = 'date_added';
@@ -81,7 +71,7 @@ export default function BookShelfDrawer({
       sort = 'date_updated';
     }
 
-    if (!shelf && !newShelf?.main) {
+    if (!book.shelf && !newShelf?.main) {
       await fetch(`/api/shelf/to-read?book_id=${bookId}`, {
         method: 'PATCH',
         body: '',
@@ -99,7 +89,7 @@ export default function BookShelfDrawer({
 
   const removeFromShelves = () => handleShelfChange({
     target: {
-      value: shelf?.name,
+      value: book?.shelf?.name,
       checked: false,
     },
   } as ChangeEvent<HTMLInputElement>);
@@ -115,13 +105,13 @@ export default function BookShelfDrawer({
       <div className="flex text-lg">
         <div className="w-1/2 flex flex-col pr-2">
           <span className="font-bold">Shelf</span>
-          {user.shelves.filter((s) => s.main).map((s) => (
+          {user.shelves.map((s) => (
             <label className="mb-2">
               <input
                 type="radio"
                 name="shelf"
                 value={s.name}
-                checked={shelf && s.name === shelf.name}
+                checked={s.name === book?.shelf?.name}
                 onChange={handleShelfChange}
               />
               {' '}
@@ -138,13 +128,13 @@ export default function BookShelfDrawer({
         </div>
         <div className="w-1/2 flex flex-col pl-2">
           <span className="font-bold">Tags</span>
-          {user.shelves.filter((s) => !s.main).map((tag) => (
+          {user.tags?.map((tag) => (
             <label className="mb-2">
               <input
                 type="checkbox"
                 name="tags"
                 value={tag.name}
-                checked={tags.findIndex((t) => t.name === tag.name) !== -1}
+                checked={book?.tags?.findIndex((t) => t.name === tag.name) !== -1}
                 onChange={handleShelfChange}
               />
               {' '}
