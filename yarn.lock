@@ -1666,14 +1666,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17.0.3":
-  version: 17.0.3
-  resolution: "@types/react@npm:17.0.3"
+"@types/react@npm:^17.0.4":
+  version: 17.0.4
+  resolution: "@types/react@npm:17.0.4"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 5bcaabadc90a23ad9008540eae98a5819b638c4cf1b968adc67be47d6a8dc8cb100061d877dae97618fb275e405dc484b37154080c7ac0ea7df5efcdd8f98c24
+  checksum: d7a8121faa889d52148df392751b771be16a45369872e9ad2b5db3d5bb8f76e684db27c2447b440441e3da1f353d434fa20fdcb45b3a56a296aab0757862da77
   languageName: node
   linkType: hard
 
@@ -1931,12 +1931,12 @@ __metadata:
     "@tailwindcss/typography": ^0.4.0
     "@types/node": ^14.14.41
     "@types/oauth": ^0.9.1
-    "@types/react": ^17.0.3
+    "@types/react": ^17.0.4
     "@types/xml2js": ^0.4.8
     "@typescript-eslint/eslint-plugin": ^4.22.0
     "@typescript-eslint/parser": ^4.22.0
     autoprefixer: ^10.2.5
-    eslint: ^7.24.0
+    eslint: ^7.25.0
     eslint-config-airbnb-typescript: ^12.3.1
     eslint-plugin-import: ^2.22.1
     eslint-plugin-jsx-a11y: ^6.4.1
@@ -1945,16 +1945,16 @@ __metadata:
     next: ^10.1.3
     next-iron-session: ^4.1.13
     next-plugin-preact: ^3.0.4
-    next-pwa: ^5.2.14
+    next-pwa: ^5.2.15
     oauth: ^0.9.15
-    postcss: ^8.2.10
+    postcss: ^8.2.13
     preact: ^10.5.13
     preact-render-to-string: ^5.1.19
     react: "npm:@preact/compat@*"
     react-dom: "npm:@preact/compat@*"
     react-ssr-prepass: "npm:preact-ssr-prepass@*"
     swr: ^0.5.5
-    tailwindcss: ^2.1.1
+    tailwindcss: ^2.1.2
     typescript: ^4.2.4
     xml2js: ^0.4.23
   languageName: unknown
@@ -3547,9 +3547,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.24.0":
-  version: 7.24.0
-  resolution: "eslint@npm:7.24.0"
+"eslint@npm:^7.25.0":
+  version: 7.25.0
+  resolution: "eslint@npm:7.25.0"
   dependencies:
     "@babel/code-frame": 7.12.11
     "@eslint/eslintrc": ^0.4.0
@@ -3590,7 +3590,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 8130aacc3698a730ba8fa10ac9e1436151181c34cad265c21c97708e62dba714b6f3cc4cb7a1d343918da3d35a5913505ccf53cfbdc1fa8d62d326b7e35b7aae
+  checksum: 6e1782e2264ebf987504746ee82e996bf0ef2c29a2eaea869b54cb8aa1eaf10945b1d563618515e65ac934ca626f3609282127773f45868ad4a98744458a3c62
   languageName: node
   linkType: hard
 
@@ -5215,19 +5215,19 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"next-pwa@npm:^5.2.14":
-  version: 5.2.14
-  resolution: "next-pwa@npm:5.2.14"
+"next-pwa@npm:^5.2.15":
+  version: 5.2.15
+  resolution: "next-pwa@npm:5.2.15"
   dependencies:
     babel-loader: ^8.2.2
     clean-webpack-plugin: ^3.0.0
     globby: ^11.0.3
     terser-webpack-plugin: ^5.1.1
-    workbox-webpack-plugin: ^6.1.2
-    workbox-window: ^6.1.2
+    workbox-webpack-plugin: ^6.1.5
+    workbox-window: ^6.1.5
   peerDependencies:
     next: ">=7.0.0"
-  checksum: bf9ba49a8ad5810c3cb01f79e896feffa341d5dc378c9d1a222bc9c1bae4265959c587d159b98afd24c833ce690e6d117c4203eb5fd4a12ee906a0f97d4dc638
+  checksum: dde02212775f6c863651c54e3d857676040aa76e50aad655b951ffa70e88c5982cd5c0a8ec98fb1c90c8968ac064bd89d098e776df7bddcfdb31bfd527d0ad54
   languageName: node
   linkType: hard
 
@@ -5940,7 +5940,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.1.6, postcss@npm:^8.2.1, postcss@npm:^8.2.10":
+"postcss@npm:^8.1.6, postcss@npm:^8.2.1":
   version: 8.2.10
   resolution: "postcss@npm:8.2.10"
   dependencies:
@@ -5948,6 +5948,17 @@ fsevents@~2.3.1:
     nanoid: ^3.1.22
     source-map: ^0.6.1
   checksum: 83912f846376ceb501d887951bb3c7f5efc16452b124ba5ffbdd27f718dabd1edce8f6ef777a88aeb93366081cc2a3804581b2e6711a1e89ecaecb0dff2d2b73
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.2.13":
+  version: 8.2.13
+  resolution: "postcss@npm:8.2.13"
+  dependencies:
+    colorette: ^1.2.2
+    nanoid: ^3.1.22
+    source-map: ^0.6.1
+  checksum: df64697cbd6d8e501eac2eaed501dc9a9c848538b4b51c53bfe7ed62a91736e97135d1fe22384b69af11bb2387a6cb483f5eecd14b19ca192ab5497ed5522124
   languageName: node
   linkType: hard
 
@@ -7142,9 +7153,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "tailwindcss@npm:2.1.1"
+"tailwindcss@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "tailwindcss@npm:2.1.2"
   dependencies:
     "@fullhuman/postcss-purgecss": ^3.1.3
     bytes: ^3.0.0
@@ -7179,7 +7190,7 @@ resolve@^2.0.0-next.3:
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: 34df2256582a50aa503838fc35255de38631875aa93fde4df66096c9c70eeb43ce49c40fbde32b5961d055a5f14a715d744488cda7f84fccc0271b47f41a5455
+  checksum: 0e1c12073ab3a86016ac417b06aee014e868cf93f7d9c71cf11cd725d1cb3ab576cd0d776f5a3eaab179e427a35575f9bc39ae5a912a81040f35a61ad2008e45
   languageName: node
   linkType: hard
 
@@ -7873,7 +7884,7 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"workbox-webpack-plugin@npm:^6.1.2":
+"workbox-webpack-plugin@npm:^6.1.5":
   version: 6.1.5
   resolution: "workbox-webpack-plugin@npm:6.1.5"
   dependencies:
@@ -7889,7 +7900,7 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"workbox-window@npm:^6.1.2, workbox-window@npm:^6.1.5":
+"workbox-window@npm:^6.1.5":
   version: 6.1.5
   resolution: "workbox-window@npm:6.1.5"
   dependencies:
