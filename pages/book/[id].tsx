@@ -39,7 +39,7 @@ export default function Book() {
     setShelfText(text);
   }, [book]);
 
-  const rateBook = async (rating: number) => {
+  const rateBook = (rating: number) => {
     if (!book) {
       return;
     }
@@ -48,7 +48,7 @@ export default function Book() {
       myRating: rating,
     }, false);
 
-    await fetch(`/api/book/${id}`, {
+    fetch(`/api/book/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ rating }),
     });
