@@ -16,7 +16,7 @@ import useBook from '@hooks/swr/useBook';
 export default function Book() {
   const { query } = useRouter();
   const { id } = query;
-  const { book, isError } = useBook(id as string);
+  const { book, isError, mutate } = useBook(id as string);
   const [shelfText, setShelfText] = useState('');
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
 
@@ -38,6 +38,21 @@ export default function Book() {
 
     setShelfText(text);
   }, [book]);
+
+  const rateBook = async (rating: number) => {
+    if (!book) {
+      return;
+    }
+    mutate({
+      ...book,
+      myRating: rating,
+    }, false);
+
+    await fetch(`/api/book/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ rating }),
+    });
+  };
 
   let content = (
     <main className="container mx-auto p-4 pb-24">
@@ -123,6 +138,7 @@ export default function Book() {
             textOver="Your rating"
             rating={book.myRating || 0}
             textUnder="Tap a star to give a rating."
+            onRate={rateBook}
           />
         </section>
         <section
