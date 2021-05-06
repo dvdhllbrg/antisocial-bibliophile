@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { HomeIcon, SearchIcon } from '@heroicons/react/outline';
 import HideOnScroll from '@components/HideOnScroll';
 import SearchResults from '@components/SearchResults';
 import useSearch from '@hooks/swr/useSearch';
+import useOnClickOutside from '@hooks/useOnClickOutside';
 
 const BottomAppBar = () => {
   const { pathname, events } = useRouter();
@@ -16,12 +17,15 @@ const BottomAppBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { results, isError, isValidating } = useSearch(searchTerm);
 
-  useEffect(() => {
-    const handleRouteChange = () => setSearchTerm('');
+  const clearSearch = () => setSearchTerm('');
 
-    events.on('routeChangeStart', handleRouteChange);
+  const ref = useRef<HTMLDivElement>(null);
+  useOnClickOutside(ref, clearSearch);
+
+  useEffect(() => {
+    events.on('routeChangeStart', clearSearch);
     return () => {
-      events.off('routeChangeStart', handleRouteChange);
+      events.off('routeChangeStart', clearSearch);
     };
   }, []);
 
@@ -30,9 +34,9 @@ const BottomAppBar = () => {
     resultsContent = <p>Error!</p>;
   } else if (results) {
     resultsContent = (
-      <div>
+      <div ref={ref}>
         <SearchResults results={results} />
-        { results.length > 0 && (
+        { results.length > 4 && (
         <Link href={`/search?query=${searchTerm}`}>
           <a className="p-3 block font-normal">See all search results</a>
         </Link>
@@ -46,7 +50,10 @@ const BottomAppBar = () => {
       <HideOnScroll direction="down">
         <div className="bg-white shadow flex flex-col z-10">
           { resultsContent }
-          <div className="flex items-center">
+          <div
+            key="actions-container"
+            className="flex items-center"
+          >
             <Link href="/">
               <a
                 className="p-4"
@@ -56,6 +63,7 @@ const BottomAppBar = () => {
             </Link>
             <div className="relative flex-grow pr-4">
               <input
+                key="search"
                 type="search"
                 className="w-full p-2 pl-8 rounded border border-gray-200 bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 placeholder="Search for books or authors"

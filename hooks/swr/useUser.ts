@@ -1,8 +1,8 @@
 import useSWR from 'swr';
 import { User } from '@custom-types/user';
 
-export default function useMe() {
-  const { data, error, mutate } = useSWR<User>('/api/me');
+export default function useUser() {
+  const { data, error, mutate } = useSWR<User>('/api/user');
 
   return {
     user: data,

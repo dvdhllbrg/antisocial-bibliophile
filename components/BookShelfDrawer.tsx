@@ -16,8 +16,7 @@ type BookShelfProps = {
 export default function BookShelfDrawer({
   show, bookId, onDrawerClose,
 }: BookShelfProps) {
-  const ref = useRef(null);
-
+  const ref = useRef<HTMLElement>(null);
   useOnClickOutside(ref, onDrawerClose);
 
   const { user, isError, mutate: mutateUser } = useUser();
