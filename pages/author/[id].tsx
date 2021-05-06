@@ -1,18 +1,21 @@
+import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import useSWR from 'swr';
 import Image from 'next/image';
-import { Author as AuthorType } from '@custom-types/author';
+import useSWR from 'swr';
+import { Author } from '@custom-types/author';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
+import { get } from '@lib/goodreads';
+import authorReducer from '@reducers/authorReducer';
 
 const PER_PAGE = 10;
 
-export default function Author() {
+export default function AuthorPage({ initialData }: { initialData: Author }) {
   const { query } = useRouter();
   const { id } = query;
 
-  const { data: author, error } = useSWR<AuthorType>(`/api/author/${id}`);
+  const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { initialData });
 
   let authorContent: {};
 
@@ -68,3 +71,16 @@ export default function Author() {
     </>
   );
 }
+
+export const getStaticPaths = async () => ({ paths: [], fallback: true });
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { author } = await get(`/author/show/${params?.id}`);
+
+  return {
+    props: {
+      initialData: authorReducer(author),
+    },
+    revalidate: 60,
+  };
+};

@@ -12,6 +12,11 @@ import BookShelfDrawer from '@components/BookShelfDrawer';
 import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
 import useBook from '@hooks/swr/useBook';
+import { GetStaticProps } from 'next';
+import { get } from '@lib/goodreads';
+import bookReducer from '@reducers/bookReducer';
+import reviewReducer from '@reducers/reviewReducer';
+
 
 export default function Book() {
   const { query } = useRouter();
@@ -189,3 +194,37 @@ export default function Book() {
 }
 
 export const getServerSideProps = isAuthed();
+
+export const getStaticPaths = async () => ({ paths: [], fallback: true });
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const [bookResponse, reviewResponse] = await Promise.allSettled([
+    get(`/book/show/${params?.id}.xml}`),
+    get('/review/show_by_user_and_book.xml', {
+      book_id: params?.id as string,
+      user_id: userId,
+    }),
+  ]);
+
+  if (bookResponse.status === 'rejected') {
+    res.status(500).json({ msg: `Unable to find book with id ${id}.` });
+    return {
+      props: {
+        initialData: {},
+      }
+    };
+  }
+  const review = reviewResponse.status === 'fulfilled' ? reviewReducer(reviewResponse.value.review) : {};
+
+  res.status(200).json({
+    ...bookReducer(bookResponse.value.book),
+    ...review,
+  });
+
+  return {
+    props: {
+      initialData: authorReducer(author),
+    },
+    revalidate: 60,
+  };
+};
