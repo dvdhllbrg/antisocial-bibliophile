@@ -12,48 +12,49 @@ import BookShelfDrawer from '@components/BookShelfDrawer';
 import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
 import useBook from '@hooks/swr/useBook';
+import useReview from '@hooks/swr/useReview';
 import { GetStaticProps } from 'next';
 import { get } from '@lib/goodreads';
 import bookReducer from '@reducers/bookReducer';
 import reviewReducer from '@reducers/reviewReducer';
 
+export default function Book({ id, initialData }) {
+  console.log(id);
+  const { book, isError: bookError } = useBook(id as string);
+  const { review, mutate } = useReview(id as string);
 
-export default function Book() {
-  const { query } = useRouter();
-  const { id } = query;
-  const { book, isError, mutate } = useBook(id as string);
   const [shelfText, setShelfText] = useState('');
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
 
   useEffect(() => {
-    if (!book) {
+    if (!review) {
       return;
     }
 
     let text = '';
-    if (book.dateAdded) {
-      text = `${text}added ${formatDate(book.dateAdded)}`;
+    if (review.dateAdded) {
+      text = `${text}added ${formatDate(review.dateAdded)}`;
     }
-    if (book.dateUpdated) {
-      text = `${text} ⋅ updated ${formatDate(book.dateUpdated)}`;
+    if (review.dateUpdated) {
+      text = `${text} ⋅ updated ${formatDate(review.dateUpdated)}`;
     }
-    if (book.dateRead) {
-      text = `${text} ⋅ read ${formatDate(book.dateRead)}`;
+    if (review.dateRead) {
+      text = `${text} ⋅ read ${formatDate(review.dateRead)}`;
     }
 
     setShelfText(text);
-  }, [book]);
+  }, [review]);
 
   const rateBook = (rating: number) => {
-    if (!book) {
+    if (!review) {
       return;
     }
     mutate({
-      ...book,
+      ...review,
       myRating: rating,
     }, false);
 
-    fetch(`/api/book/${id}`, {
+    fetch(`/api/review/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ rating }),
     });
@@ -82,7 +83,7 @@ export default function Book() {
     </main>
   );
 
-  if (isError) {
+  if (bookError) {
     content = <div>failed to load</div>;
   } else if (book) {
     content = (
@@ -119,8 +120,8 @@ export default function Book() {
               </button>
             </div>
             <div className="mb-2">
-              {book.shelf ? <Chip className="bg-gray-400" label={book.shelf.name} href={`/shelf/${book.shelf.name}`} /> : 'Not on your shelves.'}
-              {book.tags && book.tags
+              {review?.shelf ? <Chip className="bg-gray-400" label={review?.shelf.name} href={`/shelf/${review?.shelf.name}`} /> : 'Not on your shelves.'}
+              {review?.tags!
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((tag) => (
                   <Chip
@@ -141,7 +142,7 @@ export default function Book() {
           />
           <Rating
             textOver="Your rating"
-            rating={book.myRating || 0}
+            rating={review?.myRating || 0}
             textUnder="Tap a star to give a rating."
             onRate={rateBook}
           />
@@ -193,37 +194,20 @@ export default function Book() {
   );
 }
 
-export const getServerSideProps = isAuthed();
-
 export const getStaticPaths = async () => ({ paths: [], fallback: true });
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const [bookResponse, reviewResponse] = await Promise.allSettled([
-    get(`/book/show/${params?.id}.xml}`),
-    get('/review/show_by_user_and_book.xml', {
-      book_id: params?.id as string,
-      user_id: userId,
-    }),
-  ]);
-
-  if (bookResponse.status === 'rejected') {
-    res.status(500).json({ msg: `Unable to find book with id ${id}.` });
-    return {
-      props: {
-        initialData: {},
-      }
-    };
+  let initialData = {};
+  try {
+    const { book } = await get(`/book/show/${params?.id}.xml}`);
+    initialData = bookReducer(book);
+  } catch (err) {
+    console.error(err);
   }
-  const review = reviewResponse.status === 'fulfilled' ? reviewReducer(reviewResponse.value.review) : {};
-
-  res.status(200).json({
-    ...bookReducer(bookResponse.value.book),
-    ...review,
-  });
-
   return {
     props: {
-      initialData: authorReducer(author),
+      id: params?.id,
+      initialData,
     },
     revalidate: 60,
   };
