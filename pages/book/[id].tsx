@@ -19,7 +19,6 @@ import bookReducer from '@reducers/bookReducer';
 import reviewReducer from '@reducers/reviewReducer';
 
 export default function Book({ id, initialData }) {
-  console.log(id);
   const { book, isError: bookError } = useBook(id as string);
   const { review, mutate } = useReview(id as string);
 
@@ -198,11 +197,19 @@ export const getStaticPaths = async () => ({ paths: [], fallback: true });
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   let initialData = {};
+  console.log('GET STATIC PROPS');
+  console.log(params.id);
+  console.log(`/book/show/${params?.id}.xml`);
+  if (!params?.id) {
+    return { notFound: true };
+  }
   try {
-    const { book } = await get(`/book/show/${params?.id}.xml}`);
+    const { book } = await get(`/book/show/${params?.id}.xml`);
+    console.log(book);
     initialData = bookReducer(book);
   } catch (err) {
     console.error(err);
+    return { notFound: true };
   }
   return {
     props: {

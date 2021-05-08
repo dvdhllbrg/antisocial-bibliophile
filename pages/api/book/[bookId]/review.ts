@@ -4,6 +4,9 @@ import reviewReducer from '@reducers/reviewReducer';
 
 export default withSession(async (req, res) => {
   const { bookId } = req.query;
+  if (bookId === 'undefined') {
+    res.status(400).send('bookId not set');
+  }
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
 
   if (req.method === 'PATCH') {
