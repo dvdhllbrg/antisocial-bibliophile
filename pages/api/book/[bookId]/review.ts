@@ -6,6 +6,7 @@ export default withSession(async (req, res) => {
   const { bookId } = req.query;
   if (bookId === 'undefined') {
     res.status(400).send('bookId not set');
+    return;
   }
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
 

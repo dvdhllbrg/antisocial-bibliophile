@@ -6,6 +6,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   if (id === 'undefined') {
     res.status(400).send('id not set');
+    return;
   }
   try {
     const { author } = await get(`/author/show/${id}`);

@@ -81,6 +81,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       initialData: authorReducer(author),
     },
-    revalidate: 60,
+    revalidate: 1,
   };
 };

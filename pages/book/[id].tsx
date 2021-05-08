@@ -16,10 +16,13 @@ import useReview from '@hooks/swr/useReview';
 import { GetStaticProps } from 'next';
 import { get } from '@lib/goodreads';
 import bookReducer from '@reducers/bookReducer';
-import reviewReducer from '@reducers/reviewReducer';
 
 export default function Book({ id, initialData }) {
-  const { book, isError: bookError } = useBook(id as string);
+  if (!id) {
+    return null;
+  }
+
+  const { book, isError: bookError } = useBook(id as string, initialData);
   const { review, mutate } = useReview(id as string);
 
   const [shelfText, setShelfText] = useState('');
@@ -197,15 +200,11 @@ export const getStaticPaths = async () => ({ paths: [], fallback: true });
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   let initialData = {};
-  console.log('GET STATIC PROPS');
-  console.log(params.id);
-  console.log(`/book/show/${params?.id}.xml`);
   if (!params?.id) {
     return { notFound: true };
   }
   try {
     const { book } = await get(`/book/show/${params?.id}.xml`);
-    console.log(book);
     initialData = bookReducer(book);
   } catch (err) {
     console.error(err);
@@ -216,6 +215,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       id: params?.id,
       initialData,
     },
-    revalidate: 60,
+    revalidate: 1,
   };
 };
