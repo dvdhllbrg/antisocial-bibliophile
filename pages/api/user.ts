@@ -16,10 +16,8 @@ export default withSession(async (req, res) => {
       await req.session.save();
     }
     const user = await getAuthed('/user/show.xml', gr.accessToken, gr.accessTokenSecret, { id: userId });
-    res.status(200).json({
-      loggedIn: true,
-      ...userReducer(user.user),
-    });
+    res.status(200).json(userReducer(user.user));
+    return;
   } catch (err) {
     res.json({
       loggedIn: false,
