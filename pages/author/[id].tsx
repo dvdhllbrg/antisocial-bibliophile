@@ -1,5 +1,4 @@
 import { GetStaticProps } from 'next';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import useSWR from 'swr';
@@ -11,10 +10,12 @@ import authorReducer from '@reducers/authorReducer';
 
 const PER_PAGE = 10;
 
-export default function AuthorPage({ initialData }: { initialData: Author }) {
-  const { query } = useRouter();
-  const { id } = query;
+type AuthorPageProps = {
+  id: string;
+  initialData: Author;
+};
 
+export default function AuthorPage({ id, initialData }: AuthorPageProps) {
   const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { initialData });
 
   let authorContent: {};
@@ -75,12 +76,21 @@ export default function AuthorPage({ initialData }: { initialData: Author }) {
 export const getStaticPaths = async () => ({ paths: [], fallback: true });
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { author } = await get(`/author/show/${params?.id}`);
-
-  return {
-    props: {
-      initialData: authorReducer(author),
-    },
-    revalidate: 1,
-  };
+  if (!params?.id) {
+    return { notFound: true };
+  }
+  try {
+    const { author } = await get(`/author/show/${params?.id}`);
+    return {
+      props: {
+        id: params.id,
+        initialData: authorReducer(author),
+      },
+      revalidate: 1,
+    };
+  } catch (err) {
+    return {
+      notFound: true,
+    };
+  }
 };

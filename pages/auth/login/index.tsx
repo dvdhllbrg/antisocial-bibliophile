@@ -16,7 +16,7 @@ export default function Login() {
       <TopAppBar title="Antisocial Bibliophile" />
       <main className="prose container mx-auto p-4">
         <p>
-          To use this app, you need to login with a Goodreads account. When you click the button
+          To use all functions of this app, you need to login with a Goodreads account. When you click the button
           {' '}
           below, you will be directed to the Goodreads site to authenticate, and then be redirected
           {' '}

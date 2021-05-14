@@ -1,29 +1,33 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PencilIcon } from '@heroicons/react/solid';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
-import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
 import BookShelfDrawer from '@components/BookShelfDrawer';
 import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
 import useBook from '@hooks/swr/useBook';
 import useReview from '@hooks/swr/useReview';
+import { Book } from '@custom-types/book';
 import { GetStaticProps } from 'next';
 import { get } from '@lib/goodreads';
 import bookReducer from '@reducers/bookReducer';
 
-export default function Book({ id, initialData }) {
+type BookPageProps = {
+  id: string;
+  initialData: Book;
+};
+
+export default function BookPage({ id, initialData }: BookPageProps) {
   if (!id) {
     return null;
   }
 
-  const { book, isError: bookError } = useBook(id as string, initialData);
-  const { review, mutate } = useReview(id as string);
+  const { book, isError: bookError } = useBook(id, initialData);
+  const { review, mutate } = useReview(id);
 
   const [shelfText, setShelfText] = useState('');
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
@@ -111,29 +115,33 @@ export default function Book({ id, initialData }) {
                 </span>
               )) || 'unknown'}
             </span>
-            <br />
-            <div className="flex mt-2 mb-1">
-              <b>Shelves</b>
-              <button
-                type="button"
-                onClick={() => setShowBookshelfDrawer(true)}
-              >
-                <PencilIcon className="h-6 w-6" />
-              </button>
-            </div>
-            <div className="mb-2">
-              {review?.shelf ? <Chip className="bg-gray-400" label={review?.shelf.name} href={`/shelf/${review?.shelf.name}`} /> : 'Not on your shelves.'}
-              {review?.tags!
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((tag) => (
-                  <Chip
-                    key={tag.id}
-                    label={tag.name}
-                    href={`/shelf/${tag.name}`}
-                  />
-                ))}
-            </div>
-            <small>{ shelfText }</small>
+            { review && (
+              <>
+                <br />
+                <div className="flex mt-2 mb-1">
+                  <b>Shelves</b>
+                  <button
+                    type="button"
+                    onClick={() => setShowBookshelfDrawer(true)}
+                  >
+                    <PencilIcon className="h-6 w-6" />
+                  </button>
+                </div>
+                <div className="mb-2">
+                  {review.shelf ? <Chip className="bg-gray-400" label={review.shelf.name} href={`/shelf/${review.shelf.name}`} /> : 'Not on your shelves.'}
+                  {review.tags!
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((tag) => (
+                      <Chip
+                        key={tag.id}
+                        label={tag.name}
+                        href={`/shelf/${tag.name}`}
+                      />
+                    ))}
+                </div>
+                <small>{ shelfText }</small>
+              </>
+            )}
           </div>
         </section>
         <section className="flex items-center justify-evenly w-full my-6">
@@ -142,12 +150,14 @@ export default function Book({ id, initialData }) {
             rating={book.rating || 0}
             textUnder={`${formatNumber(book.rating || 0)} from ${formatNumber(book.numberOfRatings || 0)} ratings.`}
           />
-          <Rating
-            textOver="Your rating"
-            rating={review?.myRating || 0}
-            textUnder="Tap a star to give a rating."
-            onRate={rateBook}
-          />
+          { review && (
+            <Rating
+              textOver="Your rating"
+              rating={review?.myRating || 0}
+              textUnder="Tap a star to give a rating."
+              onRate={rateBook}
+            />
+          )}
         </section>
         <section
           className="mt-4 prose"
@@ -199,22 +209,20 @@ export default function Book({ id, initialData }) {
 export const getStaticPaths = async () => ({ paths: [], fallback: true });
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  let initialData = {};
   if (!params?.id) {
     return { notFound: true };
   }
   try {
-    const { book } = await get(`/book/show/${params?.id}.xml`);
-    initialData = bookReducer(book);
+    const { book } = await get(`/book/show/${params.id}.xml`);
+    return {
+      props: {
+        id: params?.id,
+        initialData: bookReducer(book),
+      },
+      revalidate: 1,
+    };
   } catch (err) {
     console.error(err);
     return { notFound: true };
   }
-  return {
-    props: {
-      id: params?.id,
-      initialData,
-    },
-    revalidate: 1,
-  };
 };

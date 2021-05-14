@@ -2,16 +2,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { SortDescendingIcon } from '@heroicons/react/outline';
-import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
 import SortMenu from '@components/SortMenu';
+import useUser from '@hooks/swr/useUser';
 
 export const PER_PAGE = 10;
 
 export default function Shelf() {
   const { query } = useRouter();
   const { name } = query;
+  useUser();
 
   const [sort, setSort] = useState('');
   const [sortOrder, setSortOrder] = useState('d');
@@ -68,5 +69,3 @@ export default function Shelf() {
     </>
   );
 }
-
-export const getServerSideProps = isAuthed();

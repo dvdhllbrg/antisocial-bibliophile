@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
 
@@ -30,5 +29,3 @@ export default function Search() {
     </>
   );
 }
-
-export const getServerSideProps = isAuthed();

@@ -9,6 +9,10 @@ export default withSession(async (req, res) => {
     return;
   }
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
+  if (!userId || !accessToken || !accessTokenSecret) {
+    res.status(401).end();
+    return;
+  }
 
   if (req.method === 'PATCH') {
     const body: any = {
@@ -31,7 +35,7 @@ export default withSession(async (req, res) => {
       }
       await postAuthed('/review.xml', accessToken, accessTokenSecret, body);
     }
-    res.status(200).send();
+    res.status(200).end();
   } else {
     try {
       const { review } = await get('/review/show_by_user_and_book.xml', {

@@ -99,7 +99,9 @@ export default function BookShelfDrawer({
 
   let content = <Spinner text="Loading shelves..." />;
 
-  if (user) {
+  if (user && !user.loggedIn) {
+    content = <></>;
+  } else if (user && user.loggedIn) {
     content = (
       <div className="flex text-lg">
         <div className="w-1/2 flex flex-col pr-2">
