@@ -105,7 +105,7 @@ export default function Home() {
       <Head>
         <link
           rel="preload"
-          href="/api/me"
+          href="/api/user"
           as="fetch"
           crossOrigin="anonymous"
         />
