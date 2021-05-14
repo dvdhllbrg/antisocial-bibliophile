@@ -1,10 +1,28 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { SWRConfig } from 'swr';
 import '../styles/globals.css';
 import BottomAppBar from '@components/BottomAppBar';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const fetcher = async (url: string) => {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      const error = new Error('An error occurred while fetching the data.');
+      // error.info = await res.json();
+      // error.status = res.status;
+      throw error;
+    }
+
+    return res.json();
+  };
+
+  const swrOptions = {
+    fetcher,
+  };
+
   return (
     <>
       <Head>
@@ -30,10 +48,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="apple-touch-icon" href="/icons/logo192.png" />
         <meta name="theme-color" content="#4db6ac" />
       </Head>
-      <div className="bg-gray-50 min-h-screen">
-        <Component {...pageProps} />
-        <BottomAppBar />
-      </div>
+      <SWRConfig value={swrOptions}>
+        <div className="bg-gray-50 min-h-screen">
+          <Component {...pageProps} />
+          <BottomAppBar />
+        </div>
+      </SWRConfig>
     </>
   );
 }

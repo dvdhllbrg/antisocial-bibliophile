@@ -1,21 +1,28 @@
 import withSession from '@lib/withSession';
 import { get, postAuthed } from '@lib/goodreads';
-import bookReducer from '@reducers/bookReducer';
 import reviewReducer from '@reducers/reviewReducer';
 
 export default withSession(async (req, res) => {
-  const { id } = req.query;
+  const { bookId } = req.query;
+  if (bookId === 'undefined') {
+    res.status(400).send('bookId not set');
+    return;
+  }
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
+  if (!userId || !accessToken || !accessTokenSecret) {
+    res.status(401).end();
+    return;
+  }
 
   if (req.method === 'PATCH') {
     const body: any = {
-      book_id: id,
+      book_id: bookId,
       'review[rating]': req.query.rating,
       shelf: 'read',
     };
     try {
       const { id: reviewId } = await get('/review/show_by_user_and_book.xml', {
-        book_id: id,
+        book_id: bookId,
         user_id: userId,
       });
       await postAuthed(`/review/${reviewId}.xml`, accessToken, accessTokenSecret, {
@@ -28,26 +35,17 @@ export default withSession(async (req, res) => {
       }
       await postAuthed('/review.xml', accessToken, accessTokenSecret, body);
     }
-    res.status(200).send();
+    res.status(200).end();
   } else {
-    const [bookResponse, reviewResponse] = await Promise.allSettled([
-      get(`/book/show/${id}.xml}`),
-      get('/review/show_by_user_and_book.xml', {
-        book_id: id,
+    try {
+      const { review } = await get('/review/show_by_user_and_book.xml', {
+        book_id: bookId,
         user_id: userId,
-      }),
-    ]);
-
-    if (bookResponse.status === 'rejected') {
-      res.status(500).json({ msg: `Unable to find book with id ${id}.` });
-      return;
+      });
+      res.status(200).json(reviewReducer(review));
+    } catch (err) {
+      res.status(404).json({ msg: `Unable to find review for book ${bookId}.` });
     }
-    const review = reviewResponse.status === 'fulfilled' ? reviewReducer(reviewResponse.value.review) : {};
-
-    res.status(200).json({
-      ...bookReducer(bookResponse.value.book),
-      ...review,
-    });
   }
 });
 

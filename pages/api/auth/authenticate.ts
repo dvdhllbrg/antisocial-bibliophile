@@ -12,7 +12,7 @@ export default withSession(async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: err.data });
+    res.status(500).json(err.data);
   }
 });
 

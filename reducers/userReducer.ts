@@ -25,6 +25,7 @@ export default function userReducer(user: UserPropType): User {
   }
   return {
     id: user?.id || '0',
+    loggedIn: true,
     name: user?.name || '',
     image: user?.image_url || '',
     thumbnail: user?.small_image_url || '',

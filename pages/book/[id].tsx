@@ -1,54 +1,66 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PencilIcon } from '@heroicons/react/solid';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
-import isAuthed from '@lib/isAuthed';
 import TopAppBar from '@components/TopAppBar';
 import BookShelfDrawer from '@components/BookShelfDrawer';
 import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
 import useBook from '@hooks/swr/useBook';
+import useReview from '@hooks/swr/useReview';
+import { Book } from '@custom-types/book';
+import { GetStaticProps } from 'next';
+import { get } from '@lib/goodreads';
+import bookReducer from '@reducers/bookReducer';
 
-export default function Book() {
-  const { query } = useRouter();
-  const { id } = query;
-  const { book, isError, mutate } = useBook(id as string);
+type BookPageProps = {
+  id: string;
+  initialData: Book;
+};
+
+export default function BookPage({ id, initialData }: BookPageProps) {
+  if (!id) {
+    return null;
+  }
+
+  const { book, isError: bookError } = useBook(id, initialData);
+  const { review, mutate } = useReview(id);
+
   const [shelfText, setShelfText] = useState('');
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
 
   useEffect(() => {
-    if (!book) {
+    if (!review) {
       return;
     }
 
     let text = '';
-    if (book.dateAdded) {
-      text = `${text}added ${formatDate(book.dateAdded)}`;
+    if (review.dateAdded) {
+      text = `${text}added ${formatDate(review.dateAdded)}`;
     }
-    if (book.dateUpdated) {
-      text = `${text} ⋅ updated ${formatDate(book.dateUpdated)}`;
+    if (review.dateUpdated) {
+      text = `${text} ⋅ updated ${formatDate(review.dateUpdated)}`;
     }
-    if (book.dateRead) {
-      text = `${text} ⋅ read ${formatDate(book.dateRead)}`;
+    if (review.dateRead) {
+      text = `${text} ⋅ read ${formatDate(review.dateRead)}`;
     }
 
     setShelfText(text);
-  }, [book]);
+  }, [review]);
 
   const rateBook = (rating: number) => {
-    if (!book) {
+    if (!review) {
       return;
     }
     mutate({
-      ...book,
+      ...review,
       myRating: rating,
     }, false);
 
-    fetch(`/api/book/${id}`, {
+    fetch(`/api/review/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ rating }),
     });
@@ -77,7 +89,7 @@ export default function Book() {
     </main>
   );
 
-  if (isError) {
+  if (bookError) {
     content = <div>failed to load</div>;
   } else if (book) {
     content = (
@@ -103,29 +115,33 @@ export default function Book() {
                 </span>
               )) || 'unknown'}
             </span>
-            <br />
-            <div className="flex mt-2 mb-1">
-              <b>Shelves</b>
-              <button
-                type="button"
-                onClick={() => setShowBookshelfDrawer(true)}
-              >
-                <PencilIcon className="h-6 w-6" />
-              </button>
-            </div>
-            <div className="mb-2">
-              {book.shelf ? <Chip className="bg-gray-400" label={book.shelf.name} href={`/shelf/${book.shelf.name}`} /> : 'Not on your shelves.'}
-              {book.tags && book.tags
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((tag) => (
-                  <Chip
-                    key={tag.id}
-                    label={tag.name}
-                    href={`/shelf/${tag.name}`}
-                  />
-                ))}
-            </div>
-            <small>{ shelfText }</small>
+            { review && (
+              <>
+                <br />
+                <div className="flex mt-2 mb-1">
+                  <b>Shelves</b>
+                  <button
+                    type="button"
+                    onClick={() => setShowBookshelfDrawer(true)}
+                  >
+                    <PencilIcon className="h-6 w-6" />
+                  </button>
+                </div>
+                <div className="mb-2">
+                  {review.shelf ? <Chip className="bg-gray-400" label={review.shelf.name} href={`/shelf/${review.shelf.name}`} /> : 'Not on your shelves.'}
+                  {review.tags!
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((tag) => (
+                      <Chip
+                        key={tag.id}
+                        label={tag.name}
+                        href={`/shelf/${tag.name}`}
+                      />
+                    ))}
+                </div>
+                <small>{ shelfText }</small>
+              </>
+            )}
           </div>
         </section>
         <section className="flex items-center justify-evenly w-full my-6">
@@ -134,12 +150,14 @@ export default function Book() {
             rating={book.rating || 0}
             textUnder={`${formatNumber(book.rating || 0)} from ${formatNumber(book.numberOfRatings || 0)} ratings.`}
           />
-          <Rating
-            textOver="Your rating"
-            rating={book.myRating || 0}
-            textUnder="Tap a star to give a rating."
-            onRate={rateBook}
-          />
+          { review && (
+            <Rating
+              textOver="Your rating"
+              rating={review?.myRating || 0}
+              textUnder="Tap a star to give a rating."
+              onRate={rateBook}
+            />
+          )}
         </section>
         <section
           className="mt-4 prose"
@@ -188,4 +206,23 @@ export default function Book() {
   );
 }
 
-export const getServerSideProps = isAuthed();
+export const getStaticPaths = async () => ({ paths: [], fallback: true });
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  if (!params?.id) {
+    return { notFound: true };
+  }
+  try {
+    const { book } = await get(`/book/show/${params.id}.xml`);
+    return {
+      props: {
+        id: params?.id,
+        initialData: bookReducer(book),
+      },
+      revalidate: 1,
+    };
+  } catch (err) {
+    console.error(err);
+    return { notFound: true };
+  }
+};

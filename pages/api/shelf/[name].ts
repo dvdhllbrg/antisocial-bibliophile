@@ -7,6 +7,10 @@ import { Book } from '@custom-types/book';
 
 export default withSession(async (req, res) => {
   const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
+  if (!userId || !accessToken || !accessTokenSecret) {
+    res.status(401).end();
+    return;
+  }
 
   if (req.method === 'POST') {
     const { name, main } = req.query;
@@ -15,7 +19,7 @@ export default withSession(async (req, res) => {
       'user_shelf[exclusive_flag]': main,
     };
     await postAuthed('/user_shelves.xml', accessToken, accessTokenSecret, body);
-    res.status(200).send();
+    res.status(200).end();
   } else if (req.method === 'PATCH') {
     const { name, book_id, remove } = req.query;
     if (remove) {
@@ -42,7 +46,7 @@ export default withSession(async (req, res) => {
         book_id,
       });
     }
-    res.status(200).send();
+    res.status(200).end();
   } else {
     const {
       name, page, per_page, sort, order,

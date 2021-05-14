@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { Book } from '@custom-types/book';
+import { BookWithReview } from '@custom-types/bookWithReview';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
 import BookCard from '@components/elements/BookCard';
@@ -15,9 +15,9 @@ type BookListPageProps = {
 export default function BookListPage({
   route, index, extra = '', isReachingEnd,
 }: BookListPageProps) {
-  const { data: books, error } = useSWR<Book[]>(route);
+  const { data: books, error } = useSWR<BookWithReview[]>(route);
 
-  const bookExtra = (book: Book) => {
+  const bookExtra = (book: BookWithReview) => {
     switch (extra) {
       case 'date_read':
         return book.dateRead ? `Read ${formatDate(book.dateRead)}` : 'No read date.';
@@ -68,7 +68,7 @@ export default function BookListPage({
 
   return (
     <>
-      {books?.map((book, i) => (
+      {books.map((book, i) => (
         <BookCard
           key={book.id}
           book={book}
