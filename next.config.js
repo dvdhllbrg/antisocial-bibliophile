@@ -11,7 +11,4 @@ module.exports = withPreact(withPWA({
   images: {
     domains: ['images.gr-assets.com', 'i.gr-assets.com', 's.gr-assets.com'],
   },
-  future: {
-    webpack5: true,
-  },
 }));

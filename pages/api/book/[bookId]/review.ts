@@ -22,7 +22,7 @@ export default withSession(async (req, res) => {
     };
     try {
       const { id: reviewId } = await get('/review/show_by_user_and_book.xml', {
-        book_id: bookId,
+        book_id: bookId.toString(),
         user_id: userId,
       });
       await postAuthed(`/review/${reviewId}.xml`, accessToken, accessTokenSecret, {
@@ -39,7 +39,7 @@ export default withSession(async (req, res) => {
   } else {
     try {
       const { review } = await get('/review/show_by_user_and_book.xml', {
-        book_id: bookId,
+        book_id: bookId.toString(),
         user_id: userId,
       });
       res.status(200).json(reviewReducer(review));
