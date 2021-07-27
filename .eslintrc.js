@@ -14,6 +14,6 @@ module.exports = {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
     "jsx-a11y/anchor-is-valid": "off",
-    "jsx-a11y/label-has-associated-control": ["error", { assert: "either" } ]
-  }
+    "jsx-a11y/label-has-associated-control": ["error", { assert: "either" } ],
+  },
 };
