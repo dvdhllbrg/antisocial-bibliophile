@@ -60,7 +60,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
       myRating: rating,
     }, false);
 
-    fetch(`/api/review/${id}`, {
+    fetch(`/api/book/${id}/review`, {
       method: 'PATCH',
       body: JSON.stringify({ rating }),
     });
