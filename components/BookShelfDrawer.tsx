@@ -107,7 +107,10 @@ export default function BookShelfDrawer({
         <div className="w-1/2 flex flex-col pr-2">
           <span className="font-bold">Shelf</span>
           {user.shelves.map((s) => (
-            <label className="mb-2">
+            <label
+              key={s.id}
+              className="mb-2"
+            >
               <input
                 type="radio"
                 name="shelf"
@@ -130,7 +133,10 @@ export default function BookShelfDrawer({
         <div className="w-1/2 flex flex-col pl-2">
           <span className="font-bold">Tags</span>
           {user.tags?.map((tag) => (
-            <label className="mb-2">
+            <label
+              key={tag.id}
+              className="mb-2"
+            >
               <input
                 type="checkbox"
                 name="tags"

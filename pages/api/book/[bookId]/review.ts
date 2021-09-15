@@ -15,25 +15,34 @@ export default withSession(async (req, res) => {
   }
 
   if (req.method === 'PATCH') {
+    const reqBody = JSON.parse(req.body);
+    if(!reqBody.rating) {
+      res.status(400).json({msg: 'No rating provided, needs to be 0-5.'})
+    }
+
     const body: any = {
       book_id: bookId,
-      'review[rating]': req.query.rating,
+      'review[rating]': reqBody.rating,
       shelf: 'read',
     };
+
     try {
       const { id: reviewId } = await get('/review/show_by_user_and_book.xml', {
         book_id: bookId.toString(),
         user_id: userId,
       });
-      await postAuthed(`/review/${reviewId}.xml`, accessToken, accessTokenSecret, {
-        id: reviewId,
-        ...body,
-      });
-    } catch (err) {
-      if (err.extensions.response.status !== 404) {
-        res.status(err.extensions.response.status).json(err);
+
+      if(reviewId) {
+        await postAuthed(`/review/${reviewId}.xml`, accessToken, accessTokenSecret, {
+          id: reviewId,
+          ...body,
+        });
+      } else {
+        await postAuthed('/review.xml', accessToken, accessTokenSecret, body);
       }
-      await postAuthed('/review.xml', accessToken, accessTokenSecret, body);
+      
+    } catch (err) {
+      res.status(500).json(err);
     }
     res.status(200).end();
   } else {

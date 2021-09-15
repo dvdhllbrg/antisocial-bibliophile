@@ -18,15 +18,15 @@ import bookReducer from '@reducers/bookReducer';
 
 type BookPageProps = {
   id: string;
-  initialData: Book;
+  fallbackData: Book;
 };
 
-export default function BookPage({ id, initialData }: BookPageProps) {
+export default function BookPage({ id, fallbackData }: BookPageProps) {
   if (!id) {
     return null;
   }
 
-  const { book, isError: bookError } = useBook(id, initialData);
+  const { book, isError: bookError } = useBook(id, fallbackData);
   const { review, mutate } = useReview(id);
 
   const [shelfText, setShelfText] = useState('');
@@ -60,7 +60,7 @@ export default function BookPage({ id, initialData }: BookPageProps) {
       myRating: rating,
     }, false);
 
-    fetch(`/api/review/${id}`, {
+    fetch(`/api/book/${id}/review`, {
       method: 'PATCH',
       body: JSON.stringify({ rating }),
     });
@@ -217,7 +217,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       props: {
         id: params?.id,
-        initialData: bookReducer(book),
+        fallbackData: bookReducer(book),
       },
       revalidate: 1,
     };

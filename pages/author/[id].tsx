@@ -12,11 +12,11 @@ const PER_PAGE = 10;
 
 type AuthorPageProps = {
   id: string;
-  initialData: Author;
+  fallbackData: Author;
 };
 
-export default function AuthorPage({ id, initialData }: AuthorPageProps) {
-  const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { initialData });
+export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
+  const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { fallbackData });
 
   let authorContent: {};
 
@@ -84,7 +84,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       props: {
         id: params.id,
-        initialData: authorReducer(author),
+        fallbackData: authorReducer(author),
       },
       revalidate: 1,
     };
