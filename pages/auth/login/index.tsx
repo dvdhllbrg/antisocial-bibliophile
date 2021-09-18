@@ -37,7 +37,13 @@ export default function Login() {
           {' '}
           Goodreads is very aggressive with sending friend requests whenever you sign up.
           {' '}
-          There&apos;s not really a way to disable this, so just keep it in mind.
+          There&apos;s not really a way to disable this (if you've figured one out,
+          {' '}
+          <a
+            href="https://twitter.com/dvdhllbrg"
+            target="_blank"
+          >let me know</a>
+          ), so just keep it in mind.
         </p>
         <button
           type="button"

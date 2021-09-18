@@ -2216,6 +2216,7 @@ __metadata:
     next: ^11.1.2
     next-iron-session: ^4.2.0
     next-pwa: ^5.3.1
+    next-secure-headers: ^2.2.0
     oauth: ^0.9.15
     postcss: ^8.3.6
     react: ^17.0.2
@@ -5760,6 +5761,13 @@ __metadata:
   peerDependencies:
     next: ">=9.0.0"
   checksum: 1c6f74243515ddffd4248355ae9e6a46424b3ae94ffa0db140d05dbcc59fbad839b2a6608e549aba37a7fb4908818dbd77241be0240e17a92b4b51078ec8b65d
+  languageName: node
+  linkType: hard
+
+"next-secure-headers@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "next-secure-headers@npm:2.2.0"
+  checksum: 17eefce9ecd3e77a2a81b7b2377f352e3725eda61aec07381eb5101215f0577d7fc093af168121689c42099d7ca6441032b93dd6f372ae27bf98a2417c15378e
   languageName: node
   linkType: hard
 

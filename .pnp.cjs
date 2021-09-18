@@ -59,6 +59,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:11.1.2"],
             ["next-iron-session", "npm:4.2.0"],
             ["next-pwa", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:5.3.1"],
+            ["next-secure-headers", "npm:2.2.0"],
             ["oauth", "npm:0.9.15"],
             ["postcss", "npm:8.3.6"],
             ["react", "npm:17.0.2"],
@@ -3359,6 +3360,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:11.1.2"],
             ["next-iron-session", "npm:4.2.0"],
             ["next-pwa", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:5.3.1"],
+            ["next-secure-headers", "npm:2.2.0"],
             ["oauth", "npm:0.9.15"],
             ["postcss", "npm:8.3.6"],
             ["react", "npm:17.0.2"],
@@ -7626,6 +7628,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@types/next",
             "next"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["next-secure-headers", [
+        ["npm:2.2.0", {
+          "packageLocation": "./.yarn/cache/next-secure-headers-npm-2.2.0-86b26f137b-17eefce9ec.zip/node_modules/next-secure-headers/",
+          "packageDependencies": [
+            ["next-secure-headers", "npm:2.2.0"]
           ],
           "linkType": "HARD",
         }]

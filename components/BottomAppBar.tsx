@@ -53,6 +53,7 @@ const BottomAppBar = () => {
             <Link href="/">
               <a
                 className="p-4"
+                aria-label="Home"
               >
                 <HomeIcon className="h-6 w-6" />
               </a>

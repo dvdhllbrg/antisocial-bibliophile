@@ -40,13 +40,35 @@ function MyApp({ Component, pageProps }: AppProps) {
 
         <link rel="manifest" href="/manifest.json" />
         <link
-          href="/favicon.ico"
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="icons/apple-touch-icon.png"
+        />
+        <link
           rel="icon"
           type="image/png"
-          sizes="48x48"
+          sizes="32x32"
+          href="icons/favicon-32x32.png"
         />
-        <link rel="apple-touch-icon" href="/icons/logo192.png" />
-        <meta name="theme-color" content="#4db6ac" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="icons/favicon-16x16.png"
+        />
+        <link
+          rel="mask-icon"
+          href="icons/safari-pinned-tab.svg"
+          color="#5bbad5"
+        />
+        <meta
+          name="msapplication-TileColor"
+          content="#4db6ac"
+        />
+        <meta
+          name="theme-color"
+          content="#4db6ac"
+          />
       </Head>
       <SWRConfig value={swrOptions}>
         <div className="bg-gray-50 min-h-screen">

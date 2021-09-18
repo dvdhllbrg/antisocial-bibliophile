@@ -205,7 +205,10 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
             {' '}
             { book.isbn }
             {' ⋅ '}
-            <a href={book.url}>Open on Goodreads</a>
+            <a
+              href={book.url}
+              target="_blank"
+            >Open on Goodreads</a>
           </small>
         </section>
       </main>
