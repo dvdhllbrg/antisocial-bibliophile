@@ -32,6 +32,9 @@ export default function Shelf() {
   return (
     <>
       <Head>
+        <title key="title">
+          {name} | Antisocial Bibliophile
+        </title>
         <link
           rel="preload"
           href={`/api/shelf/${name}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`}
@@ -39,7 +42,7 @@ export default function Shelf() {
           crossOrigin="anonymous"
         />
       </Head>
-      <TopAppBar title={name as string}>
+      <TopAppBar title={name?.toString()}>
         <button
           type="button"
           className="p-4"

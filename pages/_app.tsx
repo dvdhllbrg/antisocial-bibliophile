@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="description"
           content="Goodreads but without all the stuff that make Goodreads special."
         />
-        <title>Antisocial Bibliophile</title>
+        <title key="title">Antisocial Bibliophile</title>
 
         <link rel="manifest" href="/manifest.json" />
         <link

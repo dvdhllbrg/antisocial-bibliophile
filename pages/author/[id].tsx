@@ -55,6 +55,9 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
   return (
     <>
       <Head>
+        <title key="title">
+          {author && author.name} | Antisocial Bibliophile
+        </title>
         <link
           rel="preload"
           href={`/api/author/${id}`}

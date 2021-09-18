@@ -218,6 +218,9 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
   return (
     <>
       <Head>
+        <title key="title">
+          {book && book.title} | {book?.authors && book.authors[0]?.name} | Antisocial Bibliophile
+        </title>
         <link
           rel="preload"
           href={`/api/book/${id}`}
