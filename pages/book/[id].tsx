@@ -216,7 +216,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const { book } = await get(`/book/show/${params.id}.xml`);
     return {
       props: {
-        id: params?.id,
+        id: params.id,
         fallbackData: bookReducer(book),
       },
       revalidate: 1,

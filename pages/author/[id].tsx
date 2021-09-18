@@ -16,6 +16,10 @@ type AuthorPageProps = {
 };
 
 export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
+  if (!id) {
+    return null;
+  }
+
   const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { fallbackData });
 
   let authorContent: {};
@@ -80,7 +84,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return { notFound: true };
   }
   try {
-    const { author } = await get(`/author/show/${params?.id}`);
+    const { author } = await get(`/author/show/${params.id}`);
     return {
       props: {
         id: params.id,
@@ -89,8 +93,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       revalidate: 1,
     };
   } catch (err) {
-    return {
-      notFound: true,
-    };
+    console.error(err);
+    return { notFound: true };
   }
 };

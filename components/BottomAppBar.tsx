@@ -8,11 +8,7 @@ import useSearch from '@hooks/swr/useSearch';
 import useOnClickOutside from '@hooks/useOnClickOutside';
 
 const BottomAppBar = () => {
-  const { pathname, events } = useRouter();
-
-  if (pathname.includes('/auth/')) {
-    return <></>;
-  }
+  const { events } = useRouter();
 
   const [searchTerm, setSearchTerm] = useState('');
   const { results, isError, isValidating } = useSearch(searchTerm);
