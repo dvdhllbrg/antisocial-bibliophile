@@ -1,10 +1,16 @@
+import { useRouter } from 'next/router';
 import TopAppBar from '@components/TopAppBar';
 
 export default function Login() {
+  const { query } = useRouter();
+
   const authenticateGoodreads = async () => {
     try {
       const res = await fetch('/api/auth/authenticate');
       const data = await res.json();
+      if (query.redirectBookId) {
+        sessionStorage.setItem('redirectBookId', query.redirectBookId.toString());
+      }
       window.location.href = data.oAuthUrl;
     } catch (err) {
       console.error(err);

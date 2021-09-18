@@ -49,7 +49,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
       setShelvesContent(<small className="italic">
         To see your shelf status for this book,
         {' '}
-        <Link href="/auth/login">
+        <Link href={`/auth/login?redirectBookId=${id}`}>
           <a>login to your Goodreads account</a>
         </Link>
         .
