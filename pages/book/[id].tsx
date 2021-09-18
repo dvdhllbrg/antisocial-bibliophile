@@ -29,15 +29,48 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
   }
 
   const { book, isError: bookError } = useBook(id, fallbackData);
-  const { review, mutate } = useReview(id);
+  const { review, isLoading: reviewIsLoading, mutate } = useReview(id);
 
+  const [shelvesContent, setShelvesContent] = useState(
+    <>
+      <Chip skeleton />
+      <Chip skeleton />
+    </>,
+  );
   const [shelfText, setShelfText] = useState('');
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
 
   useEffect(() => {
-    if (!review) {
+    if (reviewIsLoading) {
       return;
     }
+
+    if (!review) {
+      setShelvesContent(<small className="italic">
+        To see your shelf status for this book,
+        {' '}
+        <Link href="/auth/login">
+          <a>login to your Goodreads account</a>
+        </Link>
+        .
+      </small>);
+      return;
+    }
+
+    setShelvesContent(
+      <>
+        {review.shelf ? <Chip className="bg-gray-400" label={review.shelf.name} href={`/shelf/${review.shelf.name}`} /> : 'Not on your shelves.'}
+        {review.tags!
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((tag) => (
+            <Chip
+              key={tag.id}
+              label={tag.name}
+              href={`/shelf/${tag.name}`}
+            />
+          ))}
+      </>,
+    );
 
     let text = '';
     if (review.dateAdded) {
@@ -51,7 +84,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
     }
 
     setShelfText(text);
-  }, [review]);
+  }, [review, reviewIsLoading]);
 
   const rateBook = (rating: number) => {
     if (!review) {
@@ -121,33 +154,22 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
                 </span>
               )) || 'unknown'}
             </span>
-            { review && (
-              <>
-                <br />
-                <div className="flex mt-2 mb-1">
-                  <b>Shelves</b>
-                  <button
-                    type="button"
-                    onClick={() => setShowBookshelfDrawer(true)}
-                  >
-                    <PencilIcon className="h-6 w-6" />
-                  </button>
-                </div>
-                <div className="mb-2">
-                  {review.shelf ? <Chip className="bg-gray-400" label={review.shelf.name} href={`/shelf/${review.shelf.name}`} /> : 'Not on your shelves.'}
-                  {review.tags!
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((tag) => (
-                      <Chip
-                        key={tag.id}
-                        label={tag.name}
-                        href={`/shelf/${tag.name}`}
-                      />
-                    ))}
-                </div>
-                <small>{ shelfText }</small>
-              </>
-            )}
+            <br />
+            <div className="flex mt-2 mb-1">
+              <b>Shelves</b>
+              { review && (
+                <button
+                  type="button"
+                  onClick={() => setShowBookshelfDrawer(true)}
+                >
+                  <PencilIcon className="h-6 w-6" />
+                </button>
+              )}
+            </div>
+            <div className="mb-2">
+              { shelvesContent }
+            </div>
+            <small>{ shelfText }</small>
           </div>
         </section>
         <section className="flex items-center justify-evenly w-full my-6">
@@ -156,14 +178,13 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
             rating={book.rating || 0}
             textUnder={`${formatNumber(book.rating || 0)} from ${formatNumber(book.numberOfRatings || 0)} ratings.`}
           />
-          { review && (
-            <Rating
-              textOver="Your rating"
-              rating={review?.myRating || 0}
-              textUnder="Tap a star to give a rating."
-              onRate={rateBook}
-            />
-          )}
+          <Rating
+            textOver="Your rating"
+            rating={review?.myRating || 0}
+            textUnder="Tap a star to give a rating."
+            onRate={rateBook}
+            visible={typeof review !== 'undefined'}
+          />
         </section>
         <section
           className="mt-4 prose"

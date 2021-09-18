@@ -5,10 +5,11 @@ type RatingProps = {
   onRate?: (rating: number) => void;
   textOver?: string;
   textUnder?: string;
+  visible?: boolean;
 };
 
 const Rating = ({
-  rating, onRate, textOver, textUnder,
+  rating, onRate, textOver, textUnder, visible = true,
 }: RatingProps) => {
   const stars = [];
   for (let i = 1; i <= 5; i += 1) {
@@ -24,7 +25,7 @@ const Rating = ({
     );
   }
   return (
-    <article className="flex flex-col items-center">
+    <article className={`flex flex-col items-center ${visible ? '' : 'invisible'}`}>
       <span className="text-sm">{ textOver }</span>
       <div className="flex items-center">
         { stars }
