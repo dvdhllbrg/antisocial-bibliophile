@@ -92,7 +92,11 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
   );
 
   if (bookError) {
-    content = navigator.onLine ? <SomethingWentWrong /> : <Offline />;
+    content = (
+      <main className="container mx-auto p-4">
+        { navigator.onLine ? <SomethingWentWrong /> : <Offline /> }
+      </main>
+    );
   } else if (book) {
     content = (
       <main className="container mx-auto p-4 pb-24">

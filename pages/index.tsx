@@ -15,10 +15,13 @@ export default function Home() {
   let content;
 
   if (isError) {
-    content = navigator.onLine ? <SomethingWentWrong /> : <Offline />;
+    content = (
+      <main className="container mx-auto p-4">
+        { navigator.onLine ? <SomethingWentWrong /> : <Offline /> }
+      </main>
+    );
   } else if (user && !user.loggedIn) {
     content = (
-
       <main className="prose container mx-auto p-4">
         <h2 className="mt-0 mb-2 text-2xl font-bold">Hey, it looks like you&apos;re not logged in!</h2>
         <p>

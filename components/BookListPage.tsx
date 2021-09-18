@@ -12,10 +12,11 @@ type BookListPageProps = {
   index: number;
   extra?: string;
   isReachingEnd?: (index: number) => void;
+  showErrors: boolean;
 };
 
 export default function BookListPage({
-  route, index, extra = '', isReachingEnd,
+  route, index, extra = '', isReachingEnd, showErrors,
 }: BookListPageProps) {
   const { data: books, error } = useSWR<BookWithReview[]>(route);
 
@@ -45,7 +46,11 @@ export default function BookListPage({
   };
 
   if (error) {
-    return navigator.onLine ? <SomethingWentWrong /> : <Offline />;
+    if (showErrors) {
+      return navigator.onLine ? <SomethingWentWrong /> : <Offline />;
+    } else {
+      return <></>;
+    }
   }
 
   if (!books) {

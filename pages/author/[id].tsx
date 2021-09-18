@@ -24,10 +24,9 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
 
   const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { fallbackData });
 
-  let authorContent: {};
+  let authorContent;
 
   if (error) {
-    authorContent = <p>We could not get that author.</p>;
     authorContent = navigator.onLine ? <SomethingWentWrong /> : <Offline />;
   } else if (!author) {
     authorContent = (
@@ -69,6 +68,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
         <section className="mt-4 clear-both max-w-screen-lg">
           <h2 className="mb-1 mt-2 text-xl">Books</h2>
           <BookList
+            showErrors={false}
             baseRoute={`/api/author/${id}/books`}
             params={{
               per_page: PER_PAGE,

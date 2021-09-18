@@ -9,7 +9,9 @@ export default function OfflinePage() {
         <title>Antisocial Bibliophile - Offline</title>
       </Head>
       <TopAppBar title="Antisocial Bibliophile" />
-      <Offline />
+      <main className="container mx-auto p-4">
+        <Offline />
+      </main>
     </>
   );
 }
