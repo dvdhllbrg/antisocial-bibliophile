@@ -16,19 +16,7 @@ module.exports = withPWA({
   async headers() {
     return [{
       source: '/(.*)',
-      headers: createSecureHeaders({
-        contentSecurityPolicy: {
-          directives: {
-            baseURI: "'self'",
-            defaultSrc: "'self'",
-            scriptSrc: `'self' ${isProduction ? '' : 'unsafe-eval'}`,
-            styleSrc: "'self' 'unsafe-inline' data:",
-            imgSrc: "'self' https://*.gr-assets.com data: blob:",
-          },
-        },
-        forceHTTPSRedirect: [true, { maxAge: 60 * 60 * 24 * 4, includeSubDomains: true }],
-        referrerPolicy: 'same-origin',
-      }),
+      headers: createSecureHeaders(),
     }];
   },
 });

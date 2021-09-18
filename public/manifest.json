@@ -2,7 +2,6 @@
   "short_name": "Antisocial Bibliophile",
   "name": "Antisocial Bibliophile",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "theme_color": "#4db6ac",
   "background_color": "#ffffff",
