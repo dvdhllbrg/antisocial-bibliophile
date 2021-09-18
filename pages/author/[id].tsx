@@ -5,6 +5,8 @@ import useSWR from 'swr';
 import { Author } from '@custom-types/author';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
+import Offline from '@components/Offline';
+import SomethingWentWrong from '@components/SomethingWentWrong';
 import { get } from '@lib/goodreads';
 import authorReducer from '@reducers/authorReducer';
 
@@ -26,6 +28,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
 
   if (error) {
     authorContent = <p>We could not get that author.</p>;
+    authorContent = navigator.onLine ? <SomethingWentWrong /> : <Offline />;
   } else if (!author) {
     authorContent = (
       <div className="h-96 w-full mb-3 mt-2 bg-gray-200 animate-pulse" />

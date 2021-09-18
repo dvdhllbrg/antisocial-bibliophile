@@ -9,6 +9,8 @@ import TopAppBar from '@components/TopAppBar';
 import BookShelfDrawer from '@components/BookShelfDrawer';
 import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
+import Offline from '@components/Offline';
+import SomethingWentWrong from '@components/SomethingWentWrong';
 import useBook from '@hooks/swr/useBook';
 import useReview from '@hooks/swr/useReview';
 import { Book } from '@custom-types/book';
@@ -90,7 +92,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
   );
 
   if (bookError) {
-    content = <div>failed to load</div>;
+    content = navigator.onLine ? <SomethingWentWrong /> : <Offline />;
   } else if (book) {
     content = (
       <main className="container mx-auto p-4 pb-24">
