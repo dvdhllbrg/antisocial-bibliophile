@@ -5,7 +5,13 @@ export default function AuthCallback() {
     async function authorizeGoodreads() {
       try {
         await fetch('/api/auth/authorize');
-        window.location.href = '/';
+        const redirectBookId = sessionStorage.getItem('redirectBookId');
+        if (redirectBookId) {
+          sessionStorage.removeItem('redirectBookId');
+          window.location.href = `/book/${redirectBookId}`;
+        } else {
+          window.location.href = '/';
+        }
       } catch (err) {
         console.error(err);
       }

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Chip from '@components/elements/Chip';
 import TopAppBar from '@components/TopAppBar';
 import NewShelfDrawer from '@components/NewShelfDrawer';
+import Offline from '@components/Offline';
+import SomethingWentWrong from '@components/SomethingWentWrong';
 import useUser from '@hooks/swr/useUser';
 
 export default function Home() {
@@ -13,10 +15,13 @@ export default function Home() {
   let content;
 
   if (isError) {
-    content = <div>failed to load</div>;
+    content = (
+      <main className="container mx-auto p-4">
+        { navigator.onLine ? <SomethingWentWrong /> : <Offline /> }
+      </main>
+    );
   } else if (user && !user.loggedIn) {
     content = (
-
       <main className="prose container mx-auto p-4">
         <h2 className="mt-0 mb-2 text-2xl font-bold">Hey, it looks like you&apos;re not logged in!</h2>
         <p>

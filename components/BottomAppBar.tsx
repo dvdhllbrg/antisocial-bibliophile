@@ -8,11 +8,7 @@ import useSearch from '@hooks/swr/useSearch';
 import useOnClickOutside from '@hooks/useOnClickOutside';
 
 const BottomAppBar = () => {
-  const { pathname, events } = useRouter();
-
-  if (pathname.includes('/auth/')) {
-    return <></>;
-  }
+  const { events } = useRouter();
 
   const [searchTerm, setSearchTerm] = useState('');
   const { results, isError, isValidating } = useSearch(searchTerm);
@@ -57,6 +53,7 @@ const BottomAppBar = () => {
             <Link href="/">
               <a
                 className="p-4"
+                aria-label="Home"
               >
                 <HomeIcon className="h-6 w-6" />
               </a>

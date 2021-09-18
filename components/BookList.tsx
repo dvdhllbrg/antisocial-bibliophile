@@ -4,10 +4,11 @@ import BookListPage from '@components/BookListPage';
 type BookListProps = {
   baseRoute: string;
   extra?: string;
-  params?: Record<string, any>
+  params?: Record<string, any>;
+  showErrors?: boolean;
 };
 
-export default function BookList({ baseRoute, extra, params }: BookListProps) {
+export default function BookList({ baseRoute, extra, params, showErrors = true }: BookListProps) {
   const [numberOfPages, setNumberOfPages] = useState(1);
   const urlParams = new URLSearchParams(params);
 
@@ -26,6 +27,7 @@ export default function BookList({ baseRoute, extra, params }: BookListProps) {
         route={`${baseRoute}?page=${i + 1}&${urlParams.toString()}`}
         extra={extra}
         isReachingEnd={isReachingEnd}
+        showErrors={showErrors}
       />,
     );
   }

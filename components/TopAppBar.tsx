@@ -11,7 +11,7 @@ type TopAppBarProps = {
 const TopAppBar = ({ title, children }: TopAppBarProps) => {
   const { pathname, back } = useRouter();
 
-  const showBackButton = !['/', '/auth/login'].includes(pathname);
+  const showBackButton = !['/'].includes(pathname);
 
   return (
     <header className="sticky top-0 w-full z-10">

@@ -1,10 +1,16 @@
+import { useRouter } from 'next/router';
 import TopAppBar from '@components/TopAppBar';
 
 export default function Login() {
+  const { query } = useRouter();
+
   const authenticateGoodreads = async () => {
     try {
       const res = await fetch('/api/auth/authenticate');
       const data = await res.json();
+      if (query.redirectBookId) {
+        sessionStorage.setItem('redirectBookId', query.redirectBookId.toString());
+      }
       window.location.href = data.oAuthUrl;
     } catch (err) {
       console.error(err);
@@ -31,7 +37,13 @@ export default function Login() {
           {' '}
           Goodreads is very aggressive with sending friend requests whenever you sign up.
           {' '}
-          There&apos;s not really a way to disable this, so just keep it in mind.
+          There&apos;s not really a way to disable this (if you've figured one out,
+          {' '}
+          <a
+            href="https://twitter.com/dvdhllbrg"
+            target="_blank"
+          >let me know</a>
+          ), so just keep it in mind.
         </p>
         <button
           type="button"

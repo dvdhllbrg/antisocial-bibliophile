@@ -1,11 +1,18 @@
 module.exports = {
   extends: [
     'airbnb-typescript',
+    'plugin:@next/next/recommended',
   ],
+  ignorePatterns: [".eslintrc.js", "public/*"],
   parserOptions: {
     project: './tsconfig.eslint.json',
   },
-  ignorePatterns: ['.eslintrc.js'],
+  plugins: [
+    'import',
+    'jsx-a11y',
+    'react',
+    'react-hooks'
+  ],
   rules: {
     // suppress errors for missing 'import React' in files since next.js handles this for us.
     "react/react-in-jsx-scope": "off",

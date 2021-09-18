@@ -5,6 +5,8 @@ import useSWR from 'swr';
 import { Author } from '@custom-types/author';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
+import Offline from '@components/Offline';
+import SomethingWentWrong from '@components/SomethingWentWrong';
 import { get } from '@lib/goodreads';
 import authorReducer from '@reducers/authorReducer';
 
@@ -16,12 +18,16 @@ type AuthorPageProps = {
 };
 
 export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
+  if (!id) {
+    return null;
+  }
+
   const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { fallbackData });
 
-  let authorContent: {};
+  let authorContent;
 
   if (error) {
-    authorContent = <p>We could not get that author.</p>;
+    authorContent = navigator.onLine ? <SomethingWentWrong /> : <Offline />;
   } else if (!author) {
     authorContent = (
       <div className="h-96 w-full mb-3 mt-2 bg-gray-200 animate-pulse" />
@@ -62,6 +68,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
         <section className="mt-4 clear-both max-w-screen-lg">
           <h2 className="mb-1 mt-2 text-xl">Books</h2>
           <BookList
+            showErrors={false}
             baseRoute={`/api/author/${id}/books`}
             params={{
               per_page: PER_PAGE,
@@ -80,7 +87,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return { notFound: true };
   }
   try {
-    const { author } = await get(`/author/show/${params?.id}`);
+    const { author } = await get(`/author/show/${params.id}`);
     return {
       props: {
         id: params.id,
@@ -89,8 +96,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       revalidate: 1,
     };
   } catch (err) {
-    return {
-      notFound: true,
-    };
+    console.error(err);
+    return { notFound: true };
   }
 };

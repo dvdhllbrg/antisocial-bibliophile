@@ -8,16 +8,18 @@ export default withSession(async (req, res) => {
     res.status(400).send('bookId not set');
     return;
   }
-  const { userId, accessToken, accessTokenSecret } = req.session.get('goodreads');
-  if (!userId || !accessToken || !accessTokenSecret) {
+  const session = req.session.get('goodreads');
+  if (!session || !session.userId || !session.accessToken || !session.accessTokenSecret) {
     res.status(401).end();
     return;
   }
 
+  const { userId, accessToken, accessTokenSecret } = session;
+
   if (req.method === 'PATCH') {
     const reqBody = JSON.parse(req.body);
-    if(!reqBody.rating) {
-      res.status(400).json({msg: 'No rating provided, needs to be 0-5.'})
+    if (!reqBody.rating) {
+      res.status(400).json({ msg: 'No rating provided, needs to be 0-5.' });
     }
 
     const body: any = {
@@ -32,7 +34,7 @@ export default withSession(async (req, res) => {
         user_id: userId,
       });
 
-      if(reviewId) {
+      if (reviewId) {
         await postAuthed(`/review/${reviewId}.xml`, accessToken, accessTokenSecret, {
           id: reviewId,
           ...body,

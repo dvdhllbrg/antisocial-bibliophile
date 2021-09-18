@@ -4,16 +4,19 @@ import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
 import BookCard from '@components/elements/BookCard';
 import Spinner from '@components/elements/Spinner';
+import Offline from '@components/Offline';
+import SomethingWentWrong from '@components/SomethingWentWrong';
 
 type BookListPageProps = {
   route: string;
   index: number;
   extra?: string;
   isReachingEnd?: (index: number) => void;
+  showErrors: boolean;
 };
 
 export default function BookListPage({
-  route, index, extra = '', isReachingEnd,
+  route, index, extra = '', isReachingEnd, showErrors,
 }: BookListPageProps) {
   const { data: books, error } = useSWR<BookWithReview[]>(route);
 
@@ -43,7 +46,11 @@ export default function BookListPage({
   };
 
   if (error) {
-    return <div>failed to load</div>;
+    if (showErrors) {
+      return navigator.onLine ? <SomethingWentWrong /> : <Offline />;
+    } else {
+      return <></>;
+    }
   }
 
   if (!books) {

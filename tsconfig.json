@@ -24,6 +24,7 @@
       "@lib/*": ["lib/*"],
       "@reducers/*": ["reducers/*"],
       "@custom-types/*": ["types/*"],
+      "@images/*": ["public/images/*"],
     }
   },
   "include": [
