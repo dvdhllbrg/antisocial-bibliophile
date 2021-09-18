@@ -2,7 +2,7 @@ const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
 const { createSecureHeaders } = require('next-secure-headers');
 
-const isProduction = process.env.node === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = withPWA({
   pwa: {
