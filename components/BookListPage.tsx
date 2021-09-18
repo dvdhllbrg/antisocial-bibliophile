@@ -4,6 +4,8 @@ import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
 import BookCard from '@components/elements/BookCard';
 import Spinner from '@components/elements/Spinner';
+import Offline from '@components/Offline';
+import SomethingWentWrong from '@components/SomethingWentWrong';
 
 type BookListPageProps = {
   route: string;
@@ -43,7 +45,7 @@ export default function BookListPage({
   };
 
   if (error) {
-    return <div>failed to load</div>;
+    return navigator.onLine ? <SomethingWentWrong /> : <Offline />;
   }
 
   if (!books) {

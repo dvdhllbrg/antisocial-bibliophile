@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Chip from '@components/elements/Chip';
 import TopAppBar from '@components/TopAppBar';
 import NewShelfDrawer from '@components/NewShelfDrawer';
+import Offline from '@components/Offline';
+import SomethingWentWrong from '@components/SomethingWentWrong';
 import useUser from '@hooks/swr/useUser';
 
 export default function Home() {
@@ -13,7 +15,7 @@ export default function Home() {
   let content;
 
   if (isError) {
-    content = <div>failed to load</div>;
+    content = navigator.onLine ? <SomethingWentWrong /> : <Offline />;
   } else if (user && !user.loggedIn) {
     content = (
 
