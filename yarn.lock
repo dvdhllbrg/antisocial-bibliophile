@@ -1657,10 +1657,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.9.1":
-  version: 16.9.1
-  resolution: "@types/node@npm:16.9.1"
-  checksum: 41afcf183a22d59323a0199dd7e0f46591247f45fc08a4434edb26d56dc279ae4fdb80f37989ddd7a0f45e3857c4933e6e82057ede09c5a829f77e373e680375
+"@types/node@npm:^16.9.2":
+  version: 16.9.2
+  resolution: "@types/node@npm:16.9.2"
+  checksum: 204aa883bc93a267f43804af8872e538935369ab905d5ca702d2c17a213339f8df974bb95d21e2e714e8f83f669b185d8526f7c4b5d16adbdb5d96d4f2e75fa9
   languageName: node
   linkType: hard
 
@@ -1687,7 +1687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17":
+"@types/react-dom@npm:^17.0.9":
   version: 17.0.9
   resolution: "@types/react-dom@npm:17.0.9"
   dependencies:
@@ -1696,7 +1696,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^17":
+"@types/react@npm:*, @types/react@npm:^17.0.21":
   version: 17.0.21
   resolution: "@types/react@npm:17.0.21"
   dependencies:
@@ -1966,17 +1966,19 @@ __metadata:
     "@heroicons/react": ^1.0.4
     "@next/eslint-plugin-next": ^11.1.2
     "@tailwindcss/typography": ^0.4.1
-    "@types/node": ^16.9.1
+    "@types/node": ^16.9.2
     "@types/oauth": ^0.9.1
-    "@types/react": ^17
-    "@types/react-dom": ^17
+    "@types/react": ^17.0.21
+    "@types/react-dom": ^17.0.9
     "@types/xml2js": ^0.4.9
     "@typescript-eslint/eslint-plugin": ^4.31.1
     "@typescript-eslint/parser": ^4.31.1
     autoprefixer: ^10.3.4
     eslint: ^7.32.0
     eslint-config-airbnb: ^18.2.1
+    eslint-config-airbnb-base: ^14.2.1
     eslint-config-airbnb-typescript: ^14.0.0
+    eslint-import-resolver-node: ^0.3.6
     eslint-plugin-import: ^2.24.2
     eslint-plugin-jsx-a11y: ^6.4.1
     eslint-plugin-react: ^7.25.2
