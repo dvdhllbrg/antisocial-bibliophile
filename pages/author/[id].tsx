@@ -45,7 +45,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
           />
         </div>
         <div
-          className="prose"
+          className="prose dark:prose-light"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: author.description }}
         />
@@ -55,6 +55,9 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
   return (
     <>
       <Head>
+        <title key="title">
+          {author && author.name} | Antisocial Bibliophile
+        </title>
         <link
           rel="preload"
           href={`/api/author/${id}`}

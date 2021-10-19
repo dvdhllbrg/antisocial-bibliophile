@@ -187,7 +187,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
           />
         </section>
         <section
-          className="mt-4 prose"
+          className="mt-4 prose dark:prose-light"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: book.description || '' }}
         />
@@ -218,6 +218,9 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
   return (
     <>
       <Head>
+        <title key="title">
+          {book && book.title} | {book?.authors && book.authors[0]?.name} | Antisocial Bibliophile
+        </title>
         <link
           rel="preload"
           href={`/api/book/${id}`}

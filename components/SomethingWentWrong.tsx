@@ -3,7 +3,7 @@ import warning from '@images/warning.svg';
 
 export default function SomethingWentWrong() {
   return (
-    <div className="prose">
+    <div className="prose dark:prose-light">
       <div className="mb-3">
         <Image
           src={warning}

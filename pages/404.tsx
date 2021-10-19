@@ -11,7 +11,7 @@ export default function NotFound() {
         <title>404 - Not Found</title>
       </Head>
       <TopAppBar title="Antisocial Bibliophile" />
-      <main className="prose container mx-auto p-4">
+      <main className="prose dark:prose-light container mx-auto p-4">
         <div className="mb-3">
           <Image
             src={lost}

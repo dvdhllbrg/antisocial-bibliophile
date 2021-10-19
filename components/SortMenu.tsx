@@ -21,17 +21,17 @@ export default function SortMenu({
   show, sort, setSort, sortOrder, setSortOrder,
 }: SortMenuProps) {
   return (
-    <article className={`w-full bg-white p-4 transform-gpu transition-transform duration-200 ease-out ${show ? '' : '-translate-y-full'}`}>
+    <article className={`w-full bg-white dark:bg-gray-800 p-4 transform-gpu transition-transform duration-200 ease-out ${show ? '' : '-translate-y-full'}`}>
       <label
         htmlFor="sort_by"
-        className="text-xs text-gray-600"
+        className="text-xs"
       >
         Sort by
       </label>
       <div className="flex items-center">
         <select
           id="sort_by"
-          className="bg-white flex-grow border-b border-gray-500 text-gray-800 p-2 pl-0 outline-none"
+          className="flex-grow border-gray-200 dark:border-gray-700 bg-gray-200 dark:bg-gray-700 py-2 px-3 border rounded focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent"
           value={sort}
           onChange={(e) => setSort(e.target.value)}
         >

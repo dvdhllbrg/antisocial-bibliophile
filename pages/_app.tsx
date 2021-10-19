@@ -2,6 +2,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { SWRConfig } from 'swr';
+import { ThemeProvider } from 'next-themes';
 import '../styles/globals.css';
 import BottomAppBar from '@components/BottomAppBar';
 
@@ -36,7 +37,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="description"
           content="Goodreads but without all the stuff that make Goodreads special."
         />
-        <title>Antisocial Bibliophile</title>
+        <title key="title">Antisocial Bibliophile</title>
+        <script
+          async
+          defer
+          data-website-id="fb737107-35b4-41f2-9143-6a4255ce0cee"
+          data-do-not-track="true"
+          data-domains="antisocial-bibliophile.vercel.app"
+          src="https://umami-five-cyan.vercel.app/umami.js"
+        />
 
         <link rel="manifest" href="/manifest.json" />
         <link
@@ -71,10 +80,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
       </Head>
       <SWRConfig value={swrOptions}>
-        <div className="bg-gray-50 min-h-screen">
-          <Component {...pageProps} />
-          <BottomAppBar />
-        </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+        >
+          <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+            <Component {...pageProps} />
+            <BottomAppBar />
+          </div>
+        </ThemeProvider>
       </SWRConfig>
     </>
   );
