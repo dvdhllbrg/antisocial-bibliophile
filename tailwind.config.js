@@ -13,29 +13,41 @@ module.exports = {
         'dark-secondary': '#0f0',
       },
       typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            h1: {
+              marginTop: 0,
+            },
+            h2: {
+              marginTop: 0,
+            },
+            h3: {
+              marginTop: 0,
+            },
+            h4: {
+              marginTop: 0,
+            },
+          },
+        },
         light: {
           css: [
             {
               color: theme('colors.gray.300'),
               h1: {
                 color: theme('colors.white'),
-                marginTop: 0,
               },
               h2: {
                 color: theme('colors.white'),
-                marginTop: 0,
               },
               h3: {
                 color: theme('colors.white'),
-                marginTop: 0,
               },
               h4: {
                 color: theme('colors.white'),
-                marginTop: 0,
               },
               b: {
                 color: theme('colors.white'),
-              }
+              },
             },
           ],
         },
