@@ -9,38 +9,38 @@ type Settings = {
   hideGoodreadsRatings?: boolean;
   hideMyRatings?: boolean;
   disableAnalytics?: boolean;
-}
+};
 
-export default function Settings() {
+export default function SettingsPage() {
   const [settings, setSettings] = useState<Settings>({});
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const loadSettings = async () => {
-      const [hideGoodreadsRatings, hideMyRatings, disableAnalytics, theme] = await getMany(['hideGoodreadsRatings', 'theme']);
+      const [hideGoodreadsRatings, hideMyRatings, disableAnalytics] = await getMany(['hideGoodreadsRatings', 'hideMyRatings', 'disableAnalytics']);
 
       setSettings({
         hideGoodreadsRatings,
         hideMyRatings,
         disableAnalytics,
       });
-    }
+    };
     loadSettings();
   }, []);
 
-  const setSetting = (key: string, value?: boolean | string) => {
-    console.log(key);
+  const setSetting = async (key: string, value?: boolean | string) => {
     setSettings({
       ...settings,
       [key]: value,
     });
 
-    if(value === null) {
+    if (value === null) {
       del(key);
     } else {
+      console.log(key, value);
       set(key, value);
     }
-  }
+  };
 
   return (
     <>

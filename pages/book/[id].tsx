@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PencilIcon } from '@heroicons/react/solid';
+import { getMany } from 'idb-keyval/dist/index';
 import formatDate from '@lib/formatDate';
 import formatNumber from '@lib/formatNumber';
 import TopAppBar from '@components/TopAppBar';
@@ -39,6 +40,17 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
   );
   const [shelfText, setShelfText] = useState('');
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
+  const [showGoodreadsRating, setShowGoodreadsRating] = useState(false);
+  const [showMyRating, setShowMyRating] = useState(false);
+
+  useEffect(() => {
+    const getRatingSettings = async () => {
+      const [hideGoodreadsRatings, hideMyRatings] = await getMany(['hideGoodreadsRatings', 'hideMyRatings', 'disableAnalytics']);
+      setShowGoodreadsRating(!hideGoodreadsRatings);
+      setShowMyRating(!hideMyRatings);
+    };
+    getRatingSettings();
+  }, []);
 
   useEffect(() => {
     if (reviewIsLoading) {
@@ -173,18 +185,18 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
           </div>
         </section>
         <section className="flex items-center justify-evenly w-full my-6">
-          <Rating
+          {showGoodreadsRating && <Rating
             textOver="Goodreads rating"
             rating={book.rating || 0}
             textUnder={`${formatNumber(book.rating || 0)} from ${formatNumber(book.numberOfRatings || 0)} ratings.`}
-          />
-          <Rating
+          />}
+          {showMyRating && <Rating
             textOver="Your rating"
             rating={review?.myRating || 0}
             textUnder="Tap a star to give a rating."
             onRate={rateBook}
             visible={typeof review !== 'undefined'}
-          />
+          />}
         </section>
         <section
           className="mt-4 prose dark:prose-light"
