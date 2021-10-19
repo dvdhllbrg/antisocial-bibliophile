@@ -47,7 +47,7 @@ export default function Login() {
         </p>
         <button
           type="button"
-          className="uppercase bg-[#4db6ac] hover:bg-[#3c938b] font-semibold py-2 px-4 rounded w-full sm:w-auto"
+          className="uppercase bg-primary dark:bg-dark-primary hover:bg-secondary dark:hover:bg-dark-secondary font-semibold py-2 px-4 rounded w-full sm:w-auto"
           onClick={authenticateGoodreads}
         >
           Login with Goodreads

@@ -45,7 +45,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
           />
         </div>
         <div
-          className="prose"
+          className="prose dark:prose-light"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: author.description }}
         />

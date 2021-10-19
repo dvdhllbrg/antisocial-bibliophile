@@ -56,10 +56,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-jsx-a11y", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:6.4.1"],
             ["eslint-plugin-react", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:7.26.1"],
             ["eslint-plugin-react-hooks", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:4.2.0"],
+            ["idb-keyval", "npm:6.0.3"],
             ["next", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:11.1.2"],
             ["next-iron-session", "npm:4.2.0"],
             ["next-pwa", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:5.4.0"],
             ["next-secure-headers", "npm:2.2.0"],
+            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.0.15"],
             ["oauth", "npm:0.9.15"],
             ["postcss", "npm:8.3.9"],
             ["react", "npm:17.0.2"],
@@ -3311,10 +3313,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-jsx-a11y", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:6.4.1"],
             ["eslint-plugin-react", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:7.26.1"],
             ["eslint-plugin-react-hooks", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:4.2.0"],
+            ["idb-keyval", "npm:6.0.3"],
             ["next", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:11.1.2"],
             ["next-iron-session", "npm:4.2.0"],
             ["next-pwa", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:5.4.0"],
             ["next-secure-headers", "npm:2.2.0"],
+            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.0.15"],
             ["oauth", "npm:0.9.15"],
             ["postcss", "npm:8.3.9"],
             ["react", "npm:17.0.2"],
@@ -6344,6 +6348,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["idb-keyval", [
+        ["npm:6.0.3", {
+          "packageLocation": "./.yarn/cache/idb-keyval-npm-6.0.3-aa71f51f48-cbd123a49f.zip/node_modules/idb-keyval/",
+          "packageDependencies": [
+            ["idb-keyval", "npm:6.0.3"],
+            ["safari-14-idb-fix", "npm:3.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["ieee754", [
         ["npm:1.2.1", {
           "packageLocation": "./.yarn/cache/ieee754-npm-1.2.1-fb63b3caeb-5144c0c981.zip/node_modules/ieee754/",
@@ -7685,6 +7699,36 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/next-secure-headers-npm-2.2.0-86b26f137b-17eefce9ec.zip/node_modules/next-secure-headers/",
           "packageDependencies": [
             ["next-secure-headers", "npm:2.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["next-themes", [
+        ["npm:0.0.15", {
+          "packageLocation": "./.yarn/cache/next-themes-npm-0.0.15-d4a94db0f2-c85793fa07.zip/node_modules/next-themes/",
+          "packageDependencies": [
+            ["next-themes", "npm:0.0.15"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.0.15", {
+          "packageLocation": "./.yarn/__virtual__/next-themes-virtual-b20ecec6de/0/cache/next-themes-npm-0.0.15-d4a94db0f2-c85793fa07.zip/node_modules/next-themes/",
+          "packageDependencies": [
+            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.0.15"],
+            ["@types/next", null],
+            ["@types/react", "npm:17.0.30"],
+            ["@types/react-dom", "npm:17.0.9"],
+            ["next", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:11.1.2"],
+            ["react", "npm:17.0.2"],
+            ["react-dom", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:17.0.2"]
+          ],
+          "packagePeers": [
+            "@types/next",
+            "@types/react-dom",
+            "@types/react",
+            "next",
+            "react-dom",
+            "react"
           ],
           "linkType": "HARD",
         }]
@@ -9035,6 +9079,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["run-parallel", "npm:1.2.0"],
             ["queue-microtask", "npm:1.2.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["safari-14-idb-fix", [
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/safari-14-idb-fix-npm-3.0.0-bc2975407c-30d5baf3d9.zip/node_modules/safari-14-idb-fix/",
+          "packageDependencies": [
+            ["safari-14-idb-fix", "npm:3.0.0"]
           ],
           "linkType": "HARD",
         }]

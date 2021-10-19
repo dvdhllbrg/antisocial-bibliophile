@@ -187,7 +187,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
           />
         </section>
         <section
-          className="mt-4 prose"
+          className="mt-4 prose dark:prose-light"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: book.description || '' }}
         />

@@ -34,13 +34,13 @@ export default function BookCard({
 
   if (skeleton) {
     return (
-      <article className="flex bg-white h-36 w-full rounded shadow mb-4">
-        <div className="animate-pulse bg-gray-200 w-36" />
+      <article className="flex bg-white dark:bg-gray-800 h-36 w-full rounded shadow mb-4">
+        <div className="animate-pulse bg-gray-200 dark:bg-gray-600 w-36" />
         <div className="w-full px-4">
-          <div className="h-7 w-full mb-3 mt-2 bg-gray-200 animate-pulse" />
+          <div className="h-7 w-full mb-3 mt-2 bg-gray-200 dark:bg-gray-600 animate-pulse" />
           by
-          <span className="inline-block ml-2 h-4 w-5/6 bg-gray-200 animate-pulse" />
-          { extra && <span className="inline-block ml-2 h-4 w-1/2 bg-gray-200 animate-pulse mt-2" /> }
+          <span className="inline-block ml-2 h-4 w-5/6 bg-gray-200 dark:bg-gray-600 animate-pulse" />
+          { extra && <span className="inline-block ml-2 h-4 w-1/2 bg-gray-200 dark:bg-gray-600 animate-pulse mt-2" /> }
         </div>
       </article>
     );
@@ -51,7 +51,7 @@ export default function BookCard({
   return (
     <article
       ref={loader}
-      className="rounded overflow-y-hidden shadow mb-4 bg-white hover:bg-gray-100"
+      className="rounded overflow-y-hidden shadow mb-4 bg-white dark:bg-gray-800 hover:bg-gray-100"
     >
       <Link
         href={`/book/${book.id}`}

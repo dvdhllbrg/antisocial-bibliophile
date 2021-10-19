@@ -3,7 +3,7 @@ import signalSearching from '@images/signal-searching.svg';
 
 export default function Offline() {
   return (
-    <div className="prose">
+    <div className="prose dark:prose-light">
       <div className="mb-3">
         <Image
           src={signalSearching}

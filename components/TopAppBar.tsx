@@ -16,7 +16,7 @@ const TopAppBar = ({ title, children }: TopAppBarProps) => {
   return (
     <header className="sticky top-0 w-full z-10">
       <HideOnScroll direction="up">
-        <nav className="bg-gray-50 flex items-start">
+        <nav className="bg-gray-50 dark:bg-gray-900 flex items-start">
           {showBackButton && (
             <button
               type="button"

@@ -158,7 +158,7 @@ export default function BookShelfDrawer({
       { show && <div className="bg-black z-40 fixed top-0 right-0 bottom-0 left-0 opacity-50" /> }
       <article
         ref={ref}
-        className={`bg-white w-full z-50 fixed bottom-0 p-4 transition-transform duration-200 ease-out transform-gpu ${show ? '' : 'translate-y-full'}`}
+        className={`bg-white dark:bg-gray-900 w-full z-50 fixed bottom-0 p-4 transition-transform duration-200 ease-out transform-gpu ${show ? '' : 'translate-y-full'}`}
       >
         { content }
       </article>

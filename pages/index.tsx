@@ -22,7 +22,7 @@ export default function Home() {
     );
   } else if (user && !user.loggedIn) {
     content = (
-      <main className="prose container mx-auto p-4">
+      <main className="prose dark:prose-light container mx-auto p-4">
         <section>
         <h2 className="mt-0 mb-2 text-2xl font-bold">Hey, it looks like you&apos;re not logged in!</h2>
         <p>
@@ -56,7 +56,7 @@ export default function Home() {
                 href={`/shelf/${shelf.name}`}
                 key={shelf.id}
               >
-                <a className="flex border-b hover:bg-gray-300 no-underline font-normal justify-between p-4">
+                <a className="flex border-b hover:bg-gray-300 dark:hover:bg-gray-600 no-underline font-normal justify-between p-4">
                   <span>{ shelf.name }</span>
                   <span>{ shelf.count }</span>
                 </a>
@@ -77,20 +77,11 @@ export default function Home() {
           <section className="mt-6">
             <button
               type="button"
-              className="w-full border py-2 text-sm border-gray-800 uppercase"
+              className="w-full border py-2 text-sm border-gray-800 dark:border-white uppercase"
               onClick={() => setShowNewShelfDrawer(true)}
             >
               Create a new tag or shelf
             </button>
-          </section>
-          <section>
-            <h2 className="mt-6 mb-4 text-2xl font-bold">About the app</h2>
-              <p>
-                <Link href="/about">
-                  <a>Click here to learn more about the app</a>
-                </Link>
-                , like how to report bugs and where those gorgeous illustrations come from.
-              </p>
           </section>
         </main>
         <NewShelfDrawer
@@ -105,9 +96,9 @@ export default function Home() {
         <main className="container mx-auto p-4">
           <section>
             <h2 className="mt-0 mb-2 text-2xl font-bold">Main</h2>
-            <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
-            <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
-            <div className="animate-pulse bg-gray-200 h-12 w-full mb-4" />
+            <div className="animate-pulse bg-gray-200 dark:bg-gray-600 h-12 w-full mb-4" />
+            <div className="animate-pulse bg-gray-200 dark:bg-gray-600 border-dark-primaryh-12 w-full mb-4" />
+            <div className="animate-pulse bg-gray-200 dark:bg-gray-600 h-12 w-full mb-4" />
           </section>
           <section>
             <h2 className="mt-6 mb-4 text-2xl font-bold">Tags</h2>
