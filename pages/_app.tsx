@@ -1,12 +1,24 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { SWRConfig } from 'swr';
 import { ThemeProvider } from 'next-themes';
+import { get } from 'idb-keyval/dist/index';
 import '../styles/globals.css';
 import BottomAppBar from '@components/BottomAppBar';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [includeAnalytics, setIncludeAnalytics] = useState(true);
+
+  useEffect(() => {
+    const getSettings = async () => {
+      const disableAnalytics = get('disableAnalytics');
+      setIncludeAnalytics(!disableAnalytics);
+    };
+    getSettings();
+  }, []);
+
   const fetcher = async (url: string) => {
     const res = await fetch(url);
 
@@ -38,14 +50,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="Goodreads but without all the stuff that make Goodreads special."
         />
         <title key="title">Antisocial Bibliophile</title>
-        <script
+        {includeAnalytics && <script
           async
           defer
           data-website-id="fb737107-35b4-41f2-9143-6a4255ce0cee"
           data-do-not-track="true"
           data-domains="antisocial-bibliophile.vercel.app"
           src="https://umami-five-cyan.vercel.app/umami.js"
-        />
+        />}
 
         <link rel="manifest" href="/manifest.json" />
         <link
