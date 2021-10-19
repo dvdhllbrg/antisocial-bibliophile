@@ -8,7 +8,6 @@ import Switch from '@components/elements/Switch';
 type Settings = {
   hideGoodreadsRatings?: boolean;
   hideMyRatings?: boolean;
-  disableAnalytics?: boolean;
 };
 
 export default function SettingsPage() {
@@ -17,12 +16,11 @@ export default function SettingsPage() {
 
   useEffect(() => {
     const loadSettings = async () => {
-      const [hideGoodreadsRatings, hideMyRatings, disableAnalytics] = await getMany(['hideGoodreadsRatings', 'hideMyRatings', 'disableAnalytics']);
+      const [hideGoodreadsRatings, hideMyRatings] = await getMany(['hideGoodreadsRatings', 'hideMyRatings', 'disableAnalytics']);
 
       setSettings({
         hideGoodreadsRatings,
         hideMyRatings,
-        disableAnalytics,
       });
     };
     loadSettings();
@@ -89,18 +87,6 @@ export default function SettingsPage() {
               onToggle={() => setSetting('hideMyRatings', !settings.hideMyRatings)}
             />
           </div>
-          <div className="flex justify-between mb-5">
-            <div>
-              <b>Disable analytics</b>
-              <br />
-              If you want to opt out of analytics, that's completely fine. However, the app uses <a href="https://umami.is/">Umami</a>, a privacy-focused, self-hosted, and open-sourced analytics service. No personally identifiable information is collected, and all data is anonymized.
-            </div>
-            <Switch
-              className="flex-shrink-0"
-              on={settings.disableAnalytics}
-              onToggle={() => setSetting('disableAnalytics', !settings.disableAnalytics)}
-            />
-          </div>
         </section>
         <section>
           <h2>About the App</h2>
@@ -139,6 +125,12 @@ export default function SettingsPage() {
             target="_blank"
           >unDraw</a>
           , coincidentally one of the best open-source projects out there.
+        </p>
+        <p>
+          The app uses
+          {' '}
+          <a href="https://umami.is">umami, a "simple, easy to use, self-hosted web analytics solution"</a>
+          . No personally identifiable information is collected and all data is anonymized.
         </p>
         <p>
           Notice anything wrong with the app? Any bugs you want fixed, or features you would like added?

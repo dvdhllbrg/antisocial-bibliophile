@@ -34,15 +34,6 @@ export default function Home() {
           .
         </p>
         </section>
-        <section>
-          <h2 className="mt-6 mb-4 text-2xl font-bold">About the app</h2>
-          <p>
-            <Link href="/about">
-              <a>Click here to learn more about the app</a>
-            </Link>
-            , like how to report bugs and where those gorgeous illustrations come from.
-          </p>
-        </section>
       </main>
     );
   } else if (user && user.loggedIn) {
