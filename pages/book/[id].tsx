@@ -12,6 +12,7 @@ import Chip from '@components/elements/Chip';
 import Rating from '@components/Rating';
 import Offline from '@components/Offline';
 import SomethingWentWrong from '@components/SomethingWentWrong';
+import Modal from '@components/Modal';
 import useBook from '@hooks/swr/useBook';
 import useReview from '@hooks/swr/useReview';
 import { Book } from '@custom-types/book';
@@ -42,6 +43,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
   const [showGoodreadsRating, setShowGoodreadsRating] = useState(false);
   const [showMyRating, setShowMyRating] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
     const getRatingSettings = async () => {
@@ -139,7 +141,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
   if (bookError) {
     content = (
       <main className="container mx-auto p-4">
-        { navigator.onLine ? <SomethingWentWrong /> : <Offline /> }
+        {navigator.onLine ? <SomethingWentWrong /> : <Offline />}
       </main>
     );
   } else if (book) {
@@ -147,29 +149,42 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
       <main className="container mx-auto p-4 pb-24">
         <section className="grid grid-cols-3">
           <div>
-            <Image
-              src={book.image || '/cover.png'}
-              width={98}
-              height={147}
-              layout="fixed"
-              className="rounded-l"
-            />
+            <button onClick={() => setShowImageModal(true)}>
+              <div>
+                <Image
+                  src={book.image || '/cover.png'}
+                  width={98}
+                  height={147}
+                  layout="fixed"
+                  className="rounded-l"
+                />
+              </div>
+            </button>
+            {showImageModal &&
+              <Modal onClose={() => setShowImageModal(false)}>
+                <Image
+                  src={book.image}
+                  width={294}
+                  height={441}
+                  className="rounded-l"
+                />
+              </Modal>}
           </div>
           <div className="col-span-2">
             <span className="text-xl">
-              { book.authors?.map((a, i) => (
+              {book.authors?.map((a, i) => (
                 <span key={a.id}>
                   <Link href={`/author/${a.id}`}>
                     <a>{`${a.name}${a.role ? ` (${a.role.toLowerCase()})` : ''}`}</a>
                   </Link>
-                  { i < (book.authors?.length || 0) - 1 ? ', ' : '' }
+                  {i < (book.authors?.length || 0) - 1 ? ', ' : ''}
                 </span>
               )) || 'unknown'}
             </span>
             <br />
             <div className="flex mt-2 mb-1">
               <b>Shelves</b>
-              { review && (
+              {review && (
                 <button
                   type="button"
                   onClick={() => setShowBookshelfDrawer(true)}
@@ -179,9 +194,9 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
               )}
             </div>
             <div className="mb-2">
-              { shelvesContent }
+              {shelvesContent}
             </div>
-            <small>{ shelfText }</small>
+            <small>{shelfText}</small>
           </div>
         </section>
         <section className="flex items-center justify-evenly w-full my-6">
@@ -205,17 +220,17 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
         />
         <section className="mt-6">
           <small>
-            { book.pages }
+            {book.pages}
             {' '}
             pages ⋅
             {' '}
             first published in
             {' '}
-            { book.year || 'an unknown year' }
+            {book.year || 'an unknown year'}
             {' ⋅ '}
             ISBN
             {' '}
-            { book.isbn }
+            {book.isbn}
             {' ⋅ '}
             <a
               href={book.url}
@@ -241,7 +256,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
         />
       </Head>
       <TopAppBar title={book?.title || 'Loading book...'} />
-      { content }
+      {content}
       <BookShelfDrawer
         show={showBookshelfDrawer}
         bookId={id as string}

@@ -66,6 +66,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["postcss", "npm:8.3.9"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:17.0.2"],
+            ["react-focus-lock", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:2.5.2"],
             ["swr", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:1.0.1"],
             ["tailwindcss", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:2.2.17"],
             ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=32657b"],
@@ -2270,6 +2271,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["regenerator-runtime", "npm:0.13.7"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:7.15.4", {
+          "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.15.4-52ce5bf6ea-c408254304.zip/node_modules/@babel/runtime/",
+          "packageDependencies": [
+            ["@babel/runtime", "npm:7.15.4"],
+            ["regenerator-runtime", "npm:0.13.7"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@babel/runtime-corejs3", [
@@ -3323,6 +3332,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["postcss", "npm:8.3.9"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:17.0.2"],
+            ["react-focus-lock", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:2.5.2"],
             ["swr", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:1.0.1"],
             ["tailwindcss", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:2.2.17"],
             ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=32657b"],
@@ -4894,6 +4904,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["detect-node-es", [
+        ["npm:1.1.0", {
+          "packageLocation": "./.yarn/cache/detect-node-es-npm-1.1.0-2ad57e0b50-e46307d726.zip/node_modules/detect-node-es/",
+          "packageDependencies": [
+            ["detect-node-es", "npm:1.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["detective", [
         ["npm:5.2.0", {
           "packageLocation": "./.yarn/cache/detective-npm-5.2.0-c623eb79e6-2ab266aecb.zip/node_modules/detective/",
@@ -5837,6 +5856,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/flatted-npm-3.1.1-ffd80d62a2-508935e336.zip/node_modules/flatted/",
           "packageDependencies": [
             ["flatted", "npm:3.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["focus-lock", [
+        ["npm:0.9.2", {
+          "packageLocation": "./.yarn/cache/focus-lock-npm-0.9.2-6d20c4c409-7bb35e62c6.zip/node_modules/focus-lock/",
+          "packageDependencies": [
+            ["focus-lock", "npm:0.9.2"],
+            ["tslib", "npm:2.3.1"]
           ],
           "linkType": "HARD",
         }]
@@ -8730,6 +8759,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["react-clientside-effect", [
+        ["npm:1.2.5", {
+          "packageLocation": "./.yarn/cache/react-clientside-effect-npm-1.2.5-6162abd2d1-1ce12cabd7.zip/node_modules/react-clientside-effect/",
+          "packageDependencies": [
+            ["react-clientside-effect", "npm:1.2.5"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.2.5", {
+          "packageLocation": "./.yarn/__virtual__/react-clientside-effect-virtual-f60ab29169/0/cache/react-clientside-effect-npm-1.2.5-6162abd2d1-1ce12cabd7.zip/node_modules/react-clientside-effect/",
+          "packageDependencies": [
+            ["react-clientside-effect", "virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.2.5"],
+            ["@babel/runtime", "npm:7.15.4"],
+            ["@types/react", "npm:17.0.30"],
+            ["react", "npm:17.0.2"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "react"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["react-dom", [
         ["npm:17.0.2", {
           "packageLocation": "./.yarn/cache/react-dom-npm-17.0.2-f551215af1-1c1eaa3bca.zip/node_modules/react-dom/",
@@ -8747,6 +8799,34 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["object-assign", "npm:4.1.1"],
             ["react", "npm:17.0.2"],
             ["scheduler", "npm:0.20.2"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "react"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["react-focus-lock", [
+        ["npm:2.5.2", {
+          "packageLocation": "./.yarn/cache/react-focus-lock-npm-2.5.2-acf7c7a0c7-520b12a449.zip/node_modules/react-focus-lock/",
+          "packageDependencies": [
+            ["react-focus-lock", "npm:2.5.2"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:2.5.2", {
+          "packageLocation": "./.yarn/__virtual__/react-focus-lock-virtual-507f1f2bba/0/cache/react-focus-lock-npm-2.5.2-acf7c7a0c7-520b12a449.zip/node_modules/react-focus-lock/",
+          "packageDependencies": [
+            ["react-focus-lock", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:2.5.2"],
+            ["@babel/runtime", "npm:7.15.4"],
+            ["@types/react", "npm:17.0.30"],
+            ["focus-lock", "npm:0.9.2"],
+            ["prop-types", "npm:15.7.2"],
+            ["react", "npm:17.0.2"],
+            ["react-clientside-effect", "virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.2.5"],
+            ["use-callback-ref", "virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.2.5"],
+            ["use-sidecar", "virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.0.5"]
           ],
           "packagePeers": [
             "@types/react",
@@ -10050,6 +10130,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tslib", "npm:1.14.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:2.3.1", {
+          "packageLocation": "./.yarn/cache/tslib-npm-2.3.1-0e21e18015-de17a98d46.zip/node_modules/tslib/",
+          "packageDependencies": [
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["tsutils", [
@@ -10281,6 +10368,52 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["url", "npm:0.11.0"],
             ["punycode", "npm:1.3.2"],
             ["querystring", "npm:0.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["use-callback-ref", [
+        ["npm:1.2.5", {
+          "packageLocation": "./.yarn/cache/use-callback-ref-npm-1.2.5-a848856693-b002724231.zip/node_modules/use-callback-ref/",
+          "packageDependencies": [
+            ["use-callback-ref", "npm:1.2.5"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.2.5", {
+          "packageLocation": "./.yarn/__virtual__/use-callback-ref-virtual-54c5f71a5f/0/cache/use-callback-ref-npm-1.2.5-a848856693-b002724231.zip/node_modules/use-callback-ref/",
+          "packageDependencies": [
+            ["use-callback-ref", "virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.2.5"],
+            ["@types/react", "npm:17.0.30"],
+            ["react", "npm:17.0.2"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "react"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["use-sidecar", [
+        ["npm:1.0.5", {
+          "packageLocation": "./.yarn/cache/use-sidecar-npm-1.0.5-4a6f1a3ba3-9207ad8af7.zip/node_modules/use-sidecar/",
+          "packageDependencies": [
+            ["use-sidecar", "npm:1.0.5"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.0.5", {
+          "packageLocation": "./.yarn/__virtual__/use-sidecar-virtual-dfc575d912/0/cache/use-sidecar-npm-1.0.5-4a6f1a3ba3-9207ad8af7.zip/node_modules/use-sidecar/",
+          "packageDependencies": [
+            ["use-sidecar", "virtual:507f1f2bba7ed132343a07fc94ae91d7ceb16ef26d460bc54dd20f64fb2f3d035f03d62749146e1fad7af5d79395d132d8c0faeafaa048fbd8da84a70a55d316#npm:1.0.5"],
+            ["@types/react", "npm:17.0.30"],
+            ["detect-node-es", "npm:1.1.0"],
+            ["react", "npm:17.0.2"],
+            ["tslib", "npm:1.14.1"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "react"
           ],
           "linkType": "HARD",
         }]
