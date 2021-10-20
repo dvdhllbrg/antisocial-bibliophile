@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -6,6 +7,7 @@ import { Author } from '@custom-types/author';
 import TopAppBar from '@components/TopAppBar';
 import BookList from '@components/BookList';
 import Offline from '@components/Offline';
+import Modal from '@components/Modal';
 import SomethingWentWrong from '@components/SomethingWentWrong';
 import { get } from '@lib/goodreads';
 import authorReducer from '@reducers/authorReducer';
@@ -23,6 +25,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
   }
 
   const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { fallbackData });
+  const [showImageModal, setShowImageModal] = useState(false);
 
   let authorContent;
 
@@ -36,19 +39,33 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
     authorContent = (
       <article>
         <div className="float-left mr-4">
-          <Image
-            src={author.image}
-            width={127}
-            height={177}
-            layout="fixed"
-            className="object-cover"
-          />
+          <button onClick={() => setShowImageModal(true)}>
+            <div>
+              <Image
+                src={author.image}
+                width={127}
+                height={177}
+                layout="fixed"
+                className="object-cover"
+              />
+            </div>
+          </button>
+          {showImageModal &&
+            <Modal onClose={() => setShowImageModal(false)}>
+              <Image
+                src={author.image}
+                width={294}
+                height={441}
+                className="rounded-l"
+              />
+            </Modal>}
         </div>
         <div
           className="prose dark:prose-light"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: author.description }}
         />
+
       </article>
     );
   }
@@ -67,7 +84,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
       </Head>
       <TopAppBar title={author?.name || 'Loading author...'} />
       <main className="container mx-auto p-4">
-        { authorContent }
+        {authorContent}
         <section className="mt-4 clear-both max-w-screen-lg">
           <h2 className="mb-1 mt-2 text-xl">Books</h2>
           <BookList
