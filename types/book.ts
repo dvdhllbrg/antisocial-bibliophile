@@ -5,7 +5,6 @@ export type Book = {
   title: string;
   description?: string;
   image: string;
-  thumbnail: string;
   authors?: Author[];
   rating?: number;
   numberOfRatings?: number;

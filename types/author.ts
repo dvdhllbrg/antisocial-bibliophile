@@ -4,6 +4,5 @@ export type Author = {
   description: string;
   image: string;
   role: string;
-  thumbnail: string;
   url: string;
 };

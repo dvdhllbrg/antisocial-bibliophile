@@ -5,7 +5,6 @@ export type User = {
   loggedIn: boolean;
   name: string;
   image: string;
-  thumbnail: string;
   shelves: Shelf[];
   tags?: Shelf[];
 };

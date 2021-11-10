@@ -28,7 +28,6 @@ export default function userReducer(user: UserPropType): User {
     loggedIn: true,
     name: user?.name || '',
     image: user?.image_url || '',
-    thumbnail: user?.small_image_url || '',
     shelves,
     tags,
   };
