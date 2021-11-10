@@ -41,7 +41,6 @@ export default function bookReducer(book: BookPropType): Book {
     description: book?.description,
     authors,
     image: book?.image_url || '',
-    thumbnail: book?.small_image_url || '',
     rating: book?.average_rating || 0,
     numberOfRatings: book?.ratings_count || 0,
     year,

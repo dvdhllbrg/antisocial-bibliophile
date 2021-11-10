@@ -18,7 +18,6 @@ export default function shelfReducer(author: AuthorPropType): Author {
     role: author?.role || '',
     description: author?.about || '',
     image: author?.image_url || '',
-    thumbnail: author?.small_image_url || '',
     url: author?.link || '',
   };
 }
