@@ -4,7 +4,11 @@ const { createSecureHeaders } = require("next-secure-headers");
 
 const isProduction = process.env.NODE_ENV === "production";
 
+/**
+ * @type {import('next').NextConfig}
+ */
 module.exports = withPWA({
+  swcMinify: true,
   pwa: {
     dest: "public",
     runtimeCaching,
