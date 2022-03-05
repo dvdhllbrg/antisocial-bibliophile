@@ -1,18 +1,17 @@
-import withSession from '@lib/withSession';
-import { getAccessToken } from '@lib/goodreads';
+import withSession from "@lib/withSession";
+import { getAccessToken } from "@lib/goodreads";
 
 export default withSession(async (req, res) => {
-  const { oAuthToken, oAuthTokenSecret } = req.session.get('goodreads');
   try {
+    if (!req.session.goodreadsRequestToken) {
+      throw new Error("Request token not set!");
+    }
+    const { oAuthToken, oAuthTokenSecret } = req.session.goodreadsRequestToken;
     const token = await getAccessToken(oAuthToken, oAuthTokenSecret);
-    req.session.set('goodreads', {
-      oAuthToken,
-      oAuthTokenSecret,
-      ...token,
-    });
+    req.session.goodreadsAccessToken = token;
     await req.session.save();
 
-    res.status(200).send('');
+    res.status(200).send("");
   } catch (err) {
     console.error(err);
     res.status(500).json(err);

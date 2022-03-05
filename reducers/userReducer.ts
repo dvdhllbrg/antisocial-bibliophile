@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
-import { Shelf } from '@custom-types/shelf';
-import { User } from '@custom-types/user';
-import shelfReducer, { ShelfPropType } from '@reducers/shelfReducer';
+import { Shelf } from "@custom-types/shelf";
+import { User } from "@custom-types/user";
+import shelfReducer, { ShelfPropType } from "@reducers/shelfReducer";
 
 type UserPropType = {
   id: string;
@@ -10,7 +9,7 @@ type UserPropType = {
   small_image_url: string;
   user_shelves: {
     user_shelf: ShelfPropType | ShelfPropType[];
-  }
+  };
 };
 
 export default function userReducer(user: UserPropType): User {
@@ -24,10 +23,10 @@ export default function userReducer(user: UserPropType): User {
     tags = shelvesAndTags.filter((s) => !s.main);
   }
   return {
-    id: user?.id || '0',
+    id: user?.id || "0",
     loggedIn: true,
-    name: user?.name || '',
-    image: user?.image_url || '',
+    name: user?.name || "",
+    image: user?.image_url || "",
     shelves,
     tags,
   };

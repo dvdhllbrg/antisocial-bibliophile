@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
-import { Review } from '@custom-types/review';
-import { BookPropType } from '@reducers/bookReducer';
-import shelfReducer, { ShelfPropType } from '@reducers/shelfReducer';
+import { Review } from "@custom-types/review";
+import { BookPropType } from "@reducers/bookReducer";
+import shelfReducer, { ShelfPropType } from "@reducers/shelfReducer";
 
 export type ReviewPropType = {
-  shelves?: { shelf: ShelfPropType | ShelfPropType[]; };
+  shelves?: { shelf: ShelfPropType | ShelfPropType[] };
   rating?: number;
   read_at?: string;
   date_added?: string;
@@ -26,8 +25,8 @@ export default function bookReviewReducer(review: ReviewPropType): Review {
     myRating: review?.rating || 0,
     shelf,
     tags: tags || [],
-    dateRead: review?.read_at || '',
-    dateAdded: review?.date_added || '',
-    dateUpdated: review?.date_updated || '',
+    dateRead: review?.read_at || "",
+    dateAdded: review?.date_added || "",
+    dateUpdated: review?.date_updated || "",
   };
 }

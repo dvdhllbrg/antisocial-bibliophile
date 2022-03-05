@@ -1,4 +1,4 @@
-import type { Author } from '@custom-types/author';
+import type { Author } from "@custom-types/author";
 
 export type Book = {
   id: string;

@@ -1,16 +1,15 @@
-const typography = require('@tailwindcss/typography');
+const typography = require("@tailwindcss/typography");
 
 module.exports = {
-  mode: 'jit',
-  purge: ['./pages/**/*.tsx', './components/**/*.tsx'],
-  darkMode: 'class',
+  content: ["./pages/**/*.tsx", "./components/**/*.tsx"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: '#4db6ac',
-        secondary: '#3c938b',
-        'dark-primary': '#f00',
-        'dark-secondary': '#0f0',
+        primary: "#4db6ac",
+        secondary: "#3c938b",
+        "dark-primary": "#f00",
+        "dark-secondary": "#0f0",
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -32,21 +31,21 @@ module.exports = {
         light: {
           css: [
             {
-              color: theme('colors.gray.300'),
+              color: theme("colors.gray.300"),
               h1: {
-                color: theme('colors.white'),
+                color: theme("colors.white"),
               },
               h2: {
-                color: theme('colors.white'),
+                color: theme("colors.white"),
               },
               h3: {
-                color: theme('colors.white'),
+                color: theme("colors.white"),
               },
               h4: {
-                color: theme('colors.white'),
+                color: theme("colors.white"),
               },
               b: {
-                color: theme('colors.white'),
+                color: theme("colors.white"),
               },
             },
           ],
@@ -54,12 +53,5 @@ module.exports = {
       }),
     },
   },
-  variants: {
-    extend: {
-      typography: ['dark'],
-    },
-  },
-  plugins: [
-    typography,
-  ],
+  plugins: [typography],
 };

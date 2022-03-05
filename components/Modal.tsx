@@ -1,8 +1,8 @@
-import { ReactNode, useRef } from 'react';
-import FocusLock from 'react-focus-lock';
-import { XIcon } from '@heroicons/react/solid';
-import useOnClickOutside from '@hooks/useOnClickOutside';
-import useLockBodyScroll from '@hooks/useLockBodyScroll';
+import { ReactNode, useRef } from "react";
+import FocusLock from "react-focus-lock";
+import { XIcon } from "@heroicons/react/solid";
+import useOnClickOutside from "@hooks/useOnClickOutside";
+import useLockBodyScroll from "@hooks/useLockBodyScroll";
 
 type ModalProps = {
   onClose: () => void;
@@ -23,16 +23,11 @@ const Modal = ({ onClose, children }: ModalProps) => {
           className="flex flex-col max-w-3xl max-h-full overflow-auto"
         >
           <div className="z-50">
-            <button
-              className="float-right pt-2 pr-2"
-              onClick={onClose}
-            >
+            <button className="float-right pt-2 pr-2" onClick={onClose}>
               <XIcon className="h-6 w-6 text-white" />
             </button>
           </div>
-          <div className="p-2">
-            { children }
-          </div>
+          <div className="p-2">{children}</div>
         </div>
       </div>
     </FocusLock>

@@ -1,10 +1,10 @@
-import withSession from '@lib/withSession';
-import { getRequestToken, callbackUrl } from '@lib/goodreads';
+import withSession from "@lib/withSession";
+import { getRequestToken, callbackUrl } from "@lib/goodreads";
 
 export default withSession(async (req, res) => {
   try {
     const token = await getRequestToken();
-    req.session.set('goodreads', token);
+    req.session.goodreadsRequestToken = token;
     await req.session.save();
 
     res.status(200).json({

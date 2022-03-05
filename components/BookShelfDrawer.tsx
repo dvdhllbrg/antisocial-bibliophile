@@ -1,9 +1,9 @@
-import { useRef, ChangeEvent } from 'react';
-import { mutate } from 'swr';
-import Spinner from '@components/elements/Spinner';
-import useOnClickOutside from '@hooks/useOnClickOutside';
-import useUser from '@hooks/swr/useUser';
-import useReview from '@hooks/swr/useReview';
+import { useRef, ChangeEvent } from "react";
+import { mutate } from "swr";
+import Spinner from "@components/elements/Spinner";
+import useOnClickOutside from "@hooks/useOnClickOutside";
+import useUser from "@hooks/swr/useUser";
+import useReview from "@hooks/swr/useReview";
 
 const PER_PAGE = 10;
 
@@ -14,7 +14,9 @@ type BookShelfProps = {
 };
 
 export default function BookShelfDrawer({
-  show, bookId, onDrawerClose,
+  show,
+  bookId,
+  onDrawerClose,
 }: BookShelfProps) {
   const ref = useRef<HTMLElement>(null);
   useOnClickOutside(ref, onDrawerClose);
@@ -27,8 +29,10 @@ export default function BookShelfDrawer({
       return;
     }
     const shelfName = e.target.value;
-    const newShelf = [...user.shelves, ...user.tags].find((s) => s.name === shelfName);
-    const toReadShelf = user?.shelves.find((s) => s.name === 'to-read');
+    const newShelf = [...user.shelves, ...user.tags].find(
+      (s) => s.name === shelfName
+    );
+    const toReadShelf = user?.shelves.find((s) => s.name === "to-read");
 
     if (!newShelf) {
       return;
@@ -56,42 +60,55 @@ export default function BookShelfDrawer({
       }
     }
 
-    mutateBook({
-      ...review,
-      shelf: localShelf,
-      tags: localTags,
-    }, false);
+    mutateBook(
+      {
+        ...review,
+        shelf: localShelf,
+        tags: localTags,
+      },
+      false
+    );
 
-    let sort = 'date_added';
-    const sortOrder = 'd';
-    if (shelfName === 'read') {
-      sort = 'date_read';
-    } else if (shelfName === 'currently-reading') {
-      sort = 'date_updated';
+    let sort = "date_added";
+    const sortOrder = "d";
+    if (shelfName === "read") {
+      sort = "date_read";
+    } else if (shelfName === "currently-reading") {
+      sort = "date_updated";
     }
 
     if (!review.shelf && !newShelf?.main) {
       await fetch(`/api/shelf/to-read?book_id=${bookId}`, {
-        method: 'PATCH',
-        body: '',
+        method: "PATCH",
+        body: "",
       });
-      mutate(`/api/shelf/to-read?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`);
+      mutate(
+        `/api/shelf/to-read?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`
+      );
     }
 
-    await fetch(`/api/shelf/${shelfName}?book_id=${bookId}${e.target.checked ? '' : '&remove=1'}`, {
-      method: 'PATCH',
-      body: '',
-    });
-    mutate(`/api/shelf/${shelfName}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`);
+    await fetch(
+      `/api/shelf/${shelfName}?book_id=${bookId}${
+        e.target.checked ? "" : "&remove=1"
+      }`,
+      {
+        method: "PATCH",
+        body: "",
+      }
+    );
+    mutate(
+      `/api/shelf/${shelfName}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`
+    );
     mutateUser();
   };
 
-  const removeFromShelves = () => handleShelfChange({
-    target: {
-      value: review?.shelf?.name,
-      checked: false,
-    },
-  } as ChangeEvent<HTMLInputElement>);
+  const removeFromShelves = () =>
+    handleShelfChange({
+      target: {
+        value: review?.shelf?.name,
+        checked: false,
+      },
+    } as ChangeEvent<HTMLInputElement>);
 
   if (isError) {
     return <div>failed to load</div>;
@@ -107,19 +124,15 @@ export default function BookShelfDrawer({
         <div className="w-1/2 flex flex-col pr-2">
           <span className="font-bold">Shelf</span>
           {user.shelves.map((s) => (
-            <label
-              key={s.id}
-              className="mb-2"
-            >
+            <label key={s.id} className="mb-2">
               <input
                 type="radio"
                 name="shelf"
                 value={s.name}
                 checked={s.name === review?.shelf?.name}
                 onChange={handleShelfChange}
-              />
-              {' '}
-              { s.name }
+              />{" "}
+              {s.name}
             </label>
           ))}
           <button
@@ -133,19 +146,17 @@ export default function BookShelfDrawer({
         <div className="w-1/2 flex flex-col pl-2">
           <span className="font-bold">Tags</span>
           {user.tags?.map((tag) => (
-            <label
-              key={tag.id}
-              className="mb-2"
-            >
+            <label key={tag.id} className="mb-2">
               <input
                 type="checkbox"
                 name="tags"
                 value={tag.name}
-                checked={review?.tags?.findIndex((t) => t.name === tag.name) !== -1}
+                checked={
+                  review?.tags?.findIndex((t) => t.name === tag.name) !== -1
+                }
                 onChange={handleShelfChange}
-              />
-              {' '}
-              { tag.name }
+              />{" "}
+              {tag.name}
             </label>
           ))}
         </div>
@@ -155,12 +166,16 @@ export default function BookShelfDrawer({
 
   return (
     <>
-      { show && <div className="bg-black z-40 fixed top-0 right-0 bottom-0 left-0 opacity-50" /> }
+      {show && (
+        <div className="bg-black z-40 fixed top-0 right-0 bottom-0 left-0 opacity-50" />
+      )}
       <article
         ref={ref}
-        className={`bg-white dark:bg-gray-900 w-full z-50 fixed bottom-0 p-4 transition-transform duration-200 ease-out transform-gpu ${show ? '' : 'translate-y-full'}`}
+        className={`bg-white dark:bg-gray-900 w-full z-50 fixed bottom-0 p-4 transition-transform duration-200 ease-out transform-gpu ${
+          show ? "" : "translate-y-full"
+        }`}
       >
-        { content }
+        {content}
       </article>
     </>
   );

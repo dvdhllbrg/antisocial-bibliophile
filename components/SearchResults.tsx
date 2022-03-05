@@ -1,28 +1,24 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { Book } from '@custom-types/book';
+import Link from "next/link";
+import Image from "next/image";
+import { Book } from "@custom-types/book";
 
 type SearchResultsProps = {
-  results: Book[]
+  results: Book[];
 };
 
 const SearchResults = ({ results }: SearchResultsProps) => {
   if (results.length === 0) {
-    return (
-      <p className="py-2 px-1">No search results!</p>
-    );
+    return <p className="py-2 px-1">No search results!</p>;
   }
   return (
     <div className="py-2 px-1">
       {results.map((result) => (
-        <Link
-          href={`/book/${result.id}`}
-          key={result.id}
-        >
+        <Link href={`/book/${result.id}`} key={result.id}>
           <a className="flex items-center no-underline font-normal p-1">
             <div className="flex-shrink-0">
               <Image
-                src={result.image || '/cover.png'}
+                alt=""
+                src={result.image || "/cover.png"}
                 width={33}
                 height={49}
                 layout="fixed"
@@ -30,8 +26,10 @@ const SearchResults = ({ results }: SearchResultsProps) => {
               />
             </div>
             <div className="flex-grow ml-2">
-              <p className="mb-0 mt-1">{ result.title }</p>
-              <span className="mt-0 text-sm">{ result.authors?.map((a) => a.name).join(', ') || 'unknown'}</span>
+              <p className="mb-0 mt-1">{result.title}</p>
+              <span className="mt-0 text-sm">
+                {result.authors?.map((a) => a.name).join(", ") || "unknown"}
+              </span>
             </div>
           </a>
         </Link>

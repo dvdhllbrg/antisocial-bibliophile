@@ -1,6 +1,6 @@
-import type { Author } from '@custom-types/author';
-import type { Book } from '@custom-types/book';
-import authorReducer, { AuthorPropType } from '@reducers/authorReducer';
+import type { Author } from "@custom-types/author";
+import type { Book } from "@custom-types/book";
+import authorReducer, { AuthorPropType } from "@reducers/authorReducer";
 
 export type BookPropType = {
   id?: string | { _: string };
@@ -15,7 +15,7 @@ export type BookPropType = {
   isbn13?: string;
   isbn?: string;
   url?: string;
-  work?: { original_publication_year?: { _: string }; }
+  work?: { original_publication_year?: { _: string } };
   publication_year?: string;
 };
 
@@ -36,16 +36,16 @@ export default function bookReducer(book: BookPropType): Book {
   }
 
   return {
-    id: typeof book.id === 'object' ? book.id._ : (book?.id || ''),
-    title: book?.title || '',
+    id: typeof book.id === "object" ? book.id._ : book?.id || "",
+    title: book?.title || "",
     description: book?.description,
     authors,
-    image: book?.image_url || '',
+    image: book?.image_url || "",
     rating: book?.average_rating || 0,
     numberOfRatings: book?.ratings_count || 0,
     year,
     pages: book?.num_pages || 0,
-    isbn: book?.isbn13 || book?.isbn || '',
-    url: book?.url || '',
+    isbn: book?.isbn13 || book?.isbn || "",
+    url: book?.url || "",
   };
 }
