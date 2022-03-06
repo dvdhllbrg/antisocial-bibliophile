@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { GetStaticProps } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import useSWR from 'swr';
-import { Author } from '@custom-types/author';
-import TopAppBar from '@components/TopAppBar';
-import BookList from '@components/BookList';
-import Offline from '@components/Offline';
-import Modal from '@components/Modal';
-import SomethingWentWrong from '@components/SomethingWentWrong';
-import { get } from '@lib/goodreads';
-import authorReducer from '@reducers/authorReducer';
+import { useState } from "react";
+import { GetStaticProps } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import useSWR from "swr";
+import { Author } from "@custom-types/author";
+import TopAppBar from "@components/TopAppBar";
+import BookList from "@components/BookList";
+import Offline from "@components/Offline";
+import Modal from "@components/Modal";
+import SomethingWentWrong from "@components/SomethingWentWrong";
+import { get } from "@lib/goodreads";
+import authorReducer from "@reducers/authorReducer";
 
 const PER_PAGE = 10;
 
@@ -20,11 +20,10 @@ type AuthorPageProps = {
 };
 
 export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
-  if (!id) {
-    return null;
-  }
+  const { data: author, error } = useSWR<Author>(`/api/author/${id}`, {
+    fallbackData,
+  });
 
-  const { data: author, error } = useSWR<Author>(`/api/author/${id}`, { fallbackData });
   const [showImageModal, setShowImageModal] = useState(false);
 
   let authorContent;
@@ -42,6 +41,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
           <button onClick={() => setShowImageModal(true)}>
             <div>
               <Image
+                alt=""
                 src={author.image}
                 width={127}
                 height={177}
@@ -50,22 +50,22 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
               />
             </div>
           </button>
-          {showImageModal &&
+          {showImageModal && (
             <Modal onClose={() => setShowImageModal(false)}>
               <Image
+                alt=""
                 src={author.image}
                 width={294}
                 height={441}
                 className="rounded-l"
               />
-            </Modal>}
+            </Modal>
+          )}
         </div>
         <div
           className="prose dark:prose-light"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: author.description }}
         />
-
       </article>
     );
   }
@@ -82,7 +82,7 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
           crossOrigin="anonymous"
         />
       </Head>
-      <TopAppBar title={author?.name || 'Loading author...'} />
+      <TopAppBar title={author?.name || "Loading author..."} />
       <main className="container mx-auto p-4">
         {authorContent}
         <section className="mt-4 clear-both max-w-screen-lg">

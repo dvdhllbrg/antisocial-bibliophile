@@ -1,11 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { get } from '@lib/goodreads';
-import authorReducer from '@reducers/authorReducer';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { get } from "@lib/goodreads";
+import authorReducer from "@reducers/authorReducer";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const Author = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  if (id === 'undefined') {
-    res.status(400).send('id not set');
+  if (id === "undefined") {
+    res.status(400).send("id not set");
     return;
   }
   try {
@@ -16,6 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json(`Unable to find author with id ${id}.`);
   }
 };
+export default Author;
 
 export const config = {
   api: {

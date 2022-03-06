@@ -1,11 +1,11 @@
-import withSession from '@lib/withSession';
-import { get } from '@lib/goodreads';
-import bookReducer from '@reducers/bookReducer';
+import withSession from "@lib/withSession";
+import { get } from "@lib/goodreads";
+import bookReducer from "@reducers/bookReducer";
 
 export default withSession(async (req, res) => {
   const { bookId } = req.query;
-  if (bookId === 'undefined') {
-    res.status(400).send('bookId not set');
+  if (bookId === "undefined") {
+    res.status(400).send("bookId not set");
     return;
   }
 

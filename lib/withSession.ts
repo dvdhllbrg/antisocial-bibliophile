@@ -1,12 +1,21 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { Handler, withIronSession } from 'next-iron-session';
+import { NextApiHandler } from "next";
+import { withIronSessionApiRoute } from "iron-session/next";
+import { GoodreadsAccessToken, GoodreadsRequestToken } from "./goodreads";
 
-export default function withSession(handler: Handler<NextApiRequest, NextApiResponse>) {
-  return withIronSession(handler, {
-    password: process.env.SESSION_PASSWORD || '',
-    cookieName: 'session',
+declare module "iron-session" {
+  interface IronSessionData {
+    goodreadsRequestToken?: GoodreadsRequestToken;
+    goodreadsAccessToken?: GoodreadsAccessToken;
+    userId?: string;
+  }
+}
+
+export default function withSession(handler: NextApiHandler) {
+  return withIronSessionApiRoute(handler, {
+    password: process.env.SESSION_PASSWORD || "",
+    cookieName: "session",
     cookieOptions: {
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === "production",
     },
   });
 }

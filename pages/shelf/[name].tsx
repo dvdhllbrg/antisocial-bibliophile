@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import { SortDescendingIcon } from '@heroicons/react/outline';
-import TopAppBar from '@components/TopAppBar';
-import BookList from '@components/BookList';
-import SortMenu from '@components/SortMenu';
-import useUser from '@hooks/swr/useUser';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import { SortDescendingIcon } from "@heroicons/react/outline";
+import TopAppBar from "@components/TopAppBar";
+import BookList from "@components/BookList";
+import SortMenu from "@components/SortMenu";
+import useUser from "@hooks/swr/useUser";
 
 export const PER_PAGE = 10;
 
@@ -14,16 +14,16 @@ export default function Shelf() {
   const { name } = query;
   useUser();
 
-  const [sort, setSort] = useState('');
-  const [sortOrder, setSortOrder] = useState('d');
+  const [sort, setSort] = useState("");
+  const [sortOrder, setSortOrder] = useState("d");
   const [showSortMenu, setShowSortMenu] = useState(false);
 
   if (!sort) {
-    let initialSort = 'date_added';
-    if (name === 'read') {
-      initialSort = 'date_read';
-    } else if (name === 'currently-reading') {
-      initialSort = 'date_updated';
+    let initialSort = "date_added";
+    if (name === "read") {
+      initialSort = "date_read";
+    } else if (name === "currently-reading") {
+      initialSort = "date_updated";
     }
 
     setSort(initialSort);
@@ -32,9 +32,7 @@ export default function Shelf() {
   return (
     <>
       <Head>
-        <title key="title">
-          {name} | Antisocial Bibliophile
-        </title>
+        <title key="title">{name} | Antisocial Bibliophile</title>
         <link
           rel="preload"
           href={`/api/shelf/${name}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`}
@@ -58,7 +56,11 @@ export default function Shelf() {
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
       />
-      <main className={`container mx-auto p-4 transform-gpu transition-all duration-200 ease-out ${showSortMenu ? 'mt-0' : '-mt-24'}`}>
+      <main
+        className={`container mx-auto p-4 transform-gpu transition-all duration-200 ease-out ${
+          showSortMenu ? "mt-0" : "-mt-24"
+        }`}
+      >
         <BookList
           baseRoute={`/api/shelf/${name}`}
           extra={sort}

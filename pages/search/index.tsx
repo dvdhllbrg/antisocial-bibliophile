@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import TopAppBar from '@components/TopAppBar';
-import BookList from '@components/BookList';
+import { useRouter } from "next/router";
+import Head from "next/head";
+import TopAppBar from "@components/TopAppBar";
+import BookList from "@components/BookList";
 
 export default function Search() {
   const router = useRouter();

@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-import type { Author } from '@custom-types/author';
+import type { Author } from "@custom-types/author";
 
 export type AuthorPropType = {
   id?: string | { _: string };
@@ -13,11 +12,11 @@ export type AuthorPropType = {
 
 export default function shelfReducer(author: AuthorPropType): Author {
   return {
-    id: typeof author.id === 'object' ? author.id._ : (author?.id || '0'),
-    name: author?.name || '',
-    role: author?.role || '',
-    description: author?.about || '',
-    image: author?.image_url || '',
-    url: author?.link || '',
+    id: typeof author.id === "object" ? author.id._ : author?.id || "0",
+    name: author?.name || "",
+    role: author?.role || "",
+    description: author?.about || "",
+    image: author?.image_url || "",
+    url: author?.link || "",
   };
 }

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import BookListPage from '@components/BookListPage';
+import { useState } from "react";
+import BookListPage from "@components/BookListPage";
 
 type BookListProps = {
   baseRoute: string;
@@ -8,7 +8,12 @@ type BookListProps = {
   showErrors?: boolean;
 };
 
-export default function BookList({ baseRoute, extra, params, showErrors = true }: BookListProps) {
+export default function BookList({
+  baseRoute,
+  extra,
+  params,
+  showErrors = true,
+}: BookListProps) {
   const [numberOfPages, setNumberOfPages] = useState(1);
   const urlParams = new URLSearchParams(params);
 
@@ -28,13 +33,9 @@ export default function BookList({ baseRoute, extra, params, showErrors = true }
         extra={extra}
         isReachingEnd={isReachingEnd}
         showErrors={showErrors}
-      />,
+      />
     );
   }
 
-  return (
-    <article>
-      { pages }
-    </article>
-  );
+  return <article>{pages}</article>;
 }

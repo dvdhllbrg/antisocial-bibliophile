@@ -1,17 +1,17 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { AppProps } from 'next/app';
-import Head from 'next/head';
-import { SWRConfig } from 'swr';
-import { ThemeProvider } from 'next-themes';
-import '../styles/globals.css';
-import BottomAppBar from '@components/BottomAppBar';
+import { AppProps } from "next/app";
+import Head from "next/head";
+import { SWRConfig } from "swr";
+import { ThemeProvider } from "next-themes";
+import "../styles/globals.css";
+import BottomAppBar from "@components/BottomAppBar";
+import Script from "next/script";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const fetcher = async (url: string) => {
     const res = await fetch(url);
 
     if (!res.ok) {
-      const error = new Error('An error occurred while fetching the data.');
+      const error = new Error("An error occurred while fetching the data.");
       // error.info = await res.json();
       // error.status = res.status;
       throw error;
@@ -29,23 +29,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
           content="Goodreads but without all the stuff that make Goodreads special."
         />
         <title key="title">Antisocial Bibliophile</title>
-        <script
-          async
-          defer
-          data-website-id="fb737107-35b4-41f2-9143-6a4255ce0cee"
-          data-do-not-track="true"
-          data-domains="antisocial-bibliophile.vercel.app"
-          src="https://umami-five-cyan.vercel.app/umami.js"
-        />
         <link rel="manifest" href="/manifest.json" />
         <link
           rel="apple-touch-icon"
@@ -69,20 +58,18 @@ function MyApp({ Component, pageProps }: AppProps) {
           href="/icons/safari-pinned-tab.svg"
           color="#5bbad5"
         />
-        <meta
-          name="msapplication-TileColor"
-          content="#4db6ac"
-        />
-        <meta
-          name="theme-color"
-          content="#4db6ac"
-          />
+        <meta name="msapplication-TileColor" content="#4db6ac" />
+        <meta name="theme-color" content="#4db6ac" />
       </Head>
+      <Script
+        strategy="lazyOnload"
+        data-website-id="fb737107-35b4-41f2-9143-6a4255ce0cee"
+        data-do-not-track="true"
+        data-domains="antisocial-bibliophile.vercel.app"
+        src="https://umami-five-cyan.vercel.app/umami.js"
+      />
       <SWRConfig value={swrOptions}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-        >
+        <ThemeProvider attribute="class" defaultTheme="system">
           <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
             <Component {...pageProps} />
             <BottomAppBar />

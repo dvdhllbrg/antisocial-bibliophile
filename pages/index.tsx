@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import Chip from '@components/elements/Chip';
-import TopAppBar from '@components/TopAppBar';
-import NewShelfDrawer from '@components/NewShelfDrawer';
-import Offline from '@components/Offline';
-import SomethingWentWrong from '@components/SomethingWentWrong';
-import useUser from '@hooks/swr/useUser';
+import { useState } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Chip from "@components/elements/Chip";
+import TopAppBar from "@components/TopAppBar";
+import NewShelfDrawer from "@components/NewShelfDrawer";
+import Offline from "@components/Offline";
+import SomethingWentWrong from "@components/SomethingWentWrong";
+import useUser from "@hooks/swr/useUser";
 
 export default function Home() {
   const { user, isError } = useUser();
@@ -15,24 +15,28 @@ export default function Home() {
   let content;
 
   if (isError) {
+    console.log(isError);
     content = (
       <main className="container mx-auto p-4">
-        { navigator.onLine ? <SomethingWentWrong /> : <Offline /> }
+        {navigator.onLine ? <SomethingWentWrong /> : <Offline />}
       </main>
     );
   } else if (user && !user.loggedIn) {
     content = (
       <main className="prose dark:prose-light container mx-auto p-4">
         <section>
-        <h2 className="mt-0 mb-2 text-2xl font-bold">Hey, it looks like you&apos;re not logged in!</h2>
-        <p>
-          That's fine, you can still use the app to search for and view books and authors.
-          {' '}
-          To get access to the full functionality (like managing your shelves and rating books), however, you need to
-          {' '}
-          <Link href="/auth/login"><a>log in with a Goodreads account</a></Link>
-          .
-        </p>
+          <h2 className="mt-0 mb-2 text-2xl font-bold">
+            Hey, it looks like you&apos;re not logged in!
+          </h2>
+          <p>
+            That&apos;s fine, you can still use the app to search for and view
+            books and authors. To get access to the full functionality (like
+            managing your shelves and rating books), however, you need to{" "}
+            <Link href="/auth/login">
+              <a>log in with a Goodreads account</a>
+            </Link>
+            .
+          </p>
         </section>
       </main>
     );
@@ -42,21 +46,18 @@ export default function Home() {
         <main className="container mx-auto p-4">
           <section>
             <h2 className="mt-0 mb-2 text-2xl font-bold">Main</h2>
-            { user.shelves.map((shelf) => (
-              <Link
-                href={`/shelf/${shelf.name}`}
-                key={shelf.id}
-              >
+            {user.shelves.map((shelf) => (
+              <Link href={`/shelf/${shelf.name}`} key={shelf.id}>
                 <a className="flex border-b hover:bg-gray-300 dark:hover:bg-gray-600 no-underline font-normal justify-between p-4">
-                  <span>{ shelf.name }</span>
-                  <span>{ shelf.count }</span>
+                  <span>{shelf.name}</span>
+                  <span>{shelf.count}</span>
                 </a>
               </Link>
             ))}
           </section>
           <section>
             <h2 className="mt-6 mb-4 text-2xl font-bold">Tags</h2>
-            { user.tags?.map((tag) => (
+            {user.tags?.map((tag) => (
               <Chip
                 key={tag.id}
                 href={`/shelf/${tag.name}`}
@@ -93,14 +94,8 @@ export default function Home() {
           </section>
           <section>
             <h2 className="mt-6 mb-4 text-2xl font-bold">Tags</h2>
-            <Chip
-              skeleton
-              size="large"
-            />
-            <Chip
-              skeleton
-              size="large"
-            />
+            <Chip skeleton size="large" />
+            <Chip skeleton size="large" />
           </section>
         </main>
       </>
@@ -118,7 +113,7 @@ export default function Home() {
         />
       </Head>
       <TopAppBar title="My shelves" />
-      { content }
+      {content}
     </>
   );
 }

@@ -1,21 +1,32 @@
-import withSession from '@lib/withSession';
-import { getAuthed } from '@lib/goodreads';
-import userReducer from '@reducers/userReducer';
+import withSession from "@lib/withSession";
+import { getAuthed } from "@lib/goodreads";
+import userReducer from "@reducers/userReducer";
 
 export default withSession(async (req, res) => {
   try {
-    const gr = req.session.get('goodreads');
-    let { userId } = gr;
-    if (!gr.userId) {
-      const user = await getAuthed('/api/auth_user', gr.accessToken, gr.accessTokenSecret);
-      userId = user.user.id;
-      req.session.set('goodreads', {
-        ...gr,
-        userId,
-      });
+    const { goodreadsAccessToken, userId } = req.session;
+    if (!goodreadsAccessToken) {
+      throw new Error("Not authenticated!");
+    }
+
+    const { accessToken, accessTokenSecret } = goodreadsAccessToken;
+    let newUserId;
+    if (!userId) {
+      const user = await getAuthed(
+        "/api/auth_user",
+        accessToken,
+        accessTokenSecret
+      );
+      newUserId = user.user.id;
+      req.session.userId = newUserId;
       await req.session.save();
     }
-    const user = await getAuthed('/user/show.xml', gr.accessToken, gr.accessTokenSecret, { id: userId });
+    const user = await getAuthed(
+      "/user/show.xml",
+      accessToken,
+      accessTokenSecret,
+      { id: userId ?? newUserId }
+    );
     res.status(200).json(userReducer(user.user));
     return;
   } catch (err) {

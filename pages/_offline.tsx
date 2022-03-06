@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import TopAppBar from '@components/TopAppBar';
-import Offline from '@components/Offline';
+import Head from "next/head";
+import TopAppBar from "@components/TopAppBar";
+import Offline from "@components/Offline";
 
 export default function OfflinePage() {
   return (

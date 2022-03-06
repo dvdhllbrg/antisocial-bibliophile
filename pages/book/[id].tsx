@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
-import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
-import { PencilIcon } from '@heroicons/react/solid';
-import { getMany } from 'idb-keyval/dist/index';
-import formatDate from '@lib/formatDate';
-import formatNumber from '@lib/formatNumber';
-import TopAppBar from '@components/TopAppBar';
-import BookShelfDrawer from '@components/BookShelfDrawer';
-import Chip from '@components/elements/Chip';
-import Rating from '@components/Rating';
-import Offline from '@components/Offline';
-import SomethingWentWrong from '@components/SomethingWentWrong';
-import Modal from '@components/Modal';
-import useBook from '@hooks/swr/useBook';
-import useReview from '@hooks/swr/useReview';
-import { Book } from '@custom-types/book';
-import { GetStaticProps } from 'next';
-import { get } from '@lib/goodreads';
-import bookReducer from '@reducers/bookReducer';
+import { useState, useEffect } from "react";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { PencilIcon } from "@heroicons/react/solid";
+import { getMany } from "idb-keyval/dist/index";
+import formatDate from "@lib/formatDate";
+import formatNumber from "@lib/formatNumber";
+import TopAppBar from "@components/TopAppBar";
+import BookShelfDrawer from "@components/BookShelfDrawer";
+import Chip from "@components/elements/Chip";
+import Rating from "@components/Rating";
+import Offline from "@components/Offline";
+import SomethingWentWrong from "@components/SomethingWentWrong";
+import Modal from "@components/Modal";
+import useBook from "@hooks/swr/useBook";
+import useReview from "@hooks/swr/useReview";
+import { Book } from "@custom-types/book";
+import { GetStaticProps } from "next";
+import { get } from "@lib/goodreads";
+import bookReducer from "@reducers/bookReducer";
 
 type BookPageProps = {
   id: string;
@@ -26,10 +26,6 @@ type BookPageProps = {
 };
 
 export default function BookPage({ id, fallbackData }: BookPageProps) {
-  if (!id) {
-    return null;
-  }
-
   const { book, isError: bookError } = useBook(id, fallbackData);
   const { review, isLoading: reviewIsLoading, mutate } = useReview(id);
 
@@ -37,9 +33,9 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
     <>
       <Chip skeleton />
       <Chip skeleton />
-    </>,
+    </>
   );
-  const [shelfText, setShelfText] = useState('');
+  const [shelfText, setShelfText] = useState("");
   const [showBookshelfDrawer, setShowBookshelfDrawer] = useState(false);
   const [showGoodreadsRating, setShowGoodreadsRating] = useState(false);
   const [showMyRating, setShowMyRating] = useState(false);
@@ -47,7 +43,10 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
 
   useEffect(() => {
     const getRatingSettings = async () => {
-      const [hideGoodreadsRatings, hideMyRatings] = await getMany(['hideGoodreadsRatings', 'hideMyRatings', 'disableAnalytics']);
+      const [hideGoodreadsRatings, hideMyRatings] = await getMany([
+        "hideGoodreadsRatings",
+        "hideMyRatings",
+      ]);
       setShowGoodreadsRating(!hideGoodreadsRatings);
       setShowMyRating(!hideMyRatings);
     };
@@ -60,33 +59,38 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
     }
 
     if (!review) {
-      setShelvesContent(<small className="italic">
-        To see your shelf status for this book,
-        {' '}
-        <Link href={`/auth/login?redirectBookId=${id}`}>
-          <a>login to your Goodreads account</a>
-        </Link>
-        .
-      </small>);
+      setShelvesContent(
+        <small className="italic">
+          To see your shelf status for this book,{" "}
+          <Link href={`/auth/login?redirectBookId=${id}`}>
+            <a>login to your Goodreads account</a>
+          </Link>
+          .
+        </small>
+      );
       return;
     }
 
     setShelvesContent(
       <>
-        {review.shelf ? <Chip className="bg-gray-400" label={review.shelf.name} href={`/shelf/${review.shelf.name}`} /> : 'Not on your shelves.'}
-        {review.tags!
-          .sort((a, b) => a.name.localeCompare(b.name))
+        {review.shelf ? (
+          <Chip
+            className="bg-gray-400"
+            label={review.shelf.name}
+            href={`/shelf/${review.shelf.name}`}
+          />
+        ) : (
+          "Not on your shelves."
+        )}
+        {review
+          .tags!.sort((a, b) => a.name.localeCompare(b.name))
           .map((tag) => (
-            <Chip
-              key={tag.id}
-              label={tag.name}
-              href={`/shelf/${tag.name}`}
-            />
+            <Chip key={tag.id} label={tag.name} href={`/shelf/${tag.name}`} />
           ))}
-      </>,
+      </>
     );
 
-    let text = '';
+    let text = "";
     if (review.dateAdded) {
       text = `${text}added ${formatDate(review.dateAdded)}`;
     }
@@ -98,19 +102,22 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
     }
 
     setShelfText(text);
-  }, [review, reviewIsLoading]);
+  }, [id, review, reviewIsLoading]);
 
   const rateBook = (rating: number) => {
     if (!review) {
       return;
     }
-    mutate({
-      ...review,
-      myRating: rating,
-    }, false);
+    mutate(
+      {
+        ...review,
+        myRating: rating,
+      },
+      false
+    );
 
     fetch(`/api/book/${id}/review`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify({ rating }),
     });
   };
@@ -152,7 +159,8 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
             <button onClick={() => setShowImageModal(true)}>
               <div>
                 <Image
-                  src={book.image || '/cover.png'}
+                  alt=""
+                  src={book.image || "/cover.png"}
                   width={98}
                   height={147}
                   layout="fixed"
@@ -160,26 +168,30 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
                 />
               </div>
             </button>
-            {showImageModal &&
+            {showImageModal && (
               <Modal onClose={() => setShowImageModal(false)}>
                 <Image
+                  alt=""
                   src={book.image}
                   width={294}
                   height={441}
                   className="rounded-l"
                 />
-              </Modal>}
+              </Modal>
+            )}
           </div>
           <div className="col-span-2">
             <span className="text-xl">
               {book.authors?.map((a, i) => (
                 <span key={a.id}>
                   <Link href={`/author/${a.id}`}>
-                    <a>{`${a.name}${a.role ? ` (${a.role.toLowerCase()})` : ''}`}</a>
+                    <a>{`${a.name}${
+                      a.role ? ` (${a.role.toLowerCase()})` : ""
+                    }`}</a>
                   </Link>
-                  {i < (book.authors?.length || 0) - 1 ? ', ' : ''}
+                  {i < (book.authors?.length || 0) - 1 ? ", " : ""}
                 </span>
-              )) || 'unknown'}
+              )) || "unknown"}
             </span>
             <br />
             <div className="flex mt-2 mb-1">
@@ -193,49 +205,44 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
                 </button>
               )}
             </div>
-            <div className="mb-2">
-              {shelvesContent}
-            </div>
+            <div className="mb-2">{shelvesContent}</div>
             <small>{shelfText}</small>
           </div>
         </section>
         <section className="flex items-center justify-evenly w-full my-6">
-          {showGoodreadsRating && <Rating
-            textOver="Goodreads rating"
-            rating={book.rating || 0}
-            textUnder={`${formatNumber(book.rating || 0)} from ${formatNumber(book.numberOfRatings || 0)} ratings.`}
-          />}
-          {showMyRating && <Rating
-            textOver="Your rating"
-            rating={review?.myRating || 0}
-            textUnder="Tap a star to give a rating."
-            onRate={rateBook}
-            visible={typeof review !== 'undefined'}
-          />}
+          {showGoodreadsRating && (
+            <Rating
+              textOver="Goodreads rating"
+              rating={book.rating || 0}
+              textUnder={`${formatNumber(book.rating || 0)} from ${formatNumber(
+                book.numberOfRatings || 0
+              )} ratings.`}
+            />
+          )}
+          {showMyRating && (
+            <Rating
+              textOver="Your rating"
+              rating={review?.myRating || 0}
+              textUnder="Tap a star to give a rating."
+              onRate={rateBook}
+              visible={typeof review !== "undefined"}
+            />
+          )}
         </section>
         <section
           className="mt-4 prose dark:prose-light"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: book.description || '' }}
+          dangerouslySetInnerHTML={{ __html: book.description || "" }}
         />
         <section className="mt-6">
           <small>
-            {book.pages}
-            {' '}
-            pages ⋅
-            {' '}
-            first published in
-            {' '}
-            {book.year || 'an unknown year'}
-            {' ⋅ '}
-            ISBN
-            {' '}
-            {book.isbn}
-            {' ⋅ '}
-            <a
-              href={book.url}
-              target="_blank"
-            >Open on Goodreads</a>
+            {book.pages} pages ⋅ first published in{" "}
+            {book.year || "an unknown year"}
+            {" ⋅ "}
+            ISBN {book.isbn}
+            {" ⋅ "}
+            <a href={book.url} target="_blank" rel="noreferrer">
+              Open on Goodreads
+            </a>
           </small>
         </section>
       </main>
@@ -246,7 +253,8 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
     <>
       <Head>
         <title key="title">
-          {book && book.title} | {book?.authors && book.authors[0]?.name} | Antisocial Bibliophile
+          {book && book.title} | {book?.authors && book.authors[0]?.name} |
+          Antisocial Bibliophile
         </title>
         <link
           rel="preload"
@@ -255,7 +263,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
           crossOrigin="anonymous"
         />
       </Head>
-      <TopAppBar title={book?.title || 'Loading book...'} />
+      <TopAppBar title={book?.title || "Loading book..."} />
       {content}
       <BookShelfDrawer
         show={showBookshelfDrawer}
