@@ -10,14 +10,14 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@tailwindcss/typography": "^0.5.2",
-    "autoprefixer": "^10.4.2",
+    "autoprefixer": "^10.4.4",
     "idb-keyval": "^6.1.0",
-    "iron-session": "^6.0.5",
+    "iron-session": "^6.1.1",
     "next": "^12.1.0",
-    "next-pwa": "^5.4.5",
+    "next-pwa": "^5.4.6",
     "next-themes": "^0.1.1",
     "oauth": "^0.9.15",
-    "postcss": "^8.4.7",
+    "postcss": "^8.4.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-focus-lock": "^2.8.1",
@@ -27,20 +27,20 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
-    "@types/node": "^17.0.21",
+    "@types/node": "^17.0.22",
     "@types/oauth": "^0.9.1",
-    "@types/prettier": "^2",
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.13",
+    "@types/prettier": "^2.4.4",
+    "@types/react": "^17.0.41",
+    "@types/react-dom": "^17.0.14",
     "@types/xml2js": "^0.4.9",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.13.0",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
     "babel-loader": "^8.2.3",
-    "eslint": "^8.10.0",
+    "eslint": "^8.11.0",
     "eslint-config-next": "^12.1.0",
     "eslint-config-prettier": "^8.5.0",
     "next-secure-headers": "^2.2.0",
-    "prettier": "^2.5.1"
+    "prettier": "^2.6.0"
   },
   "packageManager": "yarn@3.2.0"
 }
