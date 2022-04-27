@@ -26,6 +26,10 @@ type BookPageProps = {
 };
 
 export default function BookPage({ id, fallbackData }: BookPageProps) {
+  if (!id) {
+    return null;
+  }
+  console.log("YEEH");
   const { book, isError: bookError } = useBook(id, fallbackData);
   const { review, isLoading: reviewIsLoading, mutate } = useReview(id);
 
@@ -277,11 +281,13 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
 export const getStaticPaths = async () => ({ paths: [], fallback: true });
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  console.log("gsp");
   if (!params?.id) {
     return { notFound: true };
   }
   try {
     const { book } = await get(`/book/show/${params.id}.xml`);
+    console.log(book);
     return {
       props: {
         id: params.id,
