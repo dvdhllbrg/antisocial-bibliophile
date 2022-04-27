@@ -277,11 +277,13 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
 export const getStaticPaths = async () => ({ paths: [], fallback: true });
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  console.log("gsp");
   if (!params?.id) {
     return { notFound: true };
   }
   try {
     const { book } = await get(`/book/show/${params.id}.xml`);
+    console.log(book);
     return {
       props: {
         id: params.id,
