@@ -26,10 +26,6 @@ type BookPageProps = {
 };
 
 export default function BookPage({ id, fallbackData }: BookPageProps) {
-  if (!id) {
-    return null;
-  }
-  console.log("YEEH");
   const { book, isError: bookError } = useBook(id, fallbackData);
   const { review, isLoading: reviewIsLoading, mutate } = useReview(id);
 
