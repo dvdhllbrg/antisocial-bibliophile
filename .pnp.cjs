@@ -53,7 +53,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:12.1.6"],\
             ["next-pwa", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:5.5.2"],\
             ["next-secure-headers", "npm:2.2.0"],\
-            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.1.1"],\
+            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.2.0"],\
             ["oauth", "npm:0.9.15"],\
             ["postcss", "npm:8.4.13"],\
             ["prettier", "npm:2.6.2"],\
@@ -3463,7 +3463,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:12.1.6"],\
             ["next-pwa", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:5.5.2"],\
             ["next-secure-headers", "npm:2.2.0"],\
-            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.1.1"],\
+            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.2.0"],\
             ["oauth", "npm:0.9.15"],\
             ["postcss", "npm:8.4.13"],\
             ["prettier", "npm:2.6.2"],\
@@ -6789,17 +6789,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["next-themes", [\
-        ["npm:0.1.1", {\
-          "packageLocation": "./.yarn/cache/next-themes-npm-0.1.1-69dee5c756-226f6af92f.zip/node_modules/next-themes/",\
+        ["npm:0.2.0", {\
+          "packageLocation": "./.yarn/cache/next-themes-npm-0.2.0-37d8b4073b-cee02db16b.zip/node_modules/next-themes/",\
           "packageDependencies": [\
-            ["next-themes", "npm:0.1.1"]\
+            ["next-themes", "npm:0.2.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.1.1", {\
-          "packageLocation": "./.yarn/__virtual__/next-themes-virtual-cd389d02a1/0/cache/next-themes-npm-0.1.1-69dee5c756-226f6af92f.zip/node_modules/next-themes/",\
+        ["virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/next-themes-virtual-7c59996029/0/cache/next-themes-npm-0.2.0-37d8b4073b-cee02db16b.zip/node_modules/next-themes/",\
           "packageDependencies": [\
-            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.1.1"],\
+            ["next-themes", "virtual:ec6c9011a6fbefc23e931e7b1c9b70f60d4ba8f15eba2a45708265d3885ccf7ca43b062b0c3e695961268c89451addad61db8cd14bc945a568630fb50842a824#npm:0.2.0"],\
             ["@types/next", null],\
             ["@types/react", "npm:18.0.8"],\
             ["@types/react-dom", "npm:18.0.3"],\
