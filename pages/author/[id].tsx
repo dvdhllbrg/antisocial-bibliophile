@@ -113,7 +113,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         id: params.id,
         fallbackData: authorReducer(author),
       },
-      revalidate: 1,
+      revalidate: 60,
     };
   } catch (err) {
     console.error(err);
