@@ -3347,13 +3347,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:8.5.0", {\
-          "packageLocation": "./.yarn/cache/acorn-npm-8.5.0-faed0ea119-2e4c1dbed3.zip/node_modules/acorn/",\
-          "packageDependencies": [\
-            ["acorn", "npm:8.5.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:8.7.1", {\
           "packageLocation": "./.yarn/cache/acorn-npm-8.7.1-7c7a019990-aca0aabf98.zip/node_modules/acorn/",\
           "packageDependencies": [\
@@ -8453,7 +8446,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/terser-npm-5.6.1-f43997dba7-b15c655c94.zip/node_modules/terser/",\
           "packageDependencies": [\
             ["terser", "npm:5.6.1"],\
-            ["acorn", "npm:8.5.0"],\
+            ["acorn", "npm:8.7.1"],\
             ["commander", "npm:2.20.3"],\
             ["source-map", "npm:0.7.3"],\
             ["source-map-support", "npm:0.5.19"]\
@@ -8464,7 +8457,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/terser-npm-5.9.0-16d6a713ce-11c1246b19.zip/node_modules/terser/",\
           "packageDependencies": [\
             ["terser", "npm:5.9.0"],\
-            ["acorn", "npm:8.5.0"],\
+            ["acorn", "npm:8.7.1"],\
             ["commander", "npm:2.20.3"],\
             ["source-map", "npm:0.7.3"],\
             ["source-map-support", "npm:0.5.20"]\
