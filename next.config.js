@@ -5,8 +5,8 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const withPWA = require("next-pwa")({
   dest: "public",
-    runtimeCaching,
-    disable: !isProduction,
+  runtimeCaching,
+  disable: !isProduction,
 });
 
 /**
@@ -14,8 +14,16 @@ const withPWA = require("next-pwa")({
  */
 module.exports = withPWA({
   swcMinify: true,
-  images: {
-    domains: ["images.gr-assets.com", "i.gr-assets.com", "s.gr-assets.com"],
+  experimental: {
+    runtime: "experimental-edge",
+    images: {
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "**.gr-assets.com",
+        },
+      ],
+    },
   },
   async headers() {
     return [

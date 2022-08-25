@@ -29,7 +29,7 @@ export default function Shelf() {
     setSort(initialSort);
   }
 
-  const pageTitle = `${name} | Antisocial Bibliophile`
+  const pageTitle = `${name} | Antisocial Bibliophile`;
 
   return (
     <>

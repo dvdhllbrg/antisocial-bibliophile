@@ -249,7 +249,9 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
     );
   }
 
-  const pageTitle = `${book && book.title} | ${book?.authors && book.authors[0]?.name} | Antisocial Bibliophile`
+  const pageTitle = `${book && book.title} | ${
+    book?.authors && book.authors[0]?.name
+  } | Antisocial Bibliophile`;
 
   return (
     <>
