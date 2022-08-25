@@ -5,7 +5,7 @@ import bookReducer from "@reducers/bookReducer";
 
 const AuthorBooks = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, page, per_page } = req.query;
-  if (id === "undefined") {
+  if (id === "undefined" || typeof id === "undefined") {
     res.status(400).send("id not set");
     return;
   }

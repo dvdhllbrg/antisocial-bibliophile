@@ -4,7 +4,7 @@ import bookReducer from "@reducers/bookReducer";
 
 export default withSession(async (req, res) => {
   const { bookId } = req.query;
-  if (bookId === "undefined") {
+  if (bookId === "undefined" || typeof bookId === "undefined") {
     res.status(400).send("bookId not set");
     return;
   }

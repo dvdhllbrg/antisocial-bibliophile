@@ -4,7 +4,7 @@ import authorReducer from "@reducers/authorReducer";
 
 const Author = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  if (id === "undefined") {
+  if (id === "undefined" || typeof id === "undefined") {
     res.status(400).send("id not set");
     return;
   }
