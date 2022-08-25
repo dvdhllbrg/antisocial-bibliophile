@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
 import HideOnScroll from "@components/HideOnScroll";
-import { ArrowLeftIcon } from "@heroicons/react/outline";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 type TopAppBarProps = {
   title?: string;

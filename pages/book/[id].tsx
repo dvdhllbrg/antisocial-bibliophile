@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { PencilIcon } from "@heroicons/react/solid";
+import { PencilIcon } from "@heroicons/react/20/solid";
 import { getMany } from "idb-keyval/dist/index";
 import formatDate from "@lib/formatDate";
 import formatNumber from "@lib/formatNumber";
@@ -249,13 +249,14 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
     );
   }
 
+  const pageTitle = `${book && book.title} | ${
+    book?.authors && book.authors[0]?.name
+  } | Antisocial Bibliophile`;
+
   return (
     <>
       <Head>
-        <title key="title">
-          {book && book.title} | {book?.authors && book.authors[0]?.name} |
-          Antisocial Bibliophile
-        </title>
+        <title key="title">{pageTitle}</title>
         <link
           rel="preload"
           href={`/api/book/${id}`}

@@ -1,4 +1,4 @@
-import { StarIcon } from "@heroicons/react/solid";
+import { StarIcon } from "@heroicons/react/20/solid";
 
 type RatingProps = {
   rating: number;
