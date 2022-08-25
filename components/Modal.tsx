@@ -1,6 +1,6 @@
 import { ReactNode, useRef } from "react";
 import FocusLock from "react-focus-lock";
-import { XIcon } from "@heroicons/react/solid";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import useOnClickOutside from "@hooks/useOnClickOutside";
 import useLockBodyScroll from "@hooks/useLockBodyScroll";
 
@@ -24,7 +24,7 @@ const Modal = ({ onClose, children }: ModalProps) => {
         >
           <div className="z-50">
             <button className="float-right pt-2 pr-2" onClick={onClose}>
-              <XIcon className="h-6 w-6 text-white" />
+              <XMarkIcon className="h-6 w-6 text-white" />
             </button>
           </div>
           <div className="p-2">{children}</div>

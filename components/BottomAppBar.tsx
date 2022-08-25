@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { HomeIcon, SearchIcon, CogIcon } from "@heroicons/react/outline";
+import { HomeIcon, MagnifyingGlassIcon, CogIcon } from "@heroicons/react/24/outline";
 import HideOnScroll from "@components/HideOnScroll";
 import SearchResults from "@components/SearchResults";
 import Spinner from "@components/elements/Spinner";
@@ -74,7 +74,7 @@ const BottomAppBar = () => {
                   className="absolute left-2.5 top-3.5"
                 />
               ) : (
-                <SearchIcon className="h-4 w-4 absolute left-2.5 top-3.5" />
+                <MagnifyingGlassIcon className="h-4 w-4 absolute left-2.5 top-3.5" />
               )}
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { SortDescendingIcon } from "@heroicons/react/outline";
+import { BarsArrowDownIcon } from "@heroicons/react/24/outline";
 import TopAppBar from "@components/TopAppBar";
 import BookList from "@components/BookList";
 import SortMenu from "@components/SortMenu";
@@ -29,10 +29,12 @@ export default function Shelf() {
     setSort(initialSort);
   }
 
+  const pageTitle = `${name} | Antisocial Bibliophile`
+
   return (
     <>
       <Head>
-        <title key="title">{name} | Antisocial Bibliophile</title>
+        <title key="title">{pageTitle}</title>
         <link
           rel="preload"
           href={`/api/shelf/${name}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`}
@@ -46,7 +48,7 @@ export default function Shelf() {
           className="p-4"
           onClick={() => setShowSortMenu(!showSortMenu)}
         >
-          <SortDescendingIcon className="h-6 w-6" />
+          <BarsArrowDownIcon className="h-6 w-6" />
         </button>
       </TopAppBar>
       <SortMenu
