@@ -14,16 +14,13 @@ const withPWA = require("next-pwa")({
  */
 module.exports = withPWA({
   swcMinify: true,
-  experimental: {
-    runtime: "experimental-edge",
-    images: {
-      remotePatterns: [
-        {
-          protocol: "https",
-          hostname: "**.gr-assets.com",
-        },
-      ],
-    },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.gr-assets.com",
+      },
+    ],
   },
   async headers() {
     return [
