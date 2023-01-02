@@ -22,9 +22,6 @@ module.exports = withPWA({
       },
     ],
   },
-  experimental: {
-    runtime: "experimental-edge",
-  },
   async headers() {
     return [
       {
