@@ -63,7 +63,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
         <small className="italic">
           To see your shelf status for this book,{" "}
           <Link href={`/auth/login?redirectBookId=${id}`}>
-            <a>login to your Goodreads account</a>
+            login to your Goodreads account
           </Link>
           .
         </small>
@@ -185,9 +185,9 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
               {book.authors?.map((a, i) => (
                 <span key={a.id}>
                   <Link href={`/author/${a.id}`}>
-                    <a>{`${a.name}${
+                    {`${a.name}${
                       a.role ? ` (${a.role.toLowerCase()})` : ""
-                    }`}</a>
+                    }`}
                   </Link>
                   {i < (book.authors?.length || 0) - 1 ? ", " : ""}
                 </span>

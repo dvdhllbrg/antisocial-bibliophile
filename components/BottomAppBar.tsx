@@ -34,8 +34,8 @@ const BottomAppBar = () => {
       <div ref={ref}>
         <SearchResults results={results} />
         {results.length > 4 && (
-          <Link href={`/search?query=${searchTerm}`}>
-            <a className="p-3 block font-normal">See all search results</a>
+          <Link href={`/search?query=${searchTerm}`} className="p-3 block font-normal">
+            See all search results
           </Link>
         )}
       </div>
@@ -48,15 +48,15 @@ const BottomAppBar = () => {
         <div className="bg-white dark:bg-gray-900 shadow flex flex-col z-10">
           {resultsContent}
           <div key="actions-container" className="flex items-center">
-            <Link href="/">
-              <a className="p-4" aria-label="Home">
-                <HomeIcon className="h-6 w-6" />
-              </a>
+            <Link href="/" className="p-4" aria-label="Home">
+
+              <HomeIcon className="h-6 w-6" />
+
             </Link>
-            <Link href="/settings">
-              <a className="p-4" aria-label="Home">
-                <CogIcon className="h-6 w-6" />
-              </a>
+            <Link href="/settings" className="p-4" aria-label="Home">
+
+              <CogIcon className="h-6 w-6" />
+
             </Link>
             <div className="relative flex-grow pr-4">
               <input

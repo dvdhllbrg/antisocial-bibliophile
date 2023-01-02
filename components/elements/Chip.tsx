@@ -39,8 +39,8 @@ export default function Chip({
   }
   if (href) {
     return (
-      <Link href={href}>
-        <a className={classes}>{label}</a>
+      <Link href={href} className={classes}>
+        {label}
       </Link>
     );
   }
