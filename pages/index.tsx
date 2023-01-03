@@ -32,10 +32,7 @@ export default function Home() {
             That&apos;s fine, you can still use the app to search for and view
             books and authors. To get access to the full functionality (like
             managing your shelves and rating books), however, you need to{" "}
-            <Link href="/auth/login">
-              log in with a Goodreads account
-            </Link>
-            .
+            <Link href="/auth/login">log in with a Goodreads account</Link>.
           </p>
         </section>
       </main>
@@ -47,15 +44,14 @@ export default function Home() {
           <section>
             <h2 className="mt-0 mb-2 text-2xl font-bold">Main</h2>
             {user.shelves.map((shelf) => (
-              (<Link
+              <Link
                 href={`/shelf/${shelf.name}`}
                 key={shelf.id}
-                className="flex border-b hover:bg-gray-300 dark:hover:bg-gray-600 no-underline font-normal justify-between p-4">
-
+                className="flex border-b hover:bg-gray-300 dark:hover:bg-gray-600 no-underline font-normal justify-between p-4"
+              >
                 <span>{shelf.name}</span>
                 <span>{shelf.count}</span>
-
-              </Link>)
+              </Link>
             ))}
           </section>
           <section>

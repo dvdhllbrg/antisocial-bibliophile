@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { HomeIcon, MagnifyingGlassIcon, CogIcon } from "@heroicons/react/24/outline";
+import {
+  HomeIcon,
+  MagnifyingGlassIcon,
+  CogIcon,
+} from "@heroicons/react/24/outline";
 import HideOnScroll from "@components/HideOnScroll";
 import SearchResults from "@components/SearchResults";
 import Spinner from "@components/elements/Spinner";
@@ -34,7 +38,10 @@ const BottomAppBar = () => {
       <div ref={ref}>
         <SearchResults results={results} />
         {results.length > 4 && (
-          <Link href={`/search?query=${searchTerm}`} className="p-3 block font-normal">
+          <Link
+            href={`/search?query=${searchTerm}`}
+            className="p-3 block font-normal"
+          >
             See all search results
           </Link>
         )}
@@ -49,14 +56,10 @@ const BottomAppBar = () => {
           {resultsContent}
           <div key="actions-container" className="flex items-center">
             <Link href="/" className="p-4" aria-label="Home">
-
               <HomeIcon className="h-6 w-6" />
-
             </Link>
             <Link href="/settings" className="p-4" aria-label="Home">
-
               <CogIcon className="h-6 w-6" />
-
             </Link>
             <div className="relative flex-grow pr-4">
               <input
