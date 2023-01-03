@@ -13,6 +13,7 @@ const withPWA = require("next-pwa")({
  * @type {import('next').NextConfig}
  */
 module.exports = withPWA({
+  poweredByHeader: false,
   swcMinify: true,
   images: {
     remotePatterns: [

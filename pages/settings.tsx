@@ -39,7 +39,6 @@ export default function SettingsPage() {
     if (value === null) {
       del(key);
     } else {
-      console.log(key, value);
       set(key, value);
     }
   };

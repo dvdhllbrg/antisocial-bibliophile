@@ -1,22 +1,29 @@
-import withSession from "@lib/withSession";
-import { getAccessToken } from "@lib/goodreads";
+import { getCookie, setCookie } from "@lib/cookies";
+import { getAccessToken, GoodreadsRequestToken } from "@lib/goodreads";
+import { NextApiHandler } from "next";
 
-export default withSession(async (req, res) => {
+const Authorize: NextApiHandler = async (req, res) => {
   try {
-    if (!req.session.goodreadsRequestToken) {
+    const goodreadsRequestToken = await getCookie<GoodreadsRequestToken>(
+      req,
+      "goodreadsRequestToken"
+    );
+    if (!goodreadsRequestToken) {
       throw new Error("Request token not set!");
     }
-    const { oAuthToken, oAuthTokenSecret } = req.session.goodreadsRequestToken;
+
+    const { oAuthToken, oAuthTokenSecret } = goodreadsRequestToken;
     const token = await getAccessToken(oAuthToken, oAuthTokenSecret);
-    req.session.goodreadsAccessToken = token;
-    await req.session.save();
+    await setCookie(res, "goodreadsAccessToken", token);
 
     res.status(200).send("");
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
   }
-});
+};
+
+export default Authorize;
 
 export const config = {
   api: {

@@ -1,11 +1,15 @@
-import withSession from "@lib/withSession";
-import { getAuthed, postAuthed } from "@lib/goodreads";
+import { getAuthed, GoodreadsAccessToken, postAuthed } from "@lib/goodreads";
 import bookReducer from "@reducers/bookReducer";
 import reviewReducer, { ReviewPropType } from "@reducers/reviewReducer";
 import { Book } from "@custom-types/book";
+import { getCookie } from "@lib/cookies";
+import { NextApiHandler } from "next";
 
-export default withSession(async (req, res) => {
-  const { goodreadsAccessToken, userId } = req.session;
+const Shelf: NextApiHandler = async (req, res) => {
+  const [goodreadsAccessToken, userId] = await Promise.all([
+    getCookie<GoodreadsAccessToken>(req, "goodreadsAccessToken"),
+    getCookie<string>(req, "userId"),
+  ]);
 
   if (!userId || !goodreadsAccessToken) {
     res.status(401).end();
@@ -103,7 +107,9 @@ export default withSession(async (req, res) => {
 
     res.status(200).json(books);
   }
-});
+};
+
+export default Shelf;
 
 export const config = {
   api: {

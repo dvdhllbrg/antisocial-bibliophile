@@ -1,8 +1,8 @@
-import withSession from "@lib/withSession";
 import { get } from "@lib/goodreads";
 import bookReducer from "@reducers/bookReducer";
+import { NextApiHandler } from "next";
 
-export default withSession(async (req, res) => {
+const Book: NextApiHandler = async (req, res) => {
   const { bookId } = req.query;
   if (bookId === "undefined" || typeof bookId === "undefined") {
     res.status(400).send("bookId not set");
@@ -16,7 +16,9 @@ export default withSession(async (req, res) => {
     // console.error(err);
     res.status(404).json(`Unable to find book with id ${bookId}.`);
   }
-});
+};
+
+export default Book;
 
 export const config = {
   api: {

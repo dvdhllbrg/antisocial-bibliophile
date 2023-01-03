@@ -1,15 +1,19 @@
-import withSession from "@lib/withSession";
-import { get, postAuthed } from "@lib/goodreads";
+import { get, GoodreadsAccessToken, postAuthed } from "@lib/goodreads";
 import reviewReducer from "@reducers/reviewReducer";
+import { NextApiHandler } from "next";
+import { getCookie } from "@lib/cookies";
 
-export default withSession(async (req, res) => {
+const Review: NextApiHandler = async (req, res) => {
   const { bookId } = req.query;
   if (bookId === "undefined" || typeof bookId === "undefined") {
     res.status(400).send("bookId not set");
     return;
   }
 
-  const { goodreadsAccessToken, userId } = req.session;
+  const [goodreadsAccessToken, userId] = await Promise.all([
+    getCookie<GoodreadsAccessToken>(req, "goodreadsAccessToken"),
+    getCookie<string>(req, "userId"),
+  ]);
 
   if (!userId || !goodreadsAccessToken) {
     res.status(401).end();
@@ -65,7 +69,9 @@ export default withSession(async (req, res) => {
         .json({ msg: `Unable to find review for book ${bookId}.` });
     }
   }
-});
+};
+
+export default Review;
 
 export const config = {
   api: {

@@ -1,11 +1,11 @@
-import withSession from "@lib/withSession";
 import { getRequestToken, callbackUrl } from "@lib/goodreads";
+import { NextApiHandler } from "next";
+import { setCookie } from "@lib/cookies";
 
-export default withSession(async (req, res) => {
+const Authenticate: NextApiHandler = async (req, res) => {
   try {
     const token = await getRequestToken();
-    req.session.goodreadsRequestToken = token;
-    await req.session.save();
+    await setCookie(res, "goodreadsRequestToken", token);
 
     res.status(200).json({
       oAuthUrl: `${process.env.GOODREADS_URL}/oauth/authorize?oauth_token=${token.oAuthToken}&oauth_callback=${callbackUrl}`,
@@ -14,7 +14,9 @@ export default withSession(async (req, res) => {
     console.error(err);
     res.status(500).json(err);
   }
-});
+};
+
+export default Authenticate;
 
 export const config = {
   api: {

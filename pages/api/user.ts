@@ -1,10 +1,15 @@
-import withSession from "@lib/withSession";
-import { getAuthed } from "@lib/goodreads";
+import { getCookie, setCookie } from "@lib/cookies";
+import { getAuthed, GoodreadsAccessToken } from "@lib/goodreads";
 import userReducer from "@reducers/userReducer";
+import { NextApiHandler } from "next";
 
-export default withSession(async (req, res) => {
+const User: NextApiHandler = async (req, res) => {
   try {
-    const { goodreadsAccessToken, userId } = req.session;
+    const [goodreadsAccessToken, userId] = await Promise.all([
+      getCookie<GoodreadsAccessToken>(req, "goodreadsAccessToken"),
+      getCookie<string>(req, "userId"),
+    ]);
+
     if (!goodreadsAccessToken) {
       throw new Error("Not authenticated!");
     }
@@ -18,8 +23,7 @@ export default withSession(async (req, res) => {
         accessTokenSecret
       );
       newUserId = user.user.id;
-      req.session.userId = newUserId;
-      await req.session.save();
+      await setCookie(res, "userId", newUserId);
     }
     const user = await getAuthed(
       "/user/show.xml",
@@ -34,7 +38,9 @@ export default withSession(async (req, res) => {
       loggedIn: false,
     });
   }
-});
+};
+
+export default User;
 
 export const config = {
   api: {
