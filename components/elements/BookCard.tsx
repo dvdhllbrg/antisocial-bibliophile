@@ -61,15 +61,14 @@ export default function BookCard({
       <Link
         href={`/book/${book.id}`}
         key={book.id}
-        className="flex no-underline font-normal">
-
+        className="flex no-underline font-normal"
+      >
         <div className="-mb-2">
           <Image
             src={book.image || "/cover.png"}
             alt=""
             width={98}
             height={147}
-            layout="fixed"
             className="rounded-l object-cover"
           />
         </div>
@@ -81,7 +80,6 @@ export default function BookCard({
           <br />
           <span>{extra}</span>
         </div>
-
       </Link>
     </article>
   );

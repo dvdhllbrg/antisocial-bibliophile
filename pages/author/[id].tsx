@@ -45,7 +45,6 @@ export default function AuthorPage({ id, fallbackData }: AuthorPageProps) {
                 src={author.image}
                 width={127}
                 height={177}
-                layout="fixed"
                 className="object-cover"
               />
             </div>

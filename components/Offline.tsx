@@ -5,7 +5,7 @@ export default function Offline() {
   return (
     <div className="prose dark:prose-light">
       <div className="mb-3">
-        <Image src={signalSearching} alt="" />
+        <Image src={signalSearching} alt="" className="max-w-full" />
       </div>
       <h1>You&apos;re offline!</h1>
       <p>

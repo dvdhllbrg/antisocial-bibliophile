@@ -163,7 +163,6 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
                   src={book.image || "/cover.png"}
                   width={98}
                   height={147}
-                  layout="fixed"
                   className="rounded-l"
                 />
               </div>
@@ -185,9 +184,7 @@ export default function BookPage({ id, fallbackData }: BookPageProps) {
               {book.authors?.map((a, i) => (
                 <span key={a.id}>
                   <Link href={`/author/${a.id}`}>
-                    {`${a.name}${
-                      a.role ? ` (${a.role.toLowerCase()})` : ""
-                    }`}
+                    {`${a.name}${a.role ? ` (${a.role.toLowerCase()})` : ""}`}
                   </Link>
                   {i < (book.authors?.length || 0) - 1 ? ", " : ""}
                 </span>

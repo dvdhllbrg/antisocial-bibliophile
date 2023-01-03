@@ -5,7 +5,7 @@ export default function SomethingWentWrong() {
   return (
     <div className="prose dark:prose-light">
       <div className="mb-3">
-        <Image src={warning} alt="" />
+        <Image src={warning} alt="" className="max-w-full" />
       </div>
       <h1>Oh no!</h1>
       <p>
