@@ -3,7 +3,6 @@ import { NextApiHandler } from "next";
 const Revalidate: NextApiHandler = async (req, res) => {
   try {
     const { path } = req.body;
-    console.log({ path });
     if (!path) {
       throw new Error();
     }
