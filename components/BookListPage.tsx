@@ -1,28 +1,36 @@
-import useSWR from "swr";
+"use client";
+
 import { BookWithReview } from "@custom-types/bookWithReview";
 import formatDate from "@lib/formatDate";
 import formatNumber from "@lib/formatNumber";
 import BookCard from "@components/elements/BookCard";
 import Spinner from "@components/elements/Spinner";
-import Offline from "@components/Offline";
-import SomethingWentWrong from "@components/SomethingWentWrong";
+import { useEffect, useState } from "react";
 
 type BookListPageProps = {
   route: string;
   index: number;
   extra?: string;
-  isReachingEnd?: (index: number) => void;
+  onReachingEnd?: (index: number) => void;
   showErrors: boolean;
 };
 
-export default function BookListPage({
+const BookListPage = ({
   route,
   index,
   extra = "",
-  isReachingEnd,
-  showErrors,
-}: BookListPageProps) {
-  const { data: books, error } = useSWR<BookWithReview[]>(route);
+  onReachingEnd,
+}: BookListPageProps) => {
+  const [books, setBooks] = useState<BookWithReview[]>();
+
+  useEffect(() => {
+    const loadBooks = async () => {
+      const res = await fetch(route);
+      const loadedBooks = await res.json();
+      setBooks(loadedBooks);
+    };
+    loadBooks();
+  }, [route]);
 
   const bookExtra = (book: BookWithReview) => {
     switch (extra) {
@@ -50,18 +58,10 @@ export default function BookListPage({
   };
 
   const bookCardIsVisible = (i: number) => {
-    if (isReachingEnd && books && i === 0) {
-      isReachingEnd(index);
+    if (onReachingEnd && books && i === 0) {
+      onReachingEnd(index);
     }
   };
-
-  if (error) {
-    if (showErrors) {
-      return navigator.onLine ? <SomethingWentWrong /> : <Offline />;
-    } else {
-      return <></>;
-    }
-  }
 
   if (!books) {
     if (index === 1) {
@@ -90,9 +90,11 @@ export default function BookListPage({
           key={book.id}
           book={book}
           extra={bookExtra(book)}
-          isVisible={() => bookCardIsVisible(i)}
+          onCardIsVisible={() => bookCardIsVisible(i)}
         />
       ))}
     </>
   );
-}
+};
+
+export default BookListPage;

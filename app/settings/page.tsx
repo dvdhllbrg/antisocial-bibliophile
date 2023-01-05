@@ -1,18 +1,23 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import { getMany, set, del } from "idb-keyval/dist/index";
+import { getMany, set, del } from "idb-keyval";
 import { useTheme } from "next-themes";
 import TopAppBar from "@components/TopAppBar";
 import Switch from "@components/elements/Switch";
 
+type Theme = "light" | "dark" | "system";
+
 type Settings = {
   hideGoodreadsRatings?: boolean;
   hideMyRatings?: boolean;
+  theme?: Theme;
 };
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<Settings>({});
-  const { theme, setTheme } = useTheme();
+  const [theme, setTheme] = useState<Theme>("system");
 
   useEffect(() => {
     const loadSettings = async () => {
@@ -26,11 +31,16 @@ export default function SettingsPage() {
         hideGoodreadsRatings,
         hideMyRatings,
       });
+
+      const storedTheme = localStorage.getItem("theme") as Theme;
+      if (storedTheme) {
+        setTheme(storedTheme);
+      }
     };
     loadSettings();
   }, []);
 
-  const setSetting = async (key: string, value?: boolean | string) => {
+  const setSetting = async (key: string, value?: boolean | string | null) => {
     setSettings({
       ...settings,
       [key]: value,
@@ -41,6 +51,21 @@ export default function SettingsPage() {
     } else {
       set(key, value);
     }
+  };
+
+  const applyTheme = (selectedTheme: Theme) => {
+    setTheme(selectedTheme);
+    if (selectedTheme === "system") {
+      document.body.className = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches
+        ? "dark"
+        : "light";
+      localStorage.removeItem("theme");
+      return;
+    }
+    document.body.className = selectedTheme;
+    localStorage.setItem("theme", selectedTheme);
   };
 
   return (
@@ -56,7 +81,7 @@ export default function SettingsPage() {
             <b>Theme</b>
             <select
               className="w-full border-gray-200 dark:border-gray-700 bg-gray-200 dark:bg-gray-700 py-2 px-3 border rounded focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent"
-              onChange={(e) => setTheme(e.target.value)}
+              onChange={(e) => applyTheme(e.target.value as Theme)}
               value={theme}
             >
               <option value="system">Use device settings</option>
@@ -132,8 +157,8 @@ export default function SettingsPage() {
           <p>
             The app uses{" "}
             <a href="https://umami.is">
-              umami, a &aquot;simple, easy to use, self-hosted web analytics
-              solution&aquot;
+              umami, a &quot;simple, easy to use, self-hosted web analytics
+              solution&quot;
             </a>
             . No personally identifiable information is collected and all data
             is anonymized.

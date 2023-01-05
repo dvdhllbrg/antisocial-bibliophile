@@ -1,28 +1,39 @@
-import { useRef, ChangeEvent } from "react";
-import { mutate } from "swr";
-import Spinner from "@components/elements/Spinner";
+"use client";
+
+import { useState, useRef, ChangeEvent } from "react";
 import useOnClickOutside from "@hooks/useOnClickOutside";
-import useUser from "@hooks/swr/useUser";
-import useReview from "@hooks/swr/useReview";
+import { PencilIcon } from "@heroicons/react/20/solid";
+import { Review } from "@custom-types/review";
+import { User } from "@custom-types/user";
 
 const PER_PAGE = 10;
 
-type BookShelfProps = {
-  show: boolean;
+const revalidate = (path: string) => {
+  fetch("/api/revalidate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ path }),
+  });
+};
+
+type BookShelfDrawerProps = {
   bookId: string;
-  onDrawerClose: () => void;
+  user: User;
+  review: Review;
 };
 
 export default function BookShelfDrawer({
-  show,
   bookId,
-  onDrawerClose,
-}: BookShelfProps) {
+  user,
+  review,
+}: BookShelfDrawerProps) {
   const ref = useRef<HTMLElement>(null);
-  useOnClickOutside(ref, onDrawerClose);
-
-  const { user, isError, mutate: mutateUser } = useUser();
-  const { review, mutate: mutateBook } = useReview(bookId);
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [shelf, setShelf] = useState(review.shelf);
+  const [tags, setTags] = useState(review.tags ?? []);
+  useOnClickOutside(ref, () => setShowDrawer(false));
 
   const handleShelfChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!review || !user?.shelves || !user?.tags) {
@@ -38,8 +49,8 @@ export default function BookShelfDrawer({
       return;
     }
 
-    let localShelf = review.shelf;
-    let localTags = [...(review.tags || [])];
+    let localShelf = shelf;
+    let localTags = [...tags];
 
     if (e.target.checked) {
       if (newShelf.main) {
@@ -47,7 +58,7 @@ export default function BookShelfDrawer({
       } else {
         localTags.push(newShelf);
       }
-      if (toReadShelf && (!review.shelf || !newShelf.main)) {
+      if (toReadShelf && !shelf) {
         localShelf = toReadShelf;
       }
     } else {
@@ -60,14 +71,8 @@ export default function BookShelfDrawer({
       }
     }
 
-    mutateBook(
-      {
-        ...review,
-        shelf: localShelf,
-        tags: localTags,
-      },
-      false
-    );
+    setShelf(localShelf);
+    setTags(localTags);
 
     let sort = "date_added";
     const sortOrder = "d";
@@ -77,13 +82,14 @@ export default function BookShelfDrawer({
       sort = "date_updated";
     }
 
-    if (!review.shelf && !newShelf?.main) {
+    if (!shelf && !newShelf?.main) {
       await fetch(`/api/shelf/to-read?book_id=${bookId}`, {
         method: "PATCH",
         body: "",
       });
-      mutate(
-        `/api/shelf/to-read?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`
+      fetch(
+        `/api/shelf/to-read?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`,
+        { cache: "reload" }
       );
     }
 
@@ -96,86 +102,75 @@ export default function BookShelfDrawer({
         body: "",
       }
     );
-    mutate(
-      `/api/shelf/${shelfName}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`
+    fetch(
+      `/api/shelf/${shelfName}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`,
+      { cache: "reload" }
     );
-    mutateUser();
+    revalidate("/");
+    revalidate(`/book/${bookId}`);
   };
 
   const removeFromShelves = () =>
     handleShelfChange({
       target: {
-        value: review?.shelf?.name,
+        value: shelf?.name,
         checked: false,
       },
     } as ChangeEvent<HTMLInputElement>);
 
-  if (isError) {
-    return <div>failed to load</div>;
-  }
-
-  let content = <Spinner text="Loading shelves..." />;
-
-  if (user && !user.loggedIn) {
-    content = <></>;
-  } else if (user && user.loggedIn) {
-    content = (
-      <div className="flex text-lg">
-        <div className="w-1/2 flex flex-col pr-2">
-          <span className="font-bold">Shelf</span>
-          {user.shelves.map((s) => (
-            <label key={s.id} className="mb-2">
-              <input
-                type="radio"
-                name="shelf"
-                value={s.name}
-                checked={s.name === review?.shelf?.name}
-                onChange={handleShelfChange}
-              />{" "}
-              {s.name}
-            </label>
-          ))}
-          <button
-            type="button"
-            onClick={removeFromShelves}
-            className="mt-2 text-sm uppercase bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded w-full"
-          >
-            Remove completely
-          </button>
-        </div>
-        <div className="w-1/2 flex flex-col pl-2">
-          <span className="font-bold">Tags</span>
-          {user.tags?.map((tag) => (
-            <label key={tag.id} className="mb-2">
-              <input
-                type="checkbox"
-                name="tags"
-                value={tag.name}
-                checked={
-                  review?.tags?.findIndex((t) => t.name === tag.name) !== -1
-                }
-                onChange={handleShelfChange}
-              />{" "}
-              {tag.name}
-            </label>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
-      {show && (
+      <button type="button" onClick={() => setShowDrawer(true)}>
+        <PencilIcon className="h-6 w-6" />
+      </button>
+      {showDrawer && (
         <div className="bg-black z-40 fixed top-0 right-0 bottom-0 left-0 opacity-50" />
       )}
       <article
         ref={ref}
-        className={`bg-white dark:bg-gray-900 w-full z-50 fixed bottom-0 p-4 transition-transform duration-200 ease-out transform-gpu ${
-          show ? "" : "translate-y-full"
+        className={`bg-white dark:bg-gray-900 w-full z-50 fixed left-0 bottom-0 p-4 transition-transform duration-200 ease-out transform-gpu ${
+          showDrawer ? "" : "translate-y-full"
         }`}
       >
-        {content}
+        <div className="flex text-lg">
+          <div className="w-1/2 flex flex-col pr-2">
+            <span className="font-bold">Shelf</span>
+            {user.shelves.map((s) => (
+              <label key={s.id} className="mb-2">
+                <input
+                  type="radio"
+                  name="shelf"
+                  value={s.name}
+                  checked={s.name === shelf?.name}
+                  onChange={handleShelfChange}
+                />{" "}
+                {s.name}
+              </label>
+            ))}
+            <button
+              type="button"
+              onClick={removeFromShelves}
+              className="mt-2 text-sm uppercase bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded w-full"
+            >
+              Remove completely
+            </button>
+          </div>
+          <div className="w-1/2 flex flex-col pl-2">
+            <span className="font-bold">Tags</span>
+            {user.tags?.map((tag) => (
+              <label key={tag.id} className="mb-2">
+                <input
+                  type="checkbox"
+                  name="tags"
+                  value={tag.name}
+                  checked={tags.findIndex((t) => t.name === tag.name) !== -1}
+                  onChange={handleShelfChange}
+                />{" "}
+                {tag.name}
+              </label>
+            ))}
+          </div>
+        </div>
       </article>
     </>
   );

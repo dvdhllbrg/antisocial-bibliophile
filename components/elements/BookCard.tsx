@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,14 +8,14 @@ import useOnScreen from "@hooks/useOnScreen";
 
 type BookCardProp = {
   book: Book;
-  isVisible?: () => void;
+  onCardIsVisible?: () => void;
   extra?: string;
   skeleton?: never;
 };
 
 type SkeletonBookCardProp = {
   skeleton: boolean;
-  isVisible?: never;
+  onCardIsVisible?: never;
   book?: never;
   extra?: never;
 };
@@ -24,16 +26,16 @@ export default function BookCard({
   book,
   extra = "",
   skeleton = false,
-  isVisible,
+  onCardIsVisible,
 }: BookCardProps) {
   const loader = useRef<HTMLAnchorElement>(null);
   const loaderIsVisible = useOnScreen(loader);
 
   useEffect(() => {
-    if (loaderIsVisible && isVisible) {
-      isVisible();
+    if (loaderIsVisible && onCardIsVisible) {
+      onCardIsVisible();
     }
-  }, [isVisible, loaderIsVisible]);
+  }, [onCardIsVisible, loaderIsVisible]);
 
   if (skeleton) {
     return (
@@ -69,7 +71,7 @@ export default function BookCard({
             alt=""
             width={98}
             height={147}
-            className="rounded-l object-cover"
+            className="rounded-l"
           />
         </div>
         <div className="pl-4">

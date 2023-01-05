@@ -13,7 +13,7 @@ export default function NotFound() {
       <TopAppBar title="Antisocial Bibliophile" />
       <main className="prose dark:prose-light container mx-auto p-4">
         <div className="mb-3">
-          <Image src={lost} alt="" className="max-w-full" />
+          <Image src={lost} alt="" className="max-w-full" priority />
         </div>
         <h1>Not found!</h1>
         <p>

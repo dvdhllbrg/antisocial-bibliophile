@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import BookListPage from "@components/BookListPage";
 
@@ -17,7 +19,7 @@ export default function BookList({
   const [numberOfPages, setNumberOfPages] = useState(1);
   const urlParams = new URLSearchParams(params);
 
-  const isReachingEnd = (page: number) => {
+  const onReachingEnd = (page: number) => {
     if (page === numberOfPages) {
       setNumberOfPages(numberOfPages + 1);
     }
@@ -31,7 +33,7 @@ export default function BookList({
         index={i + 1}
         route={`${baseRoute}?page=${i + 1}&${urlParams.toString()}`}
         extra={extra}
-        isReachingEnd={isReachingEnd}
+        onReachingEnd={onReachingEnd}
         showErrors={showErrors}
       />
     );

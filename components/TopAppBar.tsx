@@ -1,5 +1,7 @@
+"use client";
+
 import { ReactNode } from "react";
-import { useRouter } from "next/router";
+import { useRouter, usePathname } from "next/navigation";
 import HideOnScroll from "@components/HideOnScroll";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
@@ -9,7 +11,8 @@ type TopAppBarProps = {
 };
 
 const TopAppBar = ({ title, children }: TopAppBarProps) => {
-  const { pathname, back } = useRouter();
+  const { back } = useRouter();
+  const pathname = usePathname() ?? "";
 
   const showBackButton = !["/"].includes(pathname);
 

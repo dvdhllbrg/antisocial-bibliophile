@@ -1,11 +1,17 @@
 import { getRequestToken, callbackUrl } from "@lib/goodreads";
 import { NextApiHandler } from "next";
-import { setCookie } from "@lib/cookies";
+import { setCookies } from "@lib/cookies";
 
-const Authenticate: NextApiHandler = async (req, res) => {
+const Authenticate: NextApiHandler = async (_, res) => {
   try {
     const token = await getRequestToken();
-    await setCookie(res, "goodreadsRequestToken", token);
+    await setCookies(res, [
+      {
+        name: "goodreadsRequestToken",
+        value: token,
+        sealed: true,
+      },
+    ]);
 
     res.status(200).json({
       oAuthUrl: `${process.env.GOODREADS_URL}/oauth/authorize?oauth_token=${token.oAuthToken}&oauth_callback=${callbackUrl}`,

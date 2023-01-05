@@ -1,5 +1,6 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   HomeIcon,
@@ -13,7 +14,7 @@ import useSearch from "@hooks/swr/useSearch";
 import useOnClickOutside from "@hooks/useOnClickOutside";
 
 const BottomAppBar = () => {
-  const { events } = useRouter();
+  // const { events } = useRouter();
 
   const [searchTerm, setSearchTerm] = useState("");
   const { results, isError, isValidating } = useSearch(searchTerm);
@@ -23,12 +24,12 @@ const BottomAppBar = () => {
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, clearSearch);
 
-  useEffect(() => {
-    events.on("routeChangeStart", clearSearch);
-    return () => {
-      events.off("routeChangeStart", clearSearch);
-    };
-  }, [events]);
+  // useEffect(() => {
+  //   events.on("routeChangeStart", clearSearch);
+  //   return () => {
+  //     events.off("routeChangeStart", clearSearch);
+  //   };
+  // }, [events]);
 
   let resultsContent = <></>;
   if (isError) {

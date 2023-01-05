@@ -7,7 +7,7 @@ import { NextApiHandler } from "next";
 
 const Shelf: NextApiHandler = async (req, res) => {
   const [goodreadsAccessToken, userId] = await Promise.all([
-    getCookie<GoodreadsAccessToken>(req, "goodreadsAccessToken"),
+    getCookie<GoodreadsAccessToken>(req, "goodreadsAccessToken", true),
     getCookie<string>(req, "userId"),
   ]);
 
@@ -15,6 +15,7 @@ const Shelf: NextApiHandler = async (req, res) => {
     res.status(401).end();
     return;
   }
+
   const { accessToken, accessTokenSecret } = goodreadsAccessToken;
 
   if (req.method === "POST") {
@@ -104,7 +105,7 @@ const Shelf: NextApiHandler = async (req, res) => {
         },
       ];
     }
-
+    // res.setHeader("Cache-Control", "max-age=10, stale-while-revalidate=86400");
     res.status(200).json(books);
   }
 };

@@ -11,7 +11,7 @@ const Review: NextApiHandler = async (req, res) => {
   }
 
   const [goodreadsAccessToken, userId] = await Promise.all([
-    getCookie<GoodreadsAccessToken>(req, "goodreadsAccessToken"),
+    getCookie<GoodreadsAccessToken>(req, "goodreadsAccessToken", true),
     getCookie<string>(req, "userId"),
   ]);
 

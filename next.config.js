@@ -13,6 +13,9 @@ const withPWA = require("next-pwa")({
  * @type {import('next').NextConfig}
  */
 module.exports = withPWA({
+  experimental: {
+    appDir: true,
+  },
   poweredByHeader: false,
   swcMinify: true,
   images: {

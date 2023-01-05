@@ -1,18 +1,18 @@
+"use client";
+
 import { useState } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
 import { BarsArrowDownIcon } from "@heroicons/react/24/outline";
 import TopAppBar from "@components/TopAppBar";
 import BookList from "@components/BookList";
 import SortMenu from "@components/SortMenu";
-import useUser from "@hooks/swr/useUser";
 
-export const PER_PAGE = 10;
-
-export default function Shelf() {
-  const { query } = useRouter();
-  const { name } = query;
-  useUser();
+const PER_PAGE = 10;
+type ShelfPageProps = {
+  params: { shelf: string };
+};
+export default function ShelfPage({ params }: ShelfPageProps) {
+  const { shelf } = params;
 
   const [sort, setSort] = useState("");
   const [sortOrder, setSortOrder] = useState("d");
@@ -20,29 +20,23 @@ export default function Shelf() {
 
   if (!sort) {
     let initialSort = "date_added";
-    if (name === "read") {
+    if (shelf === "read") {
       initialSort = "date_read";
-    } else if (name === "currently-reading") {
+    } else if (shelf === "currently-reading") {
       initialSort = "date_updated";
     }
 
     setSort(initialSort);
   }
 
-  const pageTitle = `${name} | Antisocial Bibliophile`;
+  const pageTitle = `${shelf} | Antisocial Bibliophile`;
 
   return (
     <>
       <Head>
         <title key="title">{pageTitle}</title>
-        <link
-          rel="preload"
-          href={`/api/shelf/${name}?page=1&per_page=${PER_PAGE}&sort=${sort}&order=${sortOrder}`}
-          as="fetch"
-          crossOrigin="anonymous"
-        />
       </Head>
-      <TopAppBar title={name?.toString()}>
+      <TopAppBar title={shelf}>
         <button
           type="button"
           className="p-4"
@@ -64,7 +58,7 @@ export default function Shelf() {
         }`}
       >
         <BookList
-          baseRoute={`/api/shelf/${name}`}
+          baseRoute={`${process.env.NEXT_PUBLIC_APP_URL}/api/shelf/${shelf}`}
           extra={sort}
           params={{
             per_page: PER_PAGE,
